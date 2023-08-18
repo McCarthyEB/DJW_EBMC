@@ -1,0 +1,139 @@
+#!/bin/bash --login
+#SBATCH -o n0001.o            # Job output file
+#SBATCH -e n0001.e            # Job error file
+#SBATCH -J ase_ene            # Job name
+#SBATCH -p dev   	      # Queue partition
+#SBATCH --ntasks=40           # number of parallel processes (tasks)
+#SBATCH --ntasks-per-node=40  # tasks to run per node
+#SBATCH --time=00:59:00       # time limit
+#SBATCH --exclusive           # exclusive node access
+#SBATCH -A scw1161	      # Project code
+
+## Usage
+# sbatch script # submit job
+# squeue        # job status
+
+module purge
+# load the VASP module, it loads required compiler, mpi and mkl libraries
+module load  vasp/5.4.4
+# To use ase will need python
+module load python
+#
+# ASE builds the POTCAR file itself from the set available from this path:
+#               The pseudopotentials are expected to be in:
+#               LDA:  $VASP_PP_PATH/potpaw/
+#               PBE:  $VASP_PP_PATH/potpaw_PBE/
+#               PW91: $VASP_PP_PATH/potpaw_GGA/
+#
+export VASP_PP_PATH=$HOME/progs/vasp
+
+# Define directory job submitted from - change for your system
+# Define MACHINE you are working on   - change for your system
+# Define ASE_SCRIPT for the script that will control this job  
+MYPATH=$SLURM_SUBMIT_DIR
+MACHINE='hawk'
+JOBID=$SLURM_JOBID
+ASE_SCRIPT='ase_vasp_energy.py'
+#
+# Define list of sub-directories that contain jobs to run and cores to be used for
+# each. This can be used to run several jobs in parallel in a single job submission.
+# If you need all the cores for one job just enter one item in the list
+#
+job_list="ase_energy_test"
+
+CORES_PER_TASK=40
+
+export OMP_NUM_THREADS=1
+export I_MPI_ADJUST_ALLTOALLV=2
+export LOG_FILE="$MYPATH"/"$ASE_SCRIPT"_"$JOBID".log  
+
+NNODES=$SLURM_NNODES
+NCPUS=$SLURM_NTASKS
+PPN=$SLURM_NTASKS_PER_NODE
+
+###################################
+#           WORKDIR               #
+###################################
+# run the simulation on /scratch
+# Make a directory for this run
+export work_dir=/scratch/$USER/$JOBID 
+rm -rf $work_dir
+mkdir -p $work_dir
+
+echo Running on machine: $MACHINE   >  $LOG_FILE 
+echo Running on host `hostname`     >> $LOG_FILE 
+echo Time is `date`                 >> $LOG_FILE  
+echo Launch directory is $MYPATH    >> $LOG_FILE
+echo Working directory is $work_dir >> $LOG_FILE
+echo Directory is `pwd`             >> $LOG_FILE  
+echo Job ID is $JOBID               >> $LOG_FILE  
+echo Using ase script $ASE_SCRIPT   >> $LOG_FILE
+echo This jobs runs on the following machine: `echo $SLURM_JOB_NODELIST | uniq` >> $LOG_FILE 
+echo Number of Processing Elements is $NCPUS >> $LOG_FILE 
+echo Number of mpiprocs per node is $PPN >> $LOG_FILE 
+echo >> $LOG_FILE 
+echo VASP_PP_PATH set to $VASP_PP_PATH >> $LOG_FILE 
+echo VASP Start Time is `date` running NCPUs=$NCPUS PPN=$PPN >> $LOG_FILE 
+start="$(date +%s)"
+#
+# ... change to the scratch working directory       
+cd $work_dir
+#
+# Loop over the job_list
+#
+for job_dir in $job_list; do
+     echo job = $job_dir >> $LOG_FILE 
+#
+     mkdir -p $job_dir
+     cd $job_dir
+#
+# Use for restart
+# Backup POSCAR
+#    cp $MYPATH/$job_dir/POSCAR  $MYPATH/$job_dir/POSCAR_1
+#
+# copy input data sets to work area
+
+     cp $MYPATH/$job_dir/POSCAR  ./POSCAR
+     cp $MYPATH/$ASE_SCRIPT      .
+
+     echo $PWD Running python script $ASE_SCRIPT >> $LOG_FILE 
+     echo  >> $LOG_FILE 
+     echo With command: >> $LOG_FILE 
+     echo python3 $ASE_SCRIPT $PWD $CORES_PER_TASK $JOBID $MYPATH $job_dir $MACHINE > "$MYPATH"/"$job_dir"/"$ASE_SCRIPT"_"$JOBID".out >> $LOG_FILE
+#
+#  run the ase script                                                             
+#
+     python3 $ASE_SCRIPT $PWD $CORES_PER_TASK $JOBID $MYPATH $job_dir $MACHINE > "$MYPATH"/"$job_dir"/"$ASE_SCRIPT"_"$JOBID".out &
+     echo vasp run using ase script $ASE_SCRIPT for job $job_dir running. >> $LOG_FILE 
+
+     cd ..
+   done
+
+#
+# Wait until all background jobs complete
+#
+wait
+
+   for job_dir in $job_list; do
+  
+     echo "copying back for " $job_dir >> $LOG_FILE 
+     cd $job_dir
+
+     cp OUTCAR  ${MYPATH}/$job_dir
+     cp CONTCAR ${MYPATH}/$job_dir
+     cp INCAR   ${MYPATH}/$job_dir/INCAR_ase
+
+     cd ..
+#
+done
+#
+# clean scratch
+#
+
+#rm -r $top_scratch 
+
+
+# Record Total time for the job
+stop="$(date +%s)"
+finish=$(( $stop-$start ))
+echo VASP $JOBID  Job-Time  $finish seconds

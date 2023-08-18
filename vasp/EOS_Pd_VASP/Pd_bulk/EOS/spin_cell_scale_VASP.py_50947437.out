@@ -1,0 +1,30 @@
+Arguements passed 9
+Argument      0: spin_cell_scale_VASP.py
+Argument      1: /scratch/c.sacdjw/50947437/Pd_bulk/EOS
+Argument      2: 40
+Argument      3: 50947437
+Argument      4: /home/c.sacdjw/python/ase/vasp/EOS_Pd_VASP
+Argument      5: Pd_bulk
+Argument      6: EOS
+Argument      7: hawk
+Argument      8: NoFix
+VASP run
+reading POSCAR file
+0 Pd   0.000000   0.000000   0.000000
+1 Pd   0.000000   1.945350   1.945350
+2 Pd   1.945350   0.000000   1.945350
+3 Pd   1.945350   1.945350   0.000000
+cell as read:
+Cell([[3.8907, 0.0, 0.0], [-3e-10, 3.8907, 0.0], [-3e-10, -3e-10, 3.8907]])
+matrix to be used for cell change
+[[0.96 0.   0.  ]
+ [0.   0.96 0.  ]
+ [0.   0.   0.96]]
+new cell:  Cell([[3.7350719999999997, 0.0, 0.0], [-2.88e-10, 3.7350719999999997, 0.0], [-2.88e-10, -2.88e-10, 3.7350719999999997]])
+new cell lengths:  [3.735072 3.735072 3.735072]
+new cell angles :  [90. 90. 90.]
+Looking for potpaw_PBE/Pd/POTCAR
+                The pseudopotentials are expected to be in:
+                LDA:  $VASP_PP_PATH/potpaw/
+                PBE:  $VASP_PP_PATH/potpaw_PBE/
+                PW91: $VASP_PP_PATH/potpaw_GGA/

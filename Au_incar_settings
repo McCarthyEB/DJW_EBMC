@@ -1,0 +1,14 @@
+#
+# Define INCAR parameters
+#
+# Make self-consistent ground state
+calc = Vasp2(command=cmd_string, txt=stdout_file, xc='pbe', kpts=(1, 1, 1), directory=sys.argv[1])
+# Use new PAW for Au            
+calc.set(setups={'Au': '_new'})
+# Electronic structure settings
+calc.set(prec='Accurate', ediff=1E-7, encut=500, icharg=2, ispin=1, isym=0, ismear=0, sigma=0.02)
+# Efficiency settings           
+calc.set(algo='Fast', lreal='.FALSE.',addgrid='.TRUE.')
+# vdW settings
+calc.set(ivdw= 11, vdw_s6=0.75)
+ 

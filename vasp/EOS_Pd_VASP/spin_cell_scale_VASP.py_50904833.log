@@ -1,0 +1,29 @@
+Running on machine: hawk
+Running on host ccs0135
+Time is Wed Nov 2 21:43:38 GMT 2022
+Launch directory is /home/c.sacdjw/python/ase/vasp/EOS_Pd_VASP
+Working directory is /scratch/c.sacdjw/50904833
+Directory is /home/c.sacdjw/python/ase/vasp/EOS_Pd_VASP
+Job ID is 50904833
+Using ase script spin_cell_scale_VASP.py
+Structure file is POSCAR_expt
+This jobs runs on the following machine: ccs0135
+Number of Processing Elements is 40
+Number of mpiprocs per node is 40
+
+Start Time is Wed Nov 2 21:43:38 GMT 2022
+
+job = Pd_bulk
+sub_dir = EOS
+Will be working in directory /scratch/c.sacdjw/50904833/Pd_bulk/EOS
+results to go to directory /home/c.sacdjw/python/ase/vasp/EOS_Pd_VASP/Pd_bulk/EOS
+Creating working directory /scratch/c.sacdjw/50904833/Pd_bulk/EOS
+Creating results directory /home/c.sacdjw/python/ase/vasp/EOS_Pd_VASP/Pd_bulk/EOS
+Copying structure file /home/c.sacdjw/python/ase/vasp/EOS_Pd_VASP/Pd_bulk/POSCAR_expt to /scratch/c.sacdjw/50904833/Pd_bulk/EOS
+/scratch/c.sacdjw/50904833/Pd_bulk/EOS Running python script spin_cell_scale_VASP.py
+
+With command:
+python3 spin_cell_scale_VASP.py /scratch/c.sacdjw/50904833/Pd_bulk/EOS 40 50904833 /home/c.sacdjw/python/ase/vasp/EOS_Pd_VASP Pd_bulk EOS hawk NoFix
+VASP run using ase script spin_cell_scale_VASP.py for job Pd_bulk running.
+copying back for :  /scratch/c.sacdjw/50904833/Pd_bulk/EOS
+to home sub dir  :  /home/c.sacdjw/python/ase/vasp/EOS_Pd_VASP/Pd_bulk/EOS

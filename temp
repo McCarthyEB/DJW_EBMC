@@ -1,0 +1,2 @@
+# Use new PAW for Au            
+calc.set(setups={'Au': '_new'})
