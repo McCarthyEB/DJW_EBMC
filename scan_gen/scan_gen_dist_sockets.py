@@ -160,10 +160,9 @@ if PROG == "VASP":
   atoms=read('POSCAR')
 
 if PROG == "AIMS":
-  set_aims_command(hpc="hawk", basis_set="light", defaults=2020, nodes_per_instance=sys.argv[2])
+  set_aims_command(hpc="hawk", basis_set="tight", defaults=2020, nodes_per_instance=sys.argv[2])
   print("Running command set to:")
-  print(os.environ['ASE_AIMS_COMMAND'])
-
+  print(os.environ['ASE_AIMS_COMMAND']) 
   atoms=read('geometry.in')
 
 
@@ -354,8 +353,8 @@ for istep in range(0,num_steps):
        energy.append(float(istep))
     else:
 #    Relax the structure under the set constraint
-       opt = FIRE(atoms, trajectory=traj_file, restart='qn.pckl')
-       opt.run(fmax=0.05)
+       dyn = BFGS(atoms, trajectory=traj_file, restart='qn.pckl')
+       dyn.run(fmax=0.05)
        energy.append(atoms.get_potential_energy())
 
     print(f"Optimisation reached required accuracy")
@@ -371,7 +370,7 @@ for istep in range(0,num_steps):
     if PROG == "AIMS":
     
       aims_filename= "%s_%d" % ( aims_filestem, istep ) 
-      write(aims_filename, atoms ,format='vasp')
+      write(aims_filename, atoms ,format='aims')
 
     if PROG == "VASP":
 
