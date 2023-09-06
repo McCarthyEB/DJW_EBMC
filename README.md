@@ -1,13 +1,19 @@
 # DJW_EBMC
-A place to store the latest copies of scripts
+## A place to store the latest copies of scripts
+### Contents: EBMC
 ZnO_opt.cif: the optimised ZnO bulk unit cell
-fhiaims
-|
+
+#### fhiaims
+
 |_scan_gen: coordinate bond scan scripts for transition states
-|
+
 |_vib: script for generating vibrational frequencies (stored in .pckl files)
 
 
-pymatgen (requires pymatgen module to run)
-|
+#### pymatgen (requires pymatgen module to run)
+
 |_ coherent_interface_builder_EBMC: creates a continuous interface between two structures 
+
+*Recommended to use pymatgen v2023.5.31 or above*
+
+***
