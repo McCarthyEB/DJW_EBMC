@@ -11,10 +11,11 @@ geom_file_Pd = read("Pd_opt.cif", format='cif')
 #view(geom_file)
 
 #write("ZnO_bulk.cif", geom_file)
-testview=read(geom_file_ZnO)
+
+testview=(geom_file_ZnO)
 view(testview)
-ZnO = Structure.from_file(geom_file_ZnO)
-Pd = Structure.from_file(geom_file_Pd)
+ZnO = Structure.from_file("ZnO_opt.cif")
+Pd = Structure.from_file("Pd_opt.cif")
 sub_analyzer = SubstrateAnalyzer()
 sub_analyzer.calculate(film=Pd, substrate=ZnO)
 
