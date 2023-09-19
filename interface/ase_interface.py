@@ -53,16 +53,27 @@ def find_parallel_atoms(atoms, seed_indices, direction_vector, isymbol, perpendi
 
     return parallel_atoms
 
-def find_hexagonal_strip(atoms, seed_indices, seed_index, perpendicular_range, tolerance):
+def find_hexagonal_strip(atoms, seed_indices, seed_index, seed_symbol, perpendicular_range, tolerance):
     direction_vector = (atoms.positions[19] - atoms.positions[16])
     # Tidy this up later and generalize if it works!
     # Need to set it as the vector perpendicular to the desired strip for some reason
-    parallel_atoms = find_parallel_atoms(atoms, seed_indices, direction_vector, "Pd", perpendicular_range, tolerance)
+    parallel_atoms = find_parallel_atoms(atoms, seed_indices, direction_vector, seed_symbol, perpendicular_range, tolerance)
 
     return parallel_atoms
 
+def calculate_relative_positions(Pd_atoms, O_atoms):
+    relative_positions=[]
+    for pd_atom in Pd_atoms:
+        for o_atom in O_atoms:
+            relative_position = pd_atom.position - o_atom.position
+            relative_positions.append(relative_position)
+    return relative_positions
+
+
 atoms = read("Pd_O_isolated.cif")
-view(atoms)
+supercell = read("supercell_1_slabheight_14.cif")
+#view(atoms)
+#view(supercell)
 Pd_hip_hip, Pd_indices = atom_set_finder(atoms, "Pd")
 print("Pd_indices:", Pd_indices)
 O_hip_hip, O_indices = atom_set_finder(atoms, "O")
@@ -70,11 +81,88 @@ O_hip_hip, O_indices = atom_set_finder(atoms, "O")
 seed_Pd_index = Pd_indices[0]  #This is the centre
 print("seed_Pd_index", seed_Pd_index)
 
-strip_atoms_indices = find_hexagonal_strip(atoms, Pd_indices, seed_Pd_index, perpendicular_range=3.0, tolerance=0.1)
+strip_atoms_indices = find_hexagonal_strip(atoms, Pd_indices, seed_Pd_index, "Pd", perpendicular_range=3.0, tolerance=0.1)
 combined_indices = Pd_indices + strip_atoms_indices
-strip_atoms = atoms[combined_indices]
-write("strip_atoms.cif", strip_atoms)
-view_strip = read("strip_atoms.cif")
-view(view_strip)
+pd_strip_atoms = atoms[combined_indices]
+write("Pd_strip_atoms.cif", pd_strip_atoms)
+view_pd_strip = read("Pd_strip_atoms.cif")
+view(view_pd_strip)
 
-print("The strip of overlapping Pd hexagons contains %d atoms." % len(strip_atoms))
+print("The strip of overlapping Pd hexagons contains %d atoms." % len(strip_atoms_indices))
+
+seed_O_index = O_indices[0]
+oxygen_strip_atoms_indices = find_hexagonal_strip(atoms, O_indices, seed_O_index, "O", perpendicular_range=4.0, tolerance=1)
+oxygen_combined_indices = O_indices + oxygen_strip_atoms_indices
+oxygen_strip_atoms = atoms[oxygen_combined_indices]
+write("oxygen_strip_atoms.cif", oxygen_strip_atoms)
+view_oxygen_strip = read("oxygen_strip_atoms.cif")
+#view(view_oxygen_strip)
+
+print("The strip of overlapping O atoms contains %d atoms." % len(oxygen_strip_atoms))
+
+
+######
+def map_pd_to_o(pd_atoms, o_atoms):
+    pd_to_o_mapping = {}  # Create a dictionary to store the mapping
+    pd_to_o_distances = {}  # Create a dictionary to store the distances
+
+    for pd_atom in pd_atoms:
+        min_distance = None
+        closest_oxygen = None
+
+        for o_atom in o_atoms:
+            distance = np.linalg.norm(pd_atom.position - o_atom.position)
+
+            if min_distance is None or distance < min_distance:
+                min_distance = distance
+                closest_oxygen = o_atom
+
+        pd_to_o_mapping[pd_atom.index] = closest_oxygen.index  # Store the mapping
+        pd_to_o_distances[pd_atom.index] = min_distance  # Store the distance
+
+    return pd_to_o_mapping, pd_to_o_distances
+
+
+
+
+# Map Pd atoms in 'strip_atoms' to their closest O atoms in 'oxygen_strip_atoms' with distances
+pd_to_o_mapping, pd_to_o_distances = map_pd_to_o(pd_strip_atoms, oxygen_strip_atoms)
+
+# Print the mapping and distances
+for pd_index, o_index in pd_to_o_mapping.items():
+    distance = pd_to_o_distances[pd_index]
+    print(f"Pd {pd_index} -> O {o_index} (Distance: {distance} Å)")
+
+
+def dist_list(atoms):
+    atomdists = []
+
+    for iatom in range(0, len(atoms)):
+        #print(iatom)
+        for sec_atom in range(iatom + 1, len(atoms)):
+            dist = atoms.get_distance(iatom, sec_atom, mic=True)
+           # print(dist)
+            if iatom == 0 and sec_atom == 1:
+                atomdists.append(dist)
+            else:
+                #print(atomdists)
+                ilen = len(atomdists)
+                isdifferent = True
+                for idist in range(0, ilen):
+                    if abs(dist - atomdists[idist]) <= 0.1:
+                        isdifferent = False
+                        break
+                if isdifferent:
+                    atomdists.append(dist)
+    return atomdists
+
+
+o_dist=dist_list(oxygen_strip_atoms)
+print("Distances from central oxygen:")
+for idist in o_dist:
+    print(idist, "Å")
+
+pd_dist=dist_list(pd_strip_atoms)
+print("Distances from central palladium:")
+for idist in pd_dist:
+    print(idist, "Å")
