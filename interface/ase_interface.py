@@ -1,6 +1,7 @@
 import numpy as np
 from ase.io import read, write
 from ase.visualize import view
+from ase import Atom
 
 def atom_set_finder(atoms, isymbol):
     cell_vectors = atoms.get_cell()
@@ -86,7 +87,7 @@ combined_indices = Pd_indices + strip_atoms_indices
 pd_strip_atoms = atoms[combined_indices]
 write("Pd_strip_atoms.cif", pd_strip_atoms)
 view_pd_strip = read("Pd_strip_atoms.cif")
-view(view_pd_strip)
+#view(view_pd_strip)
 
 print("The strip of overlapping Pd hexagons contains %d atoms." % len(strip_atoms_indices))
 
@@ -191,16 +192,49 @@ print("Good matches: ", good_matches)
 for imatch in range(0,len(good_matches)):
    pd_index=good_matches[imatch][0]
    o_index =good_matches[imatch][1]
+   pd_dist_rep= pd_dist[pd_index]
    print(pd_index, o_index)
    print("Looking at match %d, pd_dist: %10.6f o_dist: %10.6f" % (imatch, pd_dist[pd_index], o_dist[o_index]))
    print("Pd_vec: ", pd_vecs[pd_index])
    print("O_vec : ",  o_vecs[o_index])
 #
+# Make a unit vector in the direction of interest
+#
+   uni_rep = o_vecs[o_index].copy()
+#
+   uni_rep = uni_rep/np.linalg.norm(uni_rep)
+#
+# Find fractional co-ordinates
+   latt=oxygen_strip_atoms.get_cell()
+   print("Lattice:", latt)
+   frac=[]
+   for iii in range(0,3):
+     frac.append(np.dot(latt[iii],uni_rep)/np.linalg.norm(latt[iii]))
+   print("frac:", frac)
+   exit(0)
+#
+   print(uni_rep)
+#
 # Make copy of ZnO slab cell and add Pd atoms along the O_vec direction at their optimal repeat
 #
 #   new_system=supercell.copy()
+   new_system=oxygen_strip_atoms.copy()
 #
-   
+# Need the co-ords of one of the oxygens to set the origin, offset a little above the oxygens.
+#
+   origin=new_system.positions[0].copy()
+   origin[2] = origin[2] + 1.5
+#
+# 
+   for iline in range(0,3):
+      new_coords=origin.copy()
+      vec= float(iline)*pd_dist_rep*uni_rep
+      new_coords=new_coords+vec 
+#
+      new_atom=Atom("Pd", new_coords)
+      new_system.append(new_atom)
+#
+   view(new_system)
 #
 
 
