@@ -136,33 +136,94 @@ for pd_index, o_index in pd_to_o_mapping.items():
 
 def dist_list(atoms):
     atomdists = []
+    atomvecs = []
+    natoms=len(atoms)
 
-    for iatom in range(0, len(atoms)):
+    for iatom in range(0, natoms):
         #print(iatom)
-        for sec_atom in range(iatom + 1, len(atoms)):
+        for sec_atom in range(iatom + 1, natoms):
             dist = atoms.get_distance(iatom, sec_atom, mic=True)
-           # print(dist)
-            if iatom == 0 and sec_atom == 1:
-                atomdists.append(dist)
-            else:
-                #print(atomdists)
-                ilen = len(atomdists)
-                isdifferent = True
-                for idist in range(0, ilen):
-                    if abs(dist - atomdists[idist]) <= 0.1:
-                        isdifferent = False
-                        break
-                if isdifferent:
-                    atomdists.append(dist)
-    return atomdists
+            vec  = atoms.get_distance(iatom, sec_atom, mic=True, vector=True)
+            #print(dist)
+            ilen = len(atomdists)
+            isdifferent = True
+            for idist in range(0, ilen):
+              if abs(dist - atomdists[idist]) <= 0.1:
+                  isdifferent = False
+                  break
+            if isdifferent:
+               atomdists.append(dist)
+               atomvecs.append(vec)
+#
+    return atomdists, atomvecs
 
 
-o_dist=dist_list(oxygen_strip_atoms)
+o_dist, o_vecs=dist_list(oxygen_strip_atoms)
 print("Distances from central oxygen:")
-for idist in o_dist:
-    print(idist, "Å")
+for idist in range(0, len(o_dist)):
+    print(o_dist[idist], "Å", "vec: ", o_vecs[idist])
 
-pd_dist=dist_list(pd_strip_atoms)
+pd_dist, pd_vecs=dist_list(pd_strip_atoms)
 print("Distances from central palladium:")
-for idist in pd_dist:
-    print(idist, "Å")
+for dist in pd_dist:
+    print(dist, "Å")
+#
+# Look for best match for each Pd distance with the oxygen lattice
+#
+good_matches=[]
+for idist in range(0,len(pd_dist)):
+   min=9999.0
+   for jdist in range(0,len(o_dist)):
+      ratio=o_dist[jdist]/pd_dist[idist]
+#
+# Work out remainder
+#
+      remain=ratio-float(int(ratio))
+      print("Ratio for Pd %d with oxygen %d: %10.6f (rem: %10.6f)" % (idist, jdist, ratio, remain) )
+#
+      if remain < 0.10:
+        print("Found match within 10%")
+        good_matches.append([idist,jdist])
+   print("")
+#
+print("Good matches: ", good_matches)
+#
+for imatch in range(0,len(good_matches)):
+   pd_index=good_matches[imatch][0]
+   o_index =good_matches[imatch][1]
+   print(pd_index, o_index)
+   print("Looking at match %d, pd_dist: %10.6f o_dist: %10.6f" % (imatch, pd_dist[pd_index], o_dist[o_index]))
+   print("Pd_vec: ", pd_vecs[pd_index])
+   print("O_vec : ",  o_vecs[o_index])
+#
+# Make copy of ZnO slab cell and add Pd atoms along the O_vec direction at their optimal repeat
+#
+#   new_system=supercell.copy()
+#
+   
+#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
