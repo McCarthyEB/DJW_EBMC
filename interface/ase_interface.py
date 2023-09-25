@@ -2,6 +2,7 @@ import numpy as np
 from ase.io import read, write
 from ase.visualize import view
 from ase import Atom
+from ase.build import make_supercell
 
 def atom_set_finder(atoms, isymbol):
     cell_vectors = atoms.get_cell()
@@ -206,19 +207,48 @@ for imatch in range(0,len(good_matches)):
 #
 # Find fractional co-ordinates
    latt=oxygen_strip_atoms.get_cell()
-   print("Lattice:", latt)
-   frac=[]
-   for iii in range(0,3):
-     frac.append(np.dot(latt[iii],uni_rep)/np.linalg.norm(latt[iii]))
-   print("frac:", frac)
-   exit(0)
+   recip_latt=oxygen_strip_atoms.get_reciprocal_cell()
+   print("Lattice           :", latt)
+   print("Reciprocal Lattice:", recip_latt)
+#    
+   got_a=False
+   got_b=False
+   for ifrac in range(1,45):
+     frac=[]
+     for iii in range(0,3):
+        frac.append(float(ifrac)*np.dot(recip_latt[iii],o_vecs[o_index]))
 #
-   print(uni_rep)
+     remain=[frac[0]-round(frac[0],0), frac[1]-round(frac[1],0)] 
+     print(remain)
+#    
+     if not got_a and abs(remain[0]) < 0.05:
+        ia = ifrac
+        rem_a = remain[0]
+        got_a = True
+     if not got_b and abs(remain[1]) < 0.05:
+        ib = ifrac
+        rem_b = remain[1]
+        got_b = True
+     if got_a and got_b:
+        break
+#
+   print("ia ",ia, " rem:", rem_a, " ib:", ib, " rem:", rem_b)
+   
+#
+# make a supercell big enough for the repeat:
+#
+   mat=[[float(ia),0,0],[0,float(ib),0],[0,0,1]]
+   super=make_supercell(oxygen_strip_atoms, mat)
+#   view(super)
+#   exit(0)
+#
+#  print(uni_rep)
 #
 # Make copy of ZnO slab cell and add Pd atoms along the O_vec direction at their optimal repeat
 #
 #   new_system=supercell.copy()
-   new_system=oxygen_strip_atoms.copy()
+#   new_system=oxygen_strip_atoms.copy()
+   new_system=super.copy()
 #
 # Need the co-ords of one of the oxygens to set the origin, offset a little above the oxygens.
 #
@@ -226,7 +256,7 @@ for imatch in range(0,len(good_matches)):
    origin[2] = origin[2] + 1.5
 #
 # 
-   for iline in range(0,3):
+   for iline in range(0,5*ifrac):
       new_coords=origin.copy()
       vec= float(iline)*pd_dist_rep*uni_rep
       new_coords=new_coords+vec 
