@@ -4,7 +4,6 @@ from ase.visualize import view
 from ase import Atom
 from ase.build import make_supercell
 
-
 def atom_set_finder(atoms, isymbol):
     cell_vectors = atoms.get_cell()
 
@@ -36,7 +35,6 @@ def atom_set_finder(atoms, isymbol):
 
     return hip_hip_array, atom_array
 
-
 def find_parallel_atoms(atoms, seed_indices, direction_vector, isymbol, perpendicular_range, tolerance=0.1):
     parallel_atoms = []
     seed_positions = [atoms.positions[i] for i in seed_indices]
@@ -50,26 +48,23 @@ def find_parallel_atoms(atoms, seed_indices, direction_vector, isymbol, perpendi
         if isymbol in atoms.symbols[iatom]:
             position = atoms.positions[iatom]
             vector = position - seed_positions[0]
-            # projection might be useful: corresponds to opposite side of right angled triangle formed by bond and direction vector
+            #projection might be useful: corresponds to opposite side of right angled triangle formed by bond and direction vector
             projection = np.dot(vector, norm_direction_vector)
             if -perpendicular_range <= projection <= perpendicular_range:
                 parallel_atoms.append(iatom)
 
     return parallel_atoms
 
-
 def find_hexagonal_strip(atoms, seed_indices, seed_index, seed_symbol, perpendicular_range, tolerance):
     direction_vector = (atoms.positions[19] - atoms.positions[16])
     # Tidy this up later and generalize if it works!
     # Need to set it as the vector perpendicular to the desired strip for some reason
-    parallel_atoms = find_parallel_atoms(atoms, seed_indices, direction_vector, seed_symbol, perpendicular_range,
-                                         tolerance)
+    parallel_atoms = find_parallel_atoms(atoms, seed_indices, direction_vector, seed_symbol, perpendicular_range, tolerance)
 
     return parallel_atoms
 
-
 def calculate_relative_positions(Pd_atoms, O_atoms):
-    relative_positions = []
+    relative_positions=[]
     for pd_atom in Pd_atoms:
         for o_atom in O_atoms:
             relative_position = pd_atom.position - o_atom.position
@@ -77,71 +72,33 @@ def calculate_relative_positions(Pd_atoms, O_atoms):
     return relative_positions
 
 
-def cell_surface_finder(atoms):
-    zmax = atoms.positions[0][2]
-    zmin = zmax
-    zdelta = 0.1
-    top_layer = []
-    bot_layer = []
-
-    for iatom in range(0, len(atoms)):
-        if zmax - zdelta < atoms.positions[iatom][2] < zmax + zdelta:
-            top_layer.append(iatom)
-
-        if zmin - zdelta < atoms.positions[iatom][2] < zmin + zdelta:
-            bot_layer.append(iatom)
-
-    num_top_layer = len(top_layer)
-    num_bot_layer = len(bot_layer)
-
-    print(f"Identified {num_top_layer} top layer atoms:")
-    for iii in range(0, num_top_layer):
-        iatom = top_layer[iii]
-        print(f"%d %s %10.6f %10.6f %10.6f charge: %10.2f" %
-              (iatom, atoms.symbols[iatom], atoms.positions[iatom][0],
-               atoms.positions[iatom][1], atoms.positions[iatom][2],
-               atoms[iatom].charge))
-
-    print(f"Identified {num_bot_layer} bottom layer atoms:")
-    for iii in range(0, num_bot_layer):
-        iatom = bot_layer[iii]
-        print(f"%d %s %10.6f %10.6f %10.6f charge: %10.2f" %
-              (iatom, atoms.symbols[iatom], atoms.positions[iatom][0],
-               atoms.positions[iatom][1], atoms.positions[iatom][2],
-               atoms[iatom].charge))
-    return top_layer, bot_layer
-
-
-
 atoms = read("Pd_O_isolated.cif")
-supercell = read("supercell_0_slabheight_14.cif")
-# view(atoms)
-# view(supercell)
+supercell = read("supercell_1_slabheight_14.cif")
+#view(atoms)
+#view(supercell)
 Pd_hip_hip, Pd_indices = atom_set_finder(atoms, "Pd")
 print("Pd_indices:", Pd_indices)
 O_hip_hip, O_indices = atom_set_finder(atoms, "O")
 
-seed_Pd_index = Pd_indices[0]  # This is the centre
+seed_Pd_index = Pd_indices[0]  #This is the centre
 print("seed_Pd_index", seed_Pd_index)
 
-strip_atoms_indices = find_hexagonal_strip(atoms, Pd_indices, seed_Pd_index, "Pd", perpendicular_range=3.0,
-                                           tolerance=0.1)
+strip_atoms_indices = find_hexagonal_strip(atoms, Pd_indices, seed_Pd_index, "Pd", perpendicular_range=3.0, tolerance=0.1)
 combined_indices = Pd_indices + strip_atoms_indices
 pd_strip_atoms = atoms[combined_indices]
 write("Pd_strip_atoms.cif", pd_strip_atoms)
 view_pd_strip = read("Pd_strip_atoms.cif")
-view(view_pd_strip)
+#view(view_pd_strip)
 
 print("The strip of overlapping Pd hexagons contains %d atoms." % len(strip_atoms_indices))
 
 seed_O_index = O_indices[0]
-oxygen_strip_atoms_indices = find_hexagonal_strip(atoms, O_indices, seed_O_index, "O", perpendicular_range=4.0,
-                                                  tolerance=1)
+oxygen_strip_atoms_indices = find_hexagonal_strip(atoms, O_indices, seed_O_index, "O", perpendicular_range=4.0, tolerance=1)
 oxygen_combined_indices = O_indices + oxygen_strip_atoms_indices
 oxygen_strip_atoms = atoms[oxygen_combined_indices]
 write("oxygen_strip_atoms.cif", oxygen_strip_atoms)
 view_oxygen_strip = read("oxygen_strip_atoms.cif")
-# view(view_oxygen_strip)
+#view(view_oxygen_strip)
 
 print("The strip of overlapping O atoms contains %d atoms." % len(oxygen_strip_atoms))
 
@@ -168,6 +125,8 @@ def map_pd_to_o(pd_atoms, o_atoms):
     return pd_to_o_mapping, pd_to_o_distances
 
 
+
+
 # Map Pd atoms in 'strip_atoms' to their closest O atoms in 'oxygen_strip_atoms' with distances
 pd_to_o_mapping, pd_to_o_distances = map_pd_to_o(pd_strip_atoms, oxygen_strip_atoms)
 
@@ -180,64 +139,54 @@ for pd_index, o_index in pd_to_o_mapping.items():
 def dist_list(atoms):
     atomdists = []
     atomvecs = []
-    natoms = len(atoms)
+    natoms=len(atoms)
 
     for iatom in range(0, natoms):
-        # print(iatom)
+        #print(iatom)
         for sec_atom in range(iatom + 1, natoms):
             dist = atoms.get_distance(iatom, sec_atom, mic=True)
-            vec = atoms.get_distance(iatom, sec_atom, mic=True, vector=True)
-            # print(dist)
+            vec  = atoms.get_distance(iatom, sec_atom, mic=True, vector=True)
+            #print(dist)
             ilen = len(atomdists)
             isdifferent = True
             for idist in range(0, ilen):
-                if abs(dist - atomdists[idist]) <= 0.1:
-                    isdifferent = False
-                    break
+              if abs(dist - atomdists[idist]) <= 0.1:
+                  isdifferent = False
+                  break
             if isdifferent:
-                atomdists.append(dist)
-                atomvecs.append(vec)
-    #
+               atomdists.append(dist)
+               atomvecs.append(vec)
+#
     return atomdists, atomvecs
 
 
-# Let a and b be the bond-containing vector that intersects the cell at points (a,0), (0,b)
-
-top_cell, bottom_cell = cell_surface_finder(supercell)
-print("Top cell:", top_cell)
-top_atoms = supercell[top_cell]
-write('supercell_top.cif', top_atoms)
-isolate_top = read('supercell_top.cif')
-
-o_dist, o_vecs = dist_list(isolate_top)
-#o_dist, o_vecs = dist_list(oxygen_strip_atoms)
+o_dist, o_vecs=dist_list(oxygen_strip_atoms)
 print("Distances from central oxygen:")
 for idist in range(0, len(o_dist)):
     print(o_dist[idist], "Å", "vec: ", o_vecs[idist])
 
-pd_dist, pd_vecs = dist_list(pd_strip_atoms)
+pd_dist, pd_vecs=dist_list(pd_strip_atoms)
 print("Distances from central palladium:")
 for dist in pd_dist:
     print(dist, "Å")
-
 #
 # Look for best match for each Pd distance with the oxygen lattice
 #
-good_matches = []
-for idist in range(0, len(pd_dist)):
-    min = 9999.0
-    for jdist in range(0, len(o_dist)):
-        ratio = o_dist[jdist] / pd_dist[idist]
-        #
-        # Work out remainder
-        #
-        remain = ratio - float(int(ratio))
-        print("Ratio for Pd dist %d with oxygen dust %d: %10.6f (rem: %10.6f)" % (idist, jdist, ratio, remain))
-        #
-        if remain < 0.10:
-            print("Found match within 10%")
-            good_matches.append([idist, jdist])
-    print("")
+good_matches=[]
+for idist in range(0,len(pd_dist)):
+   min=9999.0
+   for jdist in range(0,len(o_dist)):
+      ratio=o_dist[jdist]/pd_dist[idist]
+#
+# Work out remainder
+#
+      remain=ratio-float(int(ratio))
+      print("Ratio for Pd %d with oxygen %d: %10.6f (rem: %10.6f)" % (idist, jdist, ratio, remain) )
+#
+      if remain < 0.10:
+        print("Found match within 10%")
+        good_matches.append([idist,jdist])
+   print("")
 #
 print("Good matches: ", good_matches)
 #
@@ -314,100 +263,31 @@ for imatch in range(0,len(good_matches)):
 #
       new_atom=Atom("Pd", new_coords)
       new_system.append(new_atom)
-
-for imatch in range(0, len(good_matches)):
-    pd_index = good_matches[imatch][0]
-    o_index = good_matches[imatch][1]
-    pd_dist_rep = pd_dist[pd_index]
-    print("Pd_dist_rep is %s" % pd_dist_rep)
-    print(pd_index, o_index)
-    print("Looking at match %d, pd_dist: %10.6f o_dist: %10.6f" % (imatch, pd_dist[pd_index], o_dist[o_index]))
-    pd_vec = pd_vecs[pd_index]
-    o_vec = o_vecs[o_index]
-
-    print("Pd_vec: ", pd_vecs[pd_index])
-    print("O_vec : ", o_vecs[o_index])
-
-    # Calculate the number of bond repeats within the periodic boundary (please work!)
-    num_repeats = int(np.round(np.linalg.norm(pd_vec) / pd_dist_rep))
-    print("Num of repeats:", num_repeats)
-    # Calculate the spacing between new atoms. Adding +1 to make sure initial position included!
-    spacing = np.linalg.norm(pd_vec) / (num_repeats + 1)
-
-    # Unit vector in the direction of interest
-    uni_rep = o_vecs[o_index].copy()
-
-    #
-    uni_rep = uni_rep / np.linalg.norm(uni_rep)
-    #
-    # Find fractional co-ordinates
-    latt = oxygen_strip_atoms.get_cell()
-    print("Lattice:", latt)
-    frac = []
-    for iii in range(0, 2):  # I just want the x and y components
-        frac.append(np.dot(latt[iii], uni_rep) / np.linalg.norm(latt[iii]))
-    print("frac:", frac)
-    # exit(0)
-    #
-    # print("Uni rep is", uni_rep)
-    #
-    # Make copy of ZnO slab cell and add Pd atoms along the O_vec direction at their optimal repeat
-    #
-
-
-    #new_system = oxygen_strip_atoms.copy()
-
-    #Add 'stretching factor' for Pd film?
-    stretching_factor = 1.03
-
-#    new_system = isolate_top.copy()
-
-    # Need the co-ords of one of the oxygens to set the origin, offset a little above the oxygens.
-    #
-    origin = new_system.positions[0].copy()
-    origin[2] = origin[2] + 1.5
-    ###
-    initial_position = origin + spacing * stretching_factor * uni_rep
-    # Need to evenly space out new atoms so that margin of error is spread
-
-    ####TEST SPACE
-
-    # Add Pd atoms along the line at equidistant points
-#    for i in range(1, num_repeats + 1):
-#        new_coords = origin + i * spacing * stretching_factor * uni_rep
-#        new_atom = Atom("Pd", new_coords)
-#        new_system.append(new_atom)
-
-
-    num_additional_pd_atoms = 10
-    for iline in range(num_additional_pd_atoms):
-        new_coords = origin.copy()
-        vec = float(iline) * spacing * stretching_factor * uni_rep
-        new_coords = new_coords + vec
-
-        new_atom = Atom("Pd", new_coords)
-        new_system.append(new_atom)
-
-    #
-#    for i in range(num_repeats):
-#        new_coords = origin + i * spacing * pd_vec
-#        new_atom = Atom("Pd", new_coords)
-#        new_system.append(new_atom)
 #
-#    for iline in range(0, 10):
-#        new_coords = origin.copy()
-#        vec = float(iline) * pd_dist_rep * uni_rep
-#        new_coords = new_coords + vec
+   view(new_system)
 #
-#        new_atom = Atom("Pd", new_coords)
-#        new_system.append(new_atom)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #
-
-#######
-    write("new_system.cif", new_system)
-    read_system = read("new_system.cif")
-    view(read_system)
-
-###
