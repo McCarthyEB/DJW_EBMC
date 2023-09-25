@@ -260,8 +260,8 @@ for imatch in range(0,len(good_matches)):
    uni_rep = uni_rep/np.linalg.norm(uni_rep)
 #
 # Find fractional co-ordinates
-   latt=oxygen_strip_atoms.get_cell()
-   recip_latt=oxygen_strip_atoms.get_reciprocal_cell()
+   latt=top_atoms.get_cell()
+   recip_latt=top_atoms.get_reciprocal_cell()
    print("Lattice           :", latt)
    print("Reciprocal Lattice:", recip_latt)
 #    
@@ -292,7 +292,7 @@ for imatch in range(0,len(good_matches)):
 # make a supercell big enough for the repeat:
 #
    mat=[[float(ia),0,0],[0,float(ib),0],[0,0,1]]
-   super=make_supercell(oxygen_strip_atoms, mat)
+   super=make_supercell(top_atoms, mat)
    view(super)
   
 #   exit(0)
@@ -345,7 +345,7 @@ for imatch in range(0, len(good_matches)):
     uni_rep = uni_rep / np.linalg.norm(uni_rep)
     #
     # Find fractional co-ordinates
-    latt = oxygen_strip_atoms.get_cell()
+    latt = top_atoms.get_cell()
     print("Lattice:", latt)
     frac = []
     for iii in range(0, 2):  # I just want the x and y components
@@ -362,7 +362,7 @@ for imatch in range(0, len(good_matches)):
     #new_system = oxygen_strip_atoms.copy()
 
     #Add 'stretching factor' for Pd film?
-    stretching_factor = 1.03
+    stretching_factor = 1
 
 #    new_system = isolate_top.copy()
 
@@ -383,7 +383,8 @@ for imatch in range(0, len(good_matches)):
 #        new_system.append(new_atom)
 
 
-    num_additional_pd_atoms = 10
+#Incompatibility here: it's adding these on top of the existing palladium atoms! Reducing it to 1 for now, to test.
+    num_additional_pd_atoms = 1
     for iline in range(num_additional_pd_atoms):
         new_coords = origin.copy()
         vec = float(iline) * spacing * stretching_factor * uni_rep
