@@ -208,6 +208,9 @@ print("Top cell:", top_cell)
 top_atoms = supercell[top_cell]
 write('supercell_top.cif', top_atoms)
 isolate_top = read('supercell_top.cif')
+#
+view(isolate_top)
+#
 
 o_dist, o_vecs = dist_list(isolate_top)
 #o_dist, o_vecs = dist_list(oxygen_strip_atoms)
@@ -272,11 +275,11 @@ for imatch in range(0,len(good_matches)):
      remain=[frac[0]-round(frac[0],0), frac[1]-round(frac[1],0)] 
      print(remain)
 #    
-     if not got_a and abs(remain[0]) < 0.05:
+     if not got_a and abs(remain[0]) < 0.10:
         ia = ifrac
         rem_a = remain[0]
         got_a = True
-     if not got_b and abs(remain[1]) < 0.05:
+     if not got_b and abs(remain[1]) < 0.10:
         ib = ifrac
         rem_b = remain[1]
         got_b = True
@@ -290,7 +293,8 @@ for imatch in range(0,len(good_matches)):
 #
    mat=[[float(ia),0,0],[0,float(ib),0],[0,0,1]]
    super=make_supercell(oxygen_strip_atoms, mat)
-#   view(super)
+   view(super)
+  
 #   exit(0)
 #
 #  print(uni_rep)
