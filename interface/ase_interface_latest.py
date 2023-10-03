@@ -111,12 +111,66 @@ def cell_surface_finder(atoms):
                atoms[iatom].charge))
     return top_layer, bot_layer
 
+def dist_list(atoms):
+    atomdists = []
+    atomvecs = []
+    natoms = len(atoms)
+
+    for iatom in range(0, natoms):
+        # print(iatom)
+        for sec_atom in range(iatom + 1, natoms):
+            dist = atoms.get_distance(iatom, sec_atom, mic=True)
+            vec = atoms.get_distance(iatom, sec_atom, mic=True, vector=True)
+            print(dist)
+            ilen = len(atomdists)
+            isdifferent = True
+            for idist in range(0, ilen):
+                if abs(dist - atomdists[idist]) <= 0.1:
+                    isdifferent = False
+                    break
+            if isdifferent:
+                atomdists.append(dist)
+                atomvecs.append(vec)
+
+    # Adding a second loop heck to pick up the distance between atom repeat and its corresponding atom in the first cell
+    for iatom in range(0, natoms):
+        for sec_atom in range(natoms, 2 * natoms):
+            if sec_atom % natoms == iatom and sec_atom < len(atoms):
+                dist = atoms.get_distance(iatom, sec_atom, mic=False)  # mic=False to not apply minimum image convention!
+                vec = atoms.get_distance(iatom, sec_atom, mic=False, vector=True)
+                atomdists.append(dist)
+                atomvecs.append(vec)
+
+    #
+    return atomdists, atomvecs
+
 
 
 atoms = read("Pd_O_isolated.cif")
 supercell = read("supercell_0_slabheight_14.cif")
 # view(atoms)
-# view(supercell)
+view(supercell)
+
+top_cell, bottom_cell = cell_surface_finder(supercell)
+print("Top cell:", top_cell)
+top_atoms = supercell[top_cell]
+write('supercell_top.cif', top_atoms)
+isolate_top = read('supercell_top.cif')
+
+#
+view(isolate_top)
+#
+
+o_dist, o_vecs = dist_list(isolate_top)
+#o_dist, o_vecs = dist_list(oxygen_strip_atoms)
+print("Distances from central oxygen:")
+for idist in range(0, len(o_dist)):
+    print(o_dist[idist], "Å", "vec: ", o_vecs[idist])
+
+
+
+
+
 Pd_hip_hip, Pd_indices = atom_set_finder(atoms, "Pd")
 print("Pd_indices:", Pd_indices)
 O_hip_hip, O_indices = atom_set_finder(atoms, "O")
@@ -132,6 +186,11 @@ write("Pd_strip_atoms.cif", pd_strip_atoms)
 view_pd_strip = read("Pd_strip_atoms.cif")
 view(view_pd_strip)
 
+pd_dist, pd_vecs = dist_list(pd_strip_atoms)
+print("Distances from central palladium:")
+for dist in pd_dist:
+    print(dist, "Å")
+
 print("The strip of overlapping Pd hexagons contains %d atoms." % len(strip_atoms_indices))
 
 seed_O_index = O_indices[0]
@@ -141,7 +200,7 @@ oxygen_combined_indices = O_indices + oxygen_strip_atoms_indices
 oxygen_strip_atoms = atoms[oxygen_combined_indices]
 write("oxygen_strip_atoms.cif", oxygen_strip_atoms)
 view_oxygen_strip = read("oxygen_strip_atoms.cif")
-# view(view_oxygen_strip)
+view(view_oxygen_strip)
 
 print("The strip of overlapping O atoms contains %d atoms." % len(oxygen_strip_atoms))
 
@@ -169,7 +228,8 @@ def map_pd_to_o(pd_atoms, o_atoms):
 
 
 # Map Pd atoms in 'strip_atoms' to their closest O atoms in 'oxygen_strip_atoms' with distances
-pd_to_o_mapping, pd_to_o_distances = map_pd_to_o(pd_strip_atoms, oxygen_strip_atoms)
+# Changing oxygen_strip_atoms to isolate_top
+pd_to_o_mapping, pd_to_o_distances = map_pd_to_o(pd_strip_atoms, isolate_top)
 
 # Print the mapping and distances
 for pd_index, o_index in pd_to_o_mapping.items():
@@ -177,51 +237,10 @@ for pd_index, o_index in pd_to_o_mapping.items():
     print(f"Pd {pd_index} -> O {o_index} (Distance: {distance} Å)")
 
 
-def dist_list(atoms):
-    atomdists = []
-    atomvecs = []
-    natoms = len(atoms)
-
-    for iatom in range(0, natoms):
-        # print(iatom)
-        for sec_atom in range(iatom + 1, natoms):
-            dist = atoms.get_distance(iatom, sec_atom, mic=True)
-            vec = atoms.get_distance(iatom, sec_atom, mic=True, vector=True)
-            # print(dist)
-            ilen = len(atomdists)
-            isdifferent = True
-            for idist in range(0, ilen):
-                if abs(dist - atomdists[idist]) <= 0.1:
-                    isdifferent = False
-                    break
-            if isdifferent:
-                atomdists.append(dist)
-                atomvecs.append(vec)
-    #
-    return atomdists, atomvecs
 
 
 # Let a and b be the bond-containing vector that intersects the cell at points (a,0), (0,b)
 
-top_cell, bottom_cell = cell_surface_finder(supercell)
-print("Top cell:", top_cell)
-top_atoms = supercell[top_cell]
-write('supercell_top.cif', top_atoms)
-isolate_top = read('supercell_top.cif')
-#
-view(isolate_top)
-#
-
-o_dist, o_vecs = dist_list(isolate_top)
-#o_dist, o_vecs = dist_list(oxygen_strip_atoms)
-print("Distances from central oxygen:")
-for idist in range(0, len(o_dist)):
-    print(o_dist[idist], "Å", "vec: ", o_vecs[idist])
-
-pd_dist, pd_vecs = dist_list(pd_strip_atoms)
-print("Distances from central palladium:")
-for dist in pd_dist:
-    print(dist, "Å")
 
 #
 # Look for best match for each Pd distance with the oxygen lattice
@@ -245,6 +264,7 @@ for idist in range(0, len(pd_dist)):
 print("Good matches: ", good_matches)
 #
 for imatch in range(0,len(good_matches)):
+#
    pd_index=good_matches[imatch][0]
    o_index =good_matches[imatch][1]
    pd_dist_rep= pd_dist[pd_index]
@@ -255,36 +275,133 @@ for imatch in range(0,len(good_matches)):
 #
 # Make a unit vector in the direction of interest
 #
-   uni_rep = o_vecs[o_index].copy()
+   o_best_vec = o_vecs[o_index].copy()
 #
-   uni_rep = uni_rep/np.linalg.norm(uni_rep)
+   uni_rep = o_best_vec/np.linalg.norm(o_best_vec)
 #
 # Find fractional co-ordinates
-   latt=top_atoms.get_cell()
-   recip_latt=top_atoms.get_reciprocal_cell()
+   latt=isolate_top.get_cell()
+   recip_latt=isolate_top.cell.reciprocal()
+   #recip_latt=oxygen_strip_atoms.get_reciprocal_cell()
    print("Lattice           :", latt)
    print("Reciprocal Lattice:", recip_latt)
 #    
-   got_a=False
-   got_b=False
-   for ifrac in range(1,45):
-     frac=[]
-     for iii in range(0,3):
-        frac.append(float(ifrac)*np.dot(recip_latt[iii],o_vecs[o_index]))
+   frac=[]
+   for iii in range(0,3):
+      frac.append(np.dot(recip_latt[iii],o_best_vec))
 #
-     remain=[frac[0]-round(frac[0],0), frac[1]-round(frac[1],0)] 
-     print(remain)
+   print("Fractional version of inter-neighbour vector:")
+   print(frac)
+#
+#
+# The a component is longer than the b so use that
+   if (frac[0] > frac[1]):
+      num_in_cell=int(1.0/frac[0])
+      print("Longest component is in a-vec direction")
+# The b component is longer than the a so use that
+   else:
+      num_in_cell=int(1.0/frac[1])
+      print("Longest component is in b-vec direction")
+#
+   dist_in_cell=num_in_cell*o_dist[o_index]
+   vec_in_cell=dist_in_cell*uni_rep
+#
+   print("vec_in_cell: ", vec_in_cell)
+#
+# Work out supercell required to get vec in cell to repeat properly.
+#
+   frac=[]
+   for iii in range(0,3):
+      frac.append(np.dot(recip_latt[iii],vec_in_cell))
+#
+   print("frac version of vec_in_cell: ", frac)
+#
+
+   num_for_super = [int(abs(1.0/frac[0])), int(abs(1.0/frac[1]))]
+#
+# make a supercell big enough for the repeat:
+#
+   mat=[[float(num_for_super[1]),0,0],[0,float(num_for_super[0]),0],[0,0,1]]
+   print("Matrix for supercell:")
+   print(mat)
+   super=make_supercell(isolate_top, mat)
+#
+   new_system=super.copy()
 #    
-     if not got_a and abs(remain[0]) < 0.10:
-        ia = ifrac
-        rem_a = remain[0]
-        got_a = True
-     if not got_b and abs(remain[1]) < 0.10:
-        ib = ifrac
-        rem_b = remain[1]
-        got_b = True
-     if got_a and got_b:
-        break
+# Find fractional co-ordinates in the supercell
+   latt=new_system.get_cell()
+   recip_latt=new_system.cell.reciprocal()
+   #recip_latt=new_system.get_reciprocal_cell()
+   print("Super Lattice           :", latt)
+   print("Super Reciprocal Lattice:", recip_latt)
+#
+   frac=[]
+   for iii in range(0,3):
+      frac.append(np.dot(recip_latt[iii],o_best_vec))
+#
+   print("Fractional version of inter-neighbour vector in supercell:")
+   print(frac)
+#
+#
+# The a component is longer than the b so use that
+   if (frac[0] > frac[1]):
+      num_in_cell=int(1.0/frac[0])
+      print("Longest component is in a-vec direction")
+# The b component is longer than the a so use that
+   else:
+      num_in_cell=int(1.0/frac[1])
+      print("Longest component is in b-vec direction")
+#
+   dist_in_cell=num_in_cell*o_dist[o_index]
+# Issue with this line: it's taking dist_in_cell as 22.622 instead of 28.278
+# Taking it as the diagonal across the cell!
+#
+# Need the co-ords of one of the oxygens to set the origin, offset a little above the oxygens.
+#
+   origin=new_system.positions[0].copy()
+   origin[2] = origin[2] + 1.5
+#
+   num_pd_in_cell = int(dist_in_cell/pd_dist[pd_index])
+#HERE! I want to use o_dist because pd_dist is the old cell!
+#It's taking the diagonal here in the original cell as the 'longest distance'.
+#
+   pd_line_dist = num_pd_in_cell*pd_dist[pd_index]
+# 
+   stretch_factor= dist_in_cell/pd_line_dist
+#
+   print("longest dist in cell = %10.6f can fit %d Pd covering dist: %10.6f stretch factor %10.6f" \
+                           % (dist_in_cell, num_pd_in_cell, pd_line_dist, stretch_factor))
+
+   for iii in range(0,num_pd_in_cell+2): #This works. But why???
+      new_coords = origin + iii * stretch_factor * pd_dist[pd_index] * uni_rep
+      new_atom = Atom("Pd", new_coords)
+      new_system.append(new_atom)
+     
+   view(new_system)
+   exit(0)
+
+#
+   
+#  got_a=False
+#  got_b=False
+#  for ifrac in range(1,45):
+#    frac=[]
+#    for iii in range(0,3):
+#       frac.append(float(ifrac)*np.dot(recip_latt[iii],o_vecs[o_index]))
+#
+#    remain=[frac[0]-round(frac[0],0), frac[1]-round(frac[1],0)] 
+#    print(remain)
+#    
+#    if not got_a and abs(remain[0]) < 0.10:
+#       ia = ifrac
+#       rem_a = remain[0]
+#       got_a = True
+#    if not got_b and abs(remain[1]) < 0.10:
+#       ib = ifrac
+#       rem_b = remain[1]
+#       got_b = True
+#    if got_a and got_b:
+#       break
 #
    print("ia ",ia, " rem:", rem_a, " ib:", ib, " rem:", rem_b)
    
@@ -292,7 +409,7 @@ for imatch in range(0,len(good_matches)):
 # make a supercell big enough for the repeat:
 #
    mat=[[float(ia),0,0],[0,float(ib),0],[0,0,1]]
-   super=make_supercell(top_atoms, mat)
+   super=make_supercell(isolate_top, mat)
    view(super)
   
 #   exit(0)
@@ -304,11 +421,6 @@ for imatch in range(0,len(good_matches)):
 #   new_system=supercell.copy()
 #   new_system=oxygen_strip_atoms.copy()
    new_system=super.copy()
-#
-# Need the co-ords of one of the oxygens to set the origin, offset a little above the oxygens.
-#
-   origin=new_system.positions[0].copy()
-   origin[2] = origin[2] + 1.5
 #
 # 
    for iline in range(0,5*ifrac):
@@ -345,7 +457,7 @@ for imatch in range(0, len(good_matches)):
     uni_rep = uni_rep / np.linalg.norm(uni_rep)
     #
     # Find fractional co-ordinates
-    latt = top_atoms.get_cell()
+    latt = isolate_top.get_cell()
     print("Lattice:", latt)
     frac = []
     for iii in range(0, 2):  # I just want the x and y components
@@ -362,7 +474,7 @@ for imatch in range(0, len(good_matches)):
     #new_system = oxygen_strip_atoms.copy()
 
     #Add 'stretching factor' for Pd film?
-    stretching_factor = 1
+    stretching_factor = 1.03
 
 #    new_system = isolate_top.copy()
 
@@ -383,7 +495,6 @@ for imatch in range(0, len(good_matches)):
 #        new_system.append(new_atom)
 
 
-#Incompatibility here: it's adding these on top of the existing palladium atoms! Reducing it to 1 for now, to test.
     num_additional_pd_atoms = 1
     for iline in range(num_additional_pd_atoms):
         new_coords = origin.copy()
