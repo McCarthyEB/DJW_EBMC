@@ -1,0 +1,3 @@
+Accepting clients on INET port 55162
+Launch subprocess: time mpirun -np 40 /apps/local/projects/scw1057/software/fhi-aims/bin/aims.230612.scalapack.mpi.x > aims.out
+Awaiting client
