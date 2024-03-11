@@ -1,0 +1,3 @@
+#This script expects a named folder containing a geometry.in file!
+##Before using this script, use 'sed -i 's/placeholder/$foldername/g' opt.sh' to populate the shell script with the name of the folder containing the geometry file.
+##Note that Archer2 doesn't like predefined charges in its geometry.in file, so delete any of these lines before proceeding to avoid segmentation faults...
