@@ -70,6 +70,9 @@ if debug:
 workdir = sys.argv[1]                                           # Directory where we will do the calculations
 cores_per_task = sys.argv[2]                                    # cores assigned to tasks where available
 jobid = sys.argv[3]                                             # Unique identifier for this job
+launchdir = sys.argv[4]                                         # Directory where job was launched from
+structdir = sys.argv[5]                                         # Directory where structure file lives    
+subdir = sys.argv[6]                                            # Directory where results will be saved to    
 stdout_file= "%s/vasp_%s_%s.stdout" % (sys.argv[4], sys.argv[5], jobid) # stdout file for VASP will appear in your launch directory
 results_dir= "%s/%s/%s" % (sys.argv[4], sys.argv[5], sys.argv[6]) # directory for results, this should be on your $HOME space
 traj_file = "%s/%s_%s.traj" % ( results_dir, sys.argv[5], jobid )      # File for trajectory output
@@ -93,13 +96,45 @@ else:
    print("\nzfix not set so will not freeze any atom co-ordinates unless pre-defined in geometry file.")
    need_zfix = False
 #
-# Get indices for fixed atoms
-# The bond should move from 1 to 2 so that index_2 is for the atom that
-# will be moved.
+hess_guess=sys.argv[9]                                      #Picks up the qn.pckl where the current Hessian estimate from the end of the last run is sitting
 
 #Setting structure file as defined in shell script
 GEOM=sys.argv[10]
 #hess_file=sys.argv[10]
+
+
+# Get indices for fixed atoms
+# The bond should move from 1 to 2 so that index_2 is for the atom that
+# will be moved.
+# Check if we have a float for z-fix and set if so
+ind1_string=sys.argv[11]
+ind2_string=sys.argv[12]
+ind3_string=sys.argv[13]
+test1 = ind1_string.replace('.','',1).isdigit()
+test2 = ind2_string.replace('.','',1).isdigit()
+test3 = ind3_string.replace('.','',1).isdigit()
+if test1:
+   index1 = int(ind1_string)
+   need_index1 = True
+   print("\nFirst index to freeze is %10.1f" % index1)
+else:
+   print("\nIndex 1 not set")
+   need_index1 = False
+#
+if test2:
+   index2 = int(ind2_string)
+   need_index2 = True
+   print("\nSecond index to freeze is %10.1f" % index2)
+else:
+   print("\nIndex 2 not set")
+   need_index2 = False
+if test3:
+   index3 = int(ind3_string)
+   need_index3 = True
+   print("\nThird index to freeze is %10.1f" % index3)
+else:
+   print("\nIndex 3 not set")
+   need_index3 = False
 
 #
 print(f"------------------------------------------------------------")

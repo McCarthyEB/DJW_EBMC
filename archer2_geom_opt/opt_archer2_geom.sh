@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -o o.%J            # Job output file
 #SBATCH -e e.%J            # Job error file
-#SBATCH -J placeholder            # Job name
+#SBATCH -J slab_atoms_5_131591            # Job name
 #SBATCH --time=00:02:00       # time limit
 #SBATCH --nodes=2           # number of parallel processes (tasks)
 #SBATCH --ntasks-per-node=8  # tasks to run per node
@@ -20,7 +20,7 @@ echo "Starting script...."
 export CODE='AIMS'
 MACHINE='archer2'
 ASE_SCRIPT='opt_archer2_geom.py'
-struct_list='placeholder'
+struct_list='slab_atoms_5_131591'
 CORES_PER_TASK=32
 #
 
@@ -180,11 +180,11 @@ elif [[ $CODE == "AIMS" ]]; then
                 
           #      export executable=/home/mmm1004/progs/aims.$VERSION.scalapack.mpi.x
                 
-              #  export ASE_AIMS_COMMAND="time gerun /home/mmm0170/Software/fhi-aims/bin/aims.$VERSION.scalapack.mpi.x > placeholder_output.log.$JOB_ID"
+              #  export ASE_AIMS_COMMAND="time gerun /home/mmm0170/Software/fhi-aims/bin/aims.$VERSION.scalapack.mpi.x > slab_atoms_5_131591_output.log.$JOB_ID"
            #     export AIMS_SPECIES_DIR="/home/mmm0170/Software/fhi-aims/species_defaults/defaults_2020/tight"
                 env
                 
-                #time gerun /home/mmm0170/Software/fhi-aims/bin/aims.$VERSION.scalapack.mpi.x > placeholder_output.log.$JOB_ID
+                #time gerun /home/mmm0170/Software/fhi-aims/bin/aims.$VERSION.scalapack.mpi.x > slab_atoms_5_131591_output.log.$JOB_ID
                 
                 module load python3/3.6
                 . /home/mmm0170/Software/venv/fhi-aims/bin/activate
@@ -360,8 +360,8 @@ elif [[ $MACHINE == "archer2" ]]; then
     export work_dir=$LAUNCH_DIR/$struct_list/$sub_dir
     #export work_dir=$PWD
     echo "Work directory is " $work_dir
-#    rm -rf $work_dir
-  #  mkdir -p $work_dir
+    rm -rf $work_dir
+    mkdir -p $work_dir
 # On ARCHER2 CASTEP also needs a tmp directory for this run
     if [[ $CODE == "CASTEP" ]]; then
        export tmp_dir=$work_dir/tmp
