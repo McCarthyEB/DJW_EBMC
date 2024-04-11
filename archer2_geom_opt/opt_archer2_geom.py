@@ -191,9 +191,12 @@ if PROG == "VASP":
 
 if PROG == "AIMS":
 
-  set_aims_command(hpc="archer2", basis_set="light", defaults=2020)
-#  set_aims_command(hpc="hawk", basis_set="light", defaults=2020, nodes_per_instance=sys.argv[2])
-#  set_aims_command(hpc="young", basis_set="light", defaults=2020)
+  if 'archer2' in machine:
+     set_aims_command(hpc="archer2", basis_set="light", defaults=2020)
+  elif 'hawk' in machine:
+     set_aims_command(hpc="hawk", basis_set="light", defaults=2020, nodes_per_instance=sys.argv[2])
+  elif 'young' in machine:
+     set_aims_command(hpc="young", basis_set="light", defaults=2020)
 #
   #print("Running command set to:")
   #print(os.environ['ASE_AIMS_COMMAND'])
