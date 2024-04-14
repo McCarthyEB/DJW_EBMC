@@ -1,0 +1,6 @@
+Currently Loaded Modulefiles:
+  1) null                       5) ase/3.20.1
+  2) system/auto                6) mpi/intel/2018/2
+  3) compiler/gnu/7/3.0         7) python/3.7.7-intel2020u1
+  4) anaconda/2019.07
+slurmstepd: error: *** JOB 64724657 ON ccs3003 CANCELLED AT 2023-11-21T16:42:59 DUE TO TIME LIMIT ***

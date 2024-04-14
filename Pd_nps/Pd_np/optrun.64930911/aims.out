@@ -1,0 +1,151 @@
+------------------------------------------------------------
+          Invoking FHI-aims ...
+
+          When using FHI-aims, please cite the following reference:
+
+            Volker Blum, Ralf Gehrke, Felix Hanke, Paula Havu,
+            Ville Havu, Xinguo Ren, Karsten Reuter, and Matthias Scheffler,
+            'Ab Initio Molecular Simulations with Numeric Atom-Centered Orbitals',
+            Computer Physics Communications 180, 2175-2196 (2009)
+
+          In addition, many other developments in FHI-aims are likely important for
+          your particular application. If so, please cite them. A partial list of references
+          is written at the end of this file. Thank you for giving credit to the authors
+          of these developments.
+
+          For general information about FHI-aims please find us at
+
+            https://fhi-aims.org
+
+          Online tutorials can be found at
+
+            https://fhi-aims-club.gitlab.io/tutorials/tutorials-overview/
+
+          For any questions about FHI-aims, please visit our slack channel at
+
+            https://fhi-aims.slack.com
+
+          and our main development and support site at
+
+            https://aims-git.rz-berlin.mpg.de .
+
+          The latter site, in particular, has a wiki to collect information, as well
+          as an issue tracker to log discussions, suggest improvements, and report issues
+          or bugs. https://aims-git.rz-berlin.mpg.de is also the main development site
+          of the project and all new and updated code versions can be obtained there.
+          Please send an email to aims-coordinators@fhi-berlin.mpg.de and we will add
+          you to these sites. They are for you and everyone is welcome there.
+
+------------------------------------------------------------
+
+
+
+  Date     :  20231124, Time     :  230052.434
+  Time zero on CPU 1             :   0.591621000000000E+00  s.
+  Internal wall clock time zero  :           470098852.434  s.
+
+  FHI-aims created a unique identifier for this run for later identification
+  aims_uuid : B250232B-3418-4CAB-AA9E-F96593975A47
+
+  Build configuration of the current instance of FHI-aims
+  -------------------------------------------------------
+  FHI-aims version      : 230612
+  Commit number         : 0c86b0d53
+  CMake host system     : Linux-3.10.0-1160.80.1.el7.x86_64
+  CMake version         : 3.24.2
+  Fortran compiler      : /apps/compilers/intel/2018.2/compilers_and_libraries_2018/linux/mpi/intel64/bin/mpif90 (Intel) version 18.0.2.20180210
+  Fortran compiler flags: -O3 -ip -fp-model precise
+  C compiler            : /apps/compilers/intel/2018.2/compilers_and_libraries_2018/linux/bin/intel64/icc (Intel) version 18.0.2.20180210
+  C compiler flags      : -O3 -ip -fp-model precise -std=gnu99
+  HIP compiler          :
+  HIP compiler flags    :
+  HIP GPU arch          :
+  ELPA2 kernel          : AVX2
+  Using MPI
+  Using ScaLAPACK
+  Using LibXC
+  Using i-PI
+  Using RLSY
+  Linking against: /apps/compilers/intel/2018.2/compilers_and_libraries_2018/linux/mkl/lib/intel64/libmkl_intel_lp64.so
+                   /apps/compilers/intel/2018.2/compilers_and_libraries_2018/linux/mkl/lib/intel64/libmkl_intel_thread.so
+                   /apps/compilers/intel/2018.2/compilers_and_libraries_2018/linux/mkl/lib/intel64/libmkl_core.so
+                   /apps/compilers/intel/2018.2/compilers_and_libraries_2018/linux/mkl/lib/intel64/libmkl_blacs_intelmpi_lp64.so
+                   /apps/compilers/intel/2018.2/compilers_and_libraries_2018/linux/mkl/lib/intel64/libmkl_scalapack_lp64.so
+                   /usr/lib64/libpthread.so
+
+  Using       40 parallel tasks.
+  Task        0 on host ccs0135 reporting.
+  Task        1 on host ccs0135 reporting.
+  Task        2 on host ccs0135 reporting.
+  Task        3 on host ccs0135 reporting.
+  Task        4 on host ccs0135 reporting.
+  Task        5 on host ccs0135 reporting.
+  Task        6 on host ccs0135 reporting.
+  Task        7 on host ccs0135 reporting.
+  Task        8 on host ccs0135 reporting.
+  Task        9 on host ccs0135 reporting.
+  Task       10 on host ccs0135 reporting.
+  Task       11 on host ccs0135 reporting.
+  Task       12 on host ccs0135 reporting.
+  Task       13 on host ccs0135 reporting.
+  Task       14 on host ccs0135 reporting.
+  Task       15 on host ccs0135 reporting.
+  Task       16 on host ccs0135 reporting.
+  Task       17 on host ccs0135 reporting.
+  Task       18 on host ccs0135 reporting.
+  Task       19 on host ccs0135 reporting.
+  Task       20 on host ccs0135 reporting.
+  Task       21 on host ccs0135 reporting.
+  Task       22 on host ccs0135 reporting.
+  Task       23 on host ccs0135 reporting.
+  Task       24 on host ccs0135 reporting.
+  Task       25 on host ccs0135 reporting.
+  Task       26 on host ccs0135 reporting.
+  Task       27 on host ccs0135 reporting.
+  Task       28 on host ccs0135 reporting.
+  Task       29 on host ccs0135 reporting.
+  Task       30 on host ccs0135 reporting.
+  Task       31 on host ccs0135 reporting.
+  Task       32 on host ccs0135 reporting.
+  Task       33 on host ccs0135 reporting.
+  Task       34 on host ccs0135 reporting.
+  Task       35 on host ccs0135 reporting.
+  Task       36 on host ccs0135 reporting.
+  Task       37 on host ccs0135 reporting.
+  Task       38 on host ccs0135 reporting.
+  Task       39 on host ccs0135 reporting.
+
+  Obtaining array dimensions for all initial allocations:
+  
+  -----------------------------------------------------------------------
+  Parsing control.in (first pass over file, find array dimensions only).
+  The contents of control.in will be repeated verbatim below
+  unless switched off by setting 'verbatim_writeout .false.' .
+  in the first line of control.in .
+  -----------------------------------------------------------------------
+  
+  #===============================================================================
+  # FHI-aims file: ./control.in
+  # Created using the Atomic Simulation Environment (ASE)
+  # Fri Nov 24 23:00:50 2023
+  #===============================================================================
+  xc_pre                             pbe 15
+  spin                               none
+  relativistic                       atomic_zora scalar
+  sc_accuracy_etot                   0.001
+  sc_accuracy_eev                    0.001
+  sc_accuracy_rho                    1e-06
+  sc_accuracy_forces                 0.0001
+  periodic                           .false.
+***************************** WARNING ******************************
+*
+* Unknown keyword periodic                                 in input file control.in.
+* Please check the syntax of this keyword - is it a typo?
+* If this is a valid keyword that was just introduced to the code,
+* please also make sure that the keyword is listed in subroutine parse_control()
+* in the dimensions.f90 module.
+* Stopping the code for now.
+*
+
+ *** parse_control: Syntax error in a keyword in control.in. See FHI-aims output for details.
+ 

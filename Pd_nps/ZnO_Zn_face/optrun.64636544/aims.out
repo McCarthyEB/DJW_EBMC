@@ -1,0 +1,1784 @@
+------------------------------------------------------------
+          Invoking FHI-aims ...
+
+          When using FHI-aims, please cite the following reference:
+
+            Volker Blum, Ralf Gehrke, Felix Hanke, Paula Havu,
+            Ville Havu, Xinguo Ren, Karsten Reuter, and Matthias Scheffler,
+            'Ab Initio Molecular Simulations with Numeric Atom-Centered Orbitals',
+            Computer Physics Communications 180, 2175-2196 (2009)
+
+          In addition, many other developments in FHI-aims are likely important for
+          your particular application. If so, please cite them. A partial list of references
+          is written at the end of this file. Thank you for giving credit to the authors
+          of these developments.
+
+          For general information about FHI-aims please find us at
+
+            https://fhi-aims.org
+
+          Online tutorials can be found at
+
+            https://fhi-aims-club.gitlab.io/tutorials/tutorials-overview/
+
+          For any questions about FHI-aims, please visit our slack channel at
+
+            https://fhi-aims.slack.com
+
+          and our main development and support site at
+
+            https://aims-git.rz-berlin.mpg.de .
+
+          The latter site, in particular, has a wiki to collect information, as well
+          as an issue tracker to log discussions, suggest improvements, and report issues
+          or bugs. https://aims-git.rz-berlin.mpg.de is also the main development site
+          of the project and all new and updated code versions can be obtained there.
+          Please send an email to aims-coordinators@fhi-berlin.mpg.de and we will add
+          you to these sites. They are for you and everyone is welcome there.
+
+------------------------------------------------------------
+
+
+
+  Date     :  20231117, Time     :  162517.679
+  Time zero on CPU 1             :   0.545906000000000E+00  s.
+  Internal wall clock time zero  :           469470317.679  s.
+
+  FHI-aims created a unique identifier for this run for later identification
+  aims_uuid : 0B26F196-9391-485D-A23A-5B99AB5588F2
+
+  Build configuration of the current instance of FHI-aims
+  -------------------------------------------------------
+  FHI-aims version      : 230612
+  Commit number         : 0c86b0d53
+  CMake host system     : Linux-3.10.0-1160.80.1.el7.x86_64
+  CMake version         : 3.24.2
+  Fortran compiler      : /apps/compilers/intel/2018.2/compilers_and_libraries_2018/linux/mpi/intel64/bin/mpif90 (Intel) version 18.0.2.20180210
+  Fortran compiler flags: -O3 -ip -fp-model precise
+  C compiler            : /apps/compilers/intel/2018.2/compilers_and_libraries_2018/linux/bin/intel64/icc (Intel) version 18.0.2.20180210
+  C compiler flags      : -O3 -ip -fp-model precise -std=gnu99
+  HIP compiler          :
+  HIP compiler flags    :
+  HIP GPU arch          :
+  ELPA2 kernel          : AVX2
+  Using MPI
+  Using ScaLAPACK
+  Using LibXC
+  Using i-PI
+  Using RLSY
+  Linking against: /apps/compilers/intel/2018.2/compilers_and_libraries_2018/linux/mkl/lib/intel64/libmkl_intel_lp64.so
+                   /apps/compilers/intel/2018.2/compilers_and_libraries_2018/linux/mkl/lib/intel64/libmkl_intel_thread.so
+                   /apps/compilers/intel/2018.2/compilers_and_libraries_2018/linux/mkl/lib/intel64/libmkl_core.so
+                   /apps/compilers/intel/2018.2/compilers_and_libraries_2018/linux/mkl/lib/intel64/libmkl_blacs_intelmpi_lp64.so
+                   /apps/compilers/intel/2018.2/compilers_and_libraries_2018/linux/mkl/lib/intel64/libmkl_scalapack_lp64.so
+                   /usr/lib64/libpthread.so
+
+  Using       40 parallel tasks.
+  Task        0 on host ccs0135 reporting.
+  Task        1 on host ccs0135 reporting.
+  Task        2 on host ccs0135 reporting.
+  Task        3 on host ccs0135 reporting.
+  Task        4 on host ccs0135 reporting.
+  Task        5 on host ccs0135 reporting.
+  Task        6 on host ccs0135 reporting.
+  Task        7 on host ccs0135 reporting.
+  Task        8 on host ccs0135 reporting.
+  Task        9 on host ccs0135 reporting.
+  Task       10 on host ccs0135 reporting.
+  Task       11 on host ccs0135 reporting.
+  Task       12 on host ccs0135 reporting.
+  Task       13 on host ccs0135 reporting.
+  Task       14 on host ccs0135 reporting.
+  Task       15 on host ccs0135 reporting.
+  Task       16 on host ccs0135 reporting.
+  Task       17 on host ccs0135 reporting.
+  Task       18 on host ccs0135 reporting.
+  Task       19 on host ccs0135 reporting.
+  Task       20 on host ccs0135 reporting.
+  Task       21 on host ccs0135 reporting.
+  Task       22 on host ccs0135 reporting.
+  Task       23 on host ccs0135 reporting.
+  Task       24 on host ccs0135 reporting.
+  Task       25 on host ccs0135 reporting.
+  Task       26 on host ccs0135 reporting.
+  Task       27 on host ccs0135 reporting.
+  Task       28 on host ccs0135 reporting.
+  Task       29 on host ccs0135 reporting.
+  Task       30 on host ccs0135 reporting.
+  Task       31 on host ccs0135 reporting.
+  Task       32 on host ccs0135 reporting.
+  Task       33 on host ccs0135 reporting.
+  Task       34 on host ccs0135 reporting.
+  Task       35 on host ccs0135 reporting.
+  Task       36 on host ccs0135 reporting.
+  Task       37 on host ccs0135 reporting.
+  Task       38 on host ccs0135 reporting.
+  Task       39 on host ccs0135 reporting.
+
+  Obtaining array dimensions for all initial allocations:
+  
+  -----------------------------------------------------------------------
+  Parsing control.in (first pass over file, find array dimensions only).
+  The contents of control.in will be repeated verbatim below
+  unless switched off by setting 'verbatim_writeout .false.' .
+  in the first line of control.in .
+  -----------------------------------------------------------------------
+  
+  #===============================================================================
+  # FHI-aims file: ./control.in
+  # Created using the Atomic Simulation Environment (ASE)
+  # Fri Nov 17 16:25:16 2023
+  #===============================================================================
+  xc_pre                             pbe 15
+  spin                               none
+  relativistic                       atomic_zora scalar
+  sc_accuracy_etot                   0.001
+  sc_accuracy_eev                    0.001
+  sc_accuracy_rho                    1e-06
+  sc_accuracy_forces                 0.0001
+  override_warning_libxc             true
+  xc                                 libxc MGGA_X_MBEEF+GGA_C_PBE_SOL
+  use_dipole_correction              .true.
+  k_grid                             3 3 1
+  use_pimd_wrapper                   ccs0135 30341
+  #===============================================================================
+  
+  ################################################################################
+  #
+  #  FHI-aims code project
+  #  VB, Fritz-Haber Institut, 2009
+  #
+  #  Suggested "light" defaults for O atom (to be pasted into control.in file)
+  #  Be sure to double-check any results obtained with these settings for post-processing,
+  #  e.g., with the "tight" defaults and larger basis sets.
+  #
+  ################################################################################
+    species        O
+  #     global species definitions
+      nucleus             8
+      mass                15.9994
+  #
+      l_hartree           4
+  #
+      cut_pot             3.5  1.5  1.0
+      basis_dep_cutoff    1e-4
+  #
+      radial_base         36 5.0
+      radial_multiplier   1
+       angular_grids specified
+        division   0.2659   50
+        division   0.4451  110
+        division   0.6052  194
+        division   0.7543  302
+  #      division   0.8014  434
+  #      division   0.8507  590
+  #      division   0.8762  770
+  #      division   0.9023  974
+  #      division   1.2339 1202
+  #      outer_grid 974
+        outer_grid 302
+  ################################################################################
+  #
+  #  Definition of "minimal" basis
+  #
+  ################################################################################
+  #     valence basis states
+      valence      2  s   2.
+      valence      2  p   4.
+  #     ion occupancy
+      ion_occ      2  s   1.
+      ion_occ      2  p   3.
+  ################################################################################
+  #
+  #  Suggested additional basis functions. For production calculations,
+  #  uncomment them one after another (the most important basis functions are
+  #  listed first).
+  #
+  #  Constructed for dimers: 1.0 A, 1.208 A, 1.5 A, 2.0 A, 3.0 A
+  #
+  ################################################################################
+  #  "First tier" - improvements: -699.05 meV to -159.38 meV
+       hydro 2 p 1.8
+       hydro 3 d 7.6
+       hydro 3 s 6.4
+  #  "Second tier" - improvements: -49.91 meV to -5.39 meV
+  #     hydro 4 f 11.6
+  #     hydro 3 p 6.2
+  #     hydro 3 d 5.6
+  #     hydro 5 g 17.6
+  #     hydro 1 s 0.75
+  #  "Third tier" - improvements: -2.83 meV to -0.50 meV
+  #     ionic 2 p auto
+  #     hydro 4 f 10.8
+  #     hydro 4 d 4.7
+  #     hydro 2 s 6.8
+  #  "Fourth tier" - improvements: -0.40 meV to -0.12 meV
+  #     hydro 3 p 5
+  #     hydro 3 s 3.3
+  #     hydro 5 g 15.6
+  #     hydro 4 f 17.6
+  #     hydro 4 d 14
+  # Further basis functions - -0.08 meV and below
+  #     hydro 3 s 2.1
+  #     hydro 4 d 11.6
+  #     hydro 3 p 16
+  #     hydro 2 s 17.2
+  ################################################################################
+  #
+  #  FHI-aims code project
+  #  VB, Fritz-Haber Institut, 2010
+  #
+  #  Suggested "light" defaults for Zn atom (to be pasted into control.in file)
+  #  Be sure to double-check any results obtained with these settings for post-processing,
+  #  e.g., with the "tight" defaults and larger basis sets.
+  #
+  ################################################################################
+    species        Zn
+  #     global species definitions
+      nucleus             30
+      mass                65.409
+  #
+      l_hartree           4
+  #
+      cut_pot             3.5          1.5  1.0
+      basis_dep_cutoff    1e-4
+  #
+      radial_base         53 5.0
+      radial_multiplier   1
+      angular_grids       specified
+        division   0.5114   50
+        division   0.8989  110
+        division   1.2692  194
+        division   1.6226  302
+  #      division   1.7854  434
+  #      division   2.0877  590
+  #      division   2.1298  770
+  #      division   2.1730  974
+  #      division   2.5659 1202
+        outer_grid  302
+  ################################################################################
+  #
+  #  Definition of "minimal" basis
+  #
+  ################################################################################
+  #     valence basis states
+      valence      4  s   2.
+      valence      3  p   6.
+      valence      3  d  10.
+  #     ion occupancy
+      ion_occ      4  s   1.
+      ion_occ      3  p   6.
+      ion_occ      3  d   9.
+  ################################################################################
+  #
+  #  Suggested additional basis functions. For production calculations,
+  #  uncomment them one after another (the most important basis functions are
+  #  listed first).
+  #
+  #  Constructed for dimers: 2.00 A, 2.30 A, 2.85 A, 3.50 A, 4.25 A
+  #
+  ################################################################################
+  #  "First tier" - improvements: -270.82 meV to -12.81 meV
+       hydro 2 p 1.7
+       hydro 3 s 2.9
+       hydro 4 p 5.4
+       hydro 4 f 7.8
+       hydro 3 d 4.5
+  #  "Second tier" - improvements: -3.35 meV to -0.82 meV
+  #     hydro 5 g 10.8
+  #     hydro 2 p 2.4
+  #     hydro 3 s 6.2
+  #     hydro 3 d 3
+  #  "Third tier" - improvements: -0.61 meV to -0.12 meV
+  #     hydro 6 h 15.2
+  #     ionic 4 p auto
+  #     hydro 5 s 12.8
+  #     hydro 4 f 5.4
+  #     hydro 4 d 7
+  #  Further functions - improvements: -0.16 meV and below
+  #     hydro 4 f 20
+  #     hydro 3 p 2.2
+  #     hydro 5 f 6.4
+  #     hydro 5 g 8
+  ################################################################################
+  #
+  #  FHI-aims code project
+  #  VB, Fritz-Haber Institut, 2009
+  #
+  #  Suggested "light" defaults for Pd atom (to be pasted into control.in file)
+  #  Be sure to double-check any results obtained with these settings for post-processing,
+  #  e.g., with the "tight" defaults and larger basis sets.
+  #
+  ################################################################################
+    species        Pd
+  #     global species definitions
+      nucleus             46
+      mass                106.42
+  #
+      l_hartree           4
+  #
+      cut_pot             3.5  1.5  1.0
+      basis_dep_cutoff    1e-4
+  #
+      radial_base         62 5.0
+      radial_multiplier   1
+      angular_grids specified
+        division   0.5211   50
+        division   0.9161  110
+        division   1.2296  194
+        division   1.5678  302
+  #      division   1.9785  434
+  #      division   2.0474  590
+  #      division   2.1195  770
+  #      division   2.1568  974
+  #      division   2.7392 1202
+  #       outer_grid  974
+         outer_grid  302
+  ################################################################################
+  #
+  #  Definition of "minimal" basis
+  #
+  ################################################################################
+  #     valence basis states
+      valence      5  s   1.
+      valence      4  p   6.
+      valence      4  d   9.
+  #     ion occupancy
+      ion_occ     5  s   0.
+      ion_occ     4  p   6.
+      ion_occ     4  d   8.
+  ################################################################################
+  #
+  #  Suggested additional basis functions. For production calculations,
+  #  uncomment them one after another (the most important basis functions are
+  #  listed first).
+  #
+  #  Constructed for dimers: 2.0 A, 2.275 A, 2.75 A, 3.75 A
+  #
+  ################################################################################
+  #  "First tier" - max. impr. -120.76  meV, min. impr. -5.71 meV
+       ionic 5 p auto
+       hydro 4 f 8
+  #     hydro 5 g 10
+       hydro 3 s 2.6
+       hydro 3 d 2.5
+  #  "Second tier" - max. impr. -5.00  meV, min. impr. -0.62 meV
+  #     hydro 5 f 17.2
+  #     hydro 6 h 14
+  #     hydro 4 d 4
+  #     hydro 5 f 7.6
+  #     hydro 3 p 3.3
+  #     hydro 4 s 9.4
+  #  "Third tier" - max. impr. -0.54  meV, min. impr. -0.14 meV
+  #     hydro 4 f 20
+  #     hydro 5 g 12.8
+  #     hydro 5 d 9.8
+  #     hydro 6 h 15.2
+  #     hydro 5 s 10
+  #     hydro 6 p 9.8
+  #  "Fourth tier" - max. impr. -0.15  meV, min. impr. -0.05 meV
+  #     hydro 5 f 9.2
+  #     hydro 2 s 5.6
+  #     hydro 5 f 43.2
+  #     hydro 5 d 13.2
+  #     hydro 5 g 14
+  #     hydro 4 p 4.7
+  
+  -----------------------------------------------------------------------
+  Completed first pass over input file control.in .
+  -----------------------------------------------------------------------
+  
+  
+  -----------------------------------------------------------------------
+  Parsing geometry.in (first pass over file, find array dimensions only).
+  The contents of geometry.in will be repeated verbatim below
+  unless switched off by setting 'verbatim_writeout .false.' .
+  in the first line of geometry.in .
+  -----------------------------------------------------------------------
+  
+  #=======================================================
+  # FHI-aims file: ./geometry.in
+  # Created using the Atomic Simulation Environment (ASE)
+  # Fri Nov 17 16:25:16 2023
+  #=======================================================
+  lattice_vector 16.3029000000000011 0.0000000000000000 0.0000000000000000
+  lattice_vector -8.1514499999999970 14.1187255553573259 0.0000000000000000
+  lattice_vector 0.0000000000000000 0.0000000000000000 26.2228999999999992
+  atom_frac 0.0666700000000000 0.9333300000000000 0.0380100000000000 O
+  atom_frac 0.2666700000000000 0.3333300000000000 0.0380100000000000 O
+  atom_frac 0.2666700000000000 0.5333300000000000 0.0380100000000000 O
+  atom_frac 0.2666700000000000 0.9333300000000000 0.0380100000000000 O
+  atom_frac 0.4666700000000000 0.1333300000000000 0.0380100000000000 O
+  atom_frac 0.4666700000000000 0.3333300000000000 0.0380100000000000 O
+  atom_frac 0.4666700000000000 0.5333300000000000 0.0380100000000000 O
+  atom_frac 0.4666700000000000 0.7333300000000000 0.0380100000000000 O
+  atom_frac 0.4666700000000000 0.9333300000000000 0.0380100000000000 O
+  atom_frac 0.6666700000000000 0.1333300000000000 0.0380100000000000 O
+  atom_frac 0.6666700000000000 0.5333300000000000 0.0380100000000000 O
+  atom_frac 0.6666700000000000 0.7333300000000000 0.0380100000000000 O
+  atom_frac 0.6666700000000000 0.9333300000000000 0.0380100000000000 O
+  atom_frac 0.8666700000000001 0.1333300000000000 0.0380100000000000 O
+  atom_frac 0.8666700000000001 0.3333300000000000 0.0380100000000000 O
+  atom_frac 0.8666700000000001 0.5333300000000000 0.0380100000000000 O
+  atom_frac 0.8666700000000001 0.7333300000000000 0.0380100000000000 O
+  atom_frac 0.8666700000000001 0.9333300000000000 0.0380100000000000 O
+  atom_frac 0.5333300000000002 0.4666699999999999 0.0619900000000000 Zn
+  atom_frac 0.3333300000000000 0.2666700000000000 0.0619900000000000 Zn
+  atom_frac 0.5333300000000002 0.6666700000000000 0.0619900000000000 Zn
+  atom_frac 0.1333300000000000 0.6666700000000000 0.0619900000000000 Zn
+  atom_frac 0.5333300000000002 0.8666699999999999 0.0619900000000000 Zn
+  atom_frac 0.3333300000000000 0.4666699999999999 0.0619900000000000 Zn
+  atom_frac 0.7333300000000000 0.0666700000000000 0.0619900000000000 Zn
+  atom_frac 0.1333300000000000 0.0666700000000000 0.0619900000000000 Zn
+  atom_frac 0.7333300000000000 0.2666700000000000 0.0619900000000000 Zn
+  atom_frac 0.3333300000000000 0.6666700000000000 0.0619900000000000 Zn
+  atom_frac 0.7333299999999999 0.4666699999999999 0.0619900000000000 Zn
+  atom_frac 0.1333299999999999 0.8666699999999999 0.0619900000000000 Zn
+  atom_frac 0.7333300000000000 0.6666700000000000 0.0619900000000000 Zn
+  atom_frac 0.3333300000000000 0.8666699999999999 0.0619900000000000 Zn
+  atom_frac 0.7333300000000000 0.8666699999999999 0.0619900000000000 Zn
+  atom_frac 0.1333300000000000 0.4666699999999999 0.0619900000000000 Zn
+  atom_frac 0.9333300000000000 0.0666700000000000 0.0619900000000000 Zn
+  atom_frac 0.5333300000000002 0.0666700000000000 0.0619900000000000 Zn
+  atom_frac 0.9333300000000000 0.2666700000000000 0.0619900000000000 Zn
+  atom_frac 0.3333300000000000 0.0666700000000000 0.0619900000000000 Zn
+  atom_frac 0.9333299999999999 0.4666699999999999 0.0619900000000000 Zn
+  atom_frac 0.5333300000000002 0.2666700000000000 0.0619900000000000 Zn
+  atom_frac 0.9333300000000000 0.6666700000000000 0.0619900000000000 Zn
+  atom_frac 0.1333300000000000 0.2666700000000000 0.0619900000000000 Zn
+  atom_frac 0.9333299999999999 0.8666699999999999 0.0619900000000000 Zn
+  atom_frac 0.7333300000000000 0.2666700000000000 0.1380100000000000 O
+  atom_frac 0.3333300000000000 0.4666699999999999 0.1380100000000000 O
+  atom_frac 0.5333300000000002 0.2666700000000000 0.1380100000000000 O
+  atom_frac 0.7333299999999999 0.4666699999999999 0.1380100000000000 O
+  atom_frac 0.1333300000000000 0.6666700000000000 0.1380100000000000 O
+  atom_frac 0.3333300000000000 0.0666700000000000 0.1380100000000000 O
+  atom_frac 0.7333300000000000 0.6666700000000000 0.1380100000000000 O
+  atom_frac 0.5333300000000002 0.4666699999999999 0.1380100000000000 O
+  atom_frac 0.3333300000000000 0.6666700000000000 0.1380100000000000 O
+  atom_frac 0.7333300000000000 0.8666699999999999 0.1380100000000000 O
+  atom_frac 0.1333300000000000 0.4666699999999999 0.1380100000000000 O
+  atom_frac 0.5333300000000002 0.6666700000000000 0.1380100000000000 O
+  atom_frac 0.9333300000000000 0.0666700000000000 0.1380100000000000 O
+  atom_frac 0.1333300000000000 0.0666700000000000 0.1380100000000000 O
+  atom_frac 0.3333300000000000 0.8666699999999999 0.1380100000000000 O
+  atom_frac 0.9333300000000000 0.2666700000000000 0.1380100000000000 O
+  atom_frac 0.5333300000000002 0.8666699999999999 0.1380100000000000 O
+  atom_frac 0.3333300000000000 0.2666700000000000 0.1380100000000000 O
+  atom_frac 0.9333299999999999 0.4666699999999999 0.1380100000000000 O
+  atom_frac 0.1333299999999999 0.8666699999999999 0.1380100000000000 O
+  atom_frac 0.7333300000000000 0.0666700000000000 0.1380100000000000 O
+  atom_frac 0.9333300000000000 0.6666700000000000 0.1380100000000000 O
+  atom_frac 0.5333300000000002 0.0666700000000000 0.1380100000000000 O
+  atom_frac 0.1333300000000000 0.2666700000000000 0.1380100000000000 O
+  atom_frac 0.9333299999999999 0.8666699999999999 0.1380100000000000 O
+  atom_frac 0.6666700000000000 0.7333300000000000 0.1619900000000000 Zn
+  atom_frac 0.4666700000000000 0.1333300000000000 0.1619900000000000 Zn
+  atom_frac 0.0666700000000000 0.9333300000000000 0.1619900000000000 Zn
+  atom_frac 0.4666700000000000 0.9333300000000000 0.1619900000000000 Zn
+  atom_frac 0.6666700000000000 0.9333300000000000 0.1619900000000000 Zn
+  atom_frac 0.0666700000000000 0.7333300000000000 0.1619900000000000 Zn
+  atom_frac 0.2666700000000000 0.7333300000000000 0.1619900000000000 Zn
+  atom_frac 0.4666700000000000 0.3333300000000000 0.1619900000000000 Zn
+  atom_frac 0.8666700000000001 0.1333300000000000 0.1619900000000000 Zn
+  atom_frac 0.6666700000000000 0.1333300000000000 0.1619900000000000 Zn
+  atom_frac 0.2666700000000000 0.3333300000000000 0.1619900000000000 Zn
+  atom_frac 0.0666700000000000 0.3333300000000000 0.1619900000000000 Zn
+  atom_frac 0.8666700000000001 0.3333300000000000 0.1619900000000000 Zn
+  atom_frac 0.0666700000000000 0.1333300000000000 0.1619900000000000 Zn
+  atom_frac 0.6666700000000000 0.3333300000000000 0.1619900000000000 Zn
+  atom_frac 0.4666700000000000 0.5333300000000000 0.1619900000000000 Zn
+  atom_frac 0.8666700000000001 0.5333300000000000 0.1619900000000000 Zn
+  atom_frac 0.2666700000000000 0.9333300000000000 0.1619900000000000 Zn
+  atom_frac 0.2666700000000000 0.1333300000000000 0.1619900000000000 Zn
+  atom_frac 0.6666700000000000 0.5333300000000000 0.1619900000000000 Zn
+  atom_frac 0.8666700000000001 0.7333300000000000 0.1619900000000000 Zn
+  atom_frac 0.2666700000000000 0.5333300000000000 0.1619900000000000 Zn
+  atom_frac 0.4666700000000000 0.7333300000000000 0.1619900000000000 Zn
+  atom_frac 0.0666700000000000 0.5333300000000000 0.1619900000000000 Zn
+  atom_frac 0.8666700000000001 0.9333300000000000 0.1619900000000000 Zn
+  atom_frac 0.4666700000000000 0.5333300000000000 0.2380100000000000 O
+  atom_frac 0.2666700000000000 0.3333300000000000 0.2380100000000000 O
+  atom_frac 0.0666700000000000 0.7333300000000000 0.2380100000000000 O
+  atom_frac 0.4666700000000000 0.1333300000000000 0.2380100000000000 O
+  atom_frac 0.8666700000000001 0.1333300000000000 0.2380100000000000 O
+  atom_frac 0.6666700000000000 0.3333300000000000 0.2380100000000000 O
+  atom_frac 0.2666700000000000 0.7333300000000000 0.2380100000000000 O
+  atom_frac 0.4666700000000000 0.7333300000000000 0.2380100000000000 O
+  atom_frac 0.2666700000000000 0.1333300000000000 0.2380100000000000 O
+  atom_frac 0.8666700000000001 0.3333300000000000 0.2380100000000000 O
+  atom_frac 0.0666700000000000 0.9333300000000000 0.2380100000000000 O
+  atom_frac 0.6666700000000000 0.5333300000000000 0.2380100000000000 O
+  atom_frac 0.0666700000000000 0.3333300000000000 0.2380100000000000 O
+  atom_frac 0.4666700000000000 0.3333300000000000 0.2380100000000000 O
+  atom_frac 0.8666700000000001 0.5333300000000000 0.2380100000000000 O
+  atom_frac 0.4666700000000000 0.9333300000000000 0.2380100000000000 O
+  atom_frac 0.2666700000000000 0.5333300000000000 0.2380100000000000 O
+  atom_frac 0.6666700000000000 0.7333300000000000 0.2380100000000000 O
+  atom_frac 0.2666700000000000 0.9333300000000000 0.2380100000000000 O
+  atom_frac 0.8666700000000001 0.7333300000000000 0.2380100000000000 O
+  atom_frac 0.0666700000000000 0.5333300000000000 0.2380100000000000 O
+  atom_frac 0.0666700000000000 0.1333300000000000 0.2380100000000000 O
+  atom_frac 0.6666700000000000 0.1333300000000000 0.2380100000000000 O
+  atom_frac 0.6666700000000000 0.9333300000000000 0.2380100000000000 O
+  atom_frac 0.8666700000000001 0.9333300000000000 0.2380100000000000 O
+  atom_frac 0.9333300000000000 0.0666700000000000 0.2619900000000000 Zn
+  atom_frac 0.1333300000000000 0.0666700000000000 0.2619900000000000 Zn
+  atom_frac 0.5333300000000002 0.8666699999999999 0.2619900000000000 Zn
+  atom_frac 0.7333299999999999 0.4666699999999999 0.2619900000000000 Zn
+  atom_frac 0.3333300000000000 0.6666700000000000 0.2619900000000000 Zn
+  atom_frac 0.1333300000000000 0.6666700000000000 0.2619900000000000 Zn
+  atom_frac 0.9333300000000000 0.2666700000000000 0.2619900000000000 Zn
+  atom_frac 0.5333300000000002 0.4666699999999999 0.2619900000000000 Zn
+  atom_frac 0.5333300000000002 0.0666700000000000 0.2619900000000000 Zn
+  atom_frac 0.1333300000000000 0.4666699999999999 0.2619900000000000 Zn
+  atom_frac 0.7333300000000000 0.6666700000000000 0.2619900000000000 Zn
+  atom_frac 0.7333300000000000 0.0666700000000000 0.2619900000000000 Zn
+  atom_frac 0.9333299999999999 0.4666699999999999 0.2619900000000000 Zn
+  atom_frac 0.3333300000000000 0.4666699999999999 0.2619900000000000 Zn
+  atom_frac 0.1333299999999999 0.8666699999999999 0.2619900000000000 Zn
+  atom_frac 0.3333300000000000 0.2666700000000000 0.2619900000000000 Zn
+  atom_frac 0.5333300000000002 0.6666700000000000 0.2619900000000000 Zn
+  atom_frac 0.7333300000000000 0.8666699999999999 0.2619900000000000 Zn
+  atom_frac 0.9333300000000000 0.6666700000000000 0.2619900000000000 Zn
+  atom_frac 0.3333300000000000 0.8666699999999999 0.2619900000000000 Zn
+  atom_frac 0.7333300000000000 0.2666700000000000 0.2619900000000000 Zn
+  atom_frac 0.5333300000000002 0.2666700000000000 0.2619900000000000 Zn
+  atom_frac 0.3333300000000000 0.0666700000000000 0.2619900000000000 Zn
+  atom_frac 0.1333300000000000 0.2666700000000000 0.2619900000000000 Zn
+  atom_frac 0.9333299999999999 0.8666699999999999 0.2619900000000000 Zn
+  atom_frac 0.7333300000000000 0.0666700000000000 0.3380100000000000 O
+  atom_frac 0.5333300000000002 0.2666700000000000 0.3380100000000000 O
+  atom_frac 0.5333300000000002 0.6666700000000000 0.3380100000000000 O
+  atom_frac 0.9333300000000000 0.2666700000000000 0.3380100000000000 O
+  atom_frac 0.7333300000000000 0.6666700000000000 0.3380100000000000 O
+  atom_frac 0.3333300000000000 0.6666700000000000 0.3380100000000000 O
+  atom_frac 0.3333300000000000 0.0666700000000000 0.3380100000000000 O
+  atom_frac 0.3333300000000000 0.4666699999999999 0.3380100000000000 O
+  atom_frac 0.3333300000000000 0.2666700000000000 0.3380100000000000 O
+  atom_frac 0.7333300000000000 0.2666700000000000 0.3380100000000000 O
+  atom_frac 0.9333299999999999 0.4666699999999999 0.3380100000000000 O
+  atom_frac 0.5333300000000002 0.0666700000000000 0.3380100000000000 O
+  atom_frac 0.7333300000000000 0.8666699999999999 0.3380100000000000 O
+  atom_frac 0.1333300000000000 0.6666700000000000 0.3380100000000000 O
+  atom_frac 0.5333300000000002 0.8666699999999999 0.3380100000000000 O
+  atom_frac 0.5333300000000002 0.4666699999999999 0.3380100000000000 O
+  atom_frac 0.1333300000000000 0.0666700000000000 0.3380100000000000 O
+  atom_frac 0.9333300000000000 0.6666700000000000 0.3380100000000000 O
+  atom_frac 0.1333300000000000 0.2666700000000000 0.3380100000000000 O
+  atom_frac 0.7333299999999999 0.4666699999999999 0.3380100000000000 O
+  atom_frac 0.9333300000000000 0.0666700000000000 0.3380100000000000 O
+  atom_frac 0.3333300000000000 0.8666699999999999 0.3380100000000000 O
+  atom_frac 0.1333299999999999 0.8666699999999999 0.3380100000000000 O
+  atom_frac 0.1333300000000000 0.4666699999999999 0.3380100000000000 O
+  atom_frac 0.9333299999999999 0.8666699999999999 0.3380100000000000 O
+  atom_frac 0.8666700000000001 0.3333300000000000 0.3619900000000000 Zn
+  atom_frac 0.6666700000000000 0.3333300000000000 0.3619900000000000 Zn
+  atom_frac 0.4666700000000000 0.9333300000000000 0.3619900000000000 Zn
+  atom_frac 0.2666700000000000 0.7333300000000000 0.3619900000000000 Zn
+  atom_frac 0.2666700000000000 0.5333300000000000 0.3619900000000000 Zn
+  atom_frac 0.0666700000000000 0.3333300000000000 0.3619900000000000 Zn
+  atom_frac 0.6666700000000000 0.9333300000000000 0.3619900000000000 Zn
+  atom_frac 0.4666700000000000 0.3333300000000000 0.3619900000000000 Zn
+  atom_frac 0.8666700000000001 0.5333300000000000 0.3619900000000000 Zn
+  atom_frac 0.0666700000000000 0.9333300000000000 0.3619900000000000 Zn
+  atom_frac 0.0666700000000000 0.7333300000000000 0.3619900000000000 Zn
+  atom_frac 0.6666700000000000 0.5333300000000000 0.3619900000000000 Zn
+  atom_frac 0.4666700000000000 0.7333300000000000 0.3619900000000000 Zn
+  atom_frac 0.6666700000000000 0.1333300000000000 0.3619900000000000 Zn
+  atom_frac 0.0666700000000000 0.1333300000000000 0.3619900000000000 Zn
+  atom_frac 0.8666700000000001 0.1333300000000000 0.3619900000000000 Zn
+  atom_frac 0.8666700000000001 0.7333300000000000 0.3619900000000000 Zn
+  atom_frac 0.4666700000000000 0.1333300000000000 0.3619900000000000 Zn
+  atom_frac 0.2666700000000000 0.1333300000000000 0.3619900000000000 Zn
+  atom_frac 0.0666700000000000 0.5333300000000000 0.3619900000000000 Zn
+  atom_frac 0.2666700000000000 0.9333300000000000 0.3619900000000000 Zn
+  atom_frac 0.6666700000000000 0.7333300000000000 0.3619900000000000 Zn
+  atom_frac 0.4666700000000000 0.5333300000000000 0.3619900000000000 Zn
+  atom_frac 0.2666700000000000 0.3333300000000000 0.3619900000000000 Zn
+  atom_frac 0.8666700000000001 0.9333300000000000 0.3619900000000000 Zn
+  atom_frac 0.2666700000000000 0.7333300000000000 0.4380100000000000 O
+  atom_frac 0.6666700000000000 0.9333300000000000 0.4380100000000000 O
+  atom_frac 0.6666700000000000 0.1333300000000000 0.4380100000000000 O
+  atom_frac 0.6666700000000000 0.5333300000000000 0.4380100000000000 O
+  atom_frac 0.0666700000000000 0.1333300000000000 0.4380100000000000 O
+  atom_frac 0.0666700000000000 0.3333300000000000 0.4380100000000000 O
+  atom_frac 0.8666700000000001 0.5333300000000000 0.4380100000000000 O
+  atom_frac 0.4666700000000000 0.5333300000000000 0.4380100000000000 O
+  atom_frac 0.2666700000000000 0.1333300000000000 0.4380100000000000 O
+  atom_frac 0.0666700000000000 0.7333300000000000 0.4380100000000000 O
+  atom_frac 0.0666700000000000 0.9333300000000000 0.4380100000000000 O
+  atom_frac 0.8666700000000001 0.1333300000000000 0.4380100000000000 O
+  atom_frac 0.4666700000000000 0.9333300000000000 0.4380100000000000 O
+  atom_frac 0.4666700000000000 0.3333300000000000 0.4380100000000000 O
+  atom_frac 0.6666700000000000 0.7333300000000000 0.4380100000000000 O
+  atom_frac 0.8666700000000001 0.7333300000000000 0.4380100000000000 O
+  atom_frac 0.6666700000000000 0.3333300000000000 0.4380100000000000 O
+  atom_frac 0.2666700000000000 0.3333300000000000 0.4380100000000000 O
+  atom_frac 0.0666700000000000 0.5333300000000000 0.4380100000000000 O
+  atom_frac 0.4666700000000000 0.1333300000000000 0.4380100000000000 O
+  atom_frac 0.2666700000000000 0.5333300000000000 0.4380100000000000 O
+  atom_frac 0.8666700000000001 0.3333300000000000 0.4380100000000000 O
+  atom_frac 0.4666700000000000 0.7333300000000000 0.4380100000000000 O
+  atom_frac 0.2666700000000000 0.9333300000000000 0.4380100000000000 O
+  atom_frac 0.8666700000000001 0.9333300000000000 0.4380100000000000 O
+  atom_frac 0.9333299999999999 0.4666699999999999 0.4619900000000000 Zn
+  atom_frac 0.1333300000000000 0.4666699999999999 0.4619900000000000 Zn
+  atom_frac 0.9333300000000000 0.0666700000000000 0.4619900000000000 Zn
+  atom_frac 0.5333300000000002 0.6666700000000000 0.4619900000000000 Zn
+  atom_frac 0.3333300000000000 0.2666700000000000 0.4619900000000000 Zn
+  atom_frac 0.1333300000000000 0.6666700000000000 0.4619900000000000 Zn
+  atom_frac 0.1333300000000000 0.2666700000000000 0.4619900000000000 Zn
+  atom_frac 0.5333300000000002 0.4666699999999999 0.4619900000000000 Zn
+  atom_frac 0.9333300000000000 0.6666700000000000 0.4619900000000000 Zn
+  atom_frac 0.7333300000000000 0.0666700000000000 0.4619900000000000 Zn
+  atom_frac 0.3333300000000000 0.0666700000000000 0.4619900000000000 Zn
+  atom_frac 0.9333300000000000 0.2666700000000000 0.4619900000000000 Zn
+  atom_frac 0.7333299999999999 0.4666699999999999 0.4619900000000000 Zn
+  atom_frac 0.7333300000000000 0.8666699999999999 0.4619900000000000 Zn
+  atom_frac 0.5333300000000002 0.2666700000000000 0.4619900000000000 Zn
+  atom_frac 0.3333300000000000 0.6666700000000000 0.4619900000000000 Zn
+  atom_frac 0.5333300000000002 0.0666700000000000 0.4619900000000000 Zn
+  atom_frac 0.9333299999999999 0.8666699999999999 0.4619900000000000 Zn
+  atom_frac 0.3767540973798200 0.3921001017209779 0.5420834461482140 Pd
+  atom_frac 0.3767540973798200 0.3921001017209779 0.5992853574547438 Pd
+  atom_frac 0.4562900490612181 0.3125641500395797 0.5992853574547438 Pd
+  atom_frac 0.4562900490612181 0.5511720050837743 0.5992853574547438 Pd
+  atom_frac 0.6153619524240144 0.3921001017209779 0.5420834461482140 Pd
+  atom_frac 0.6153619524240144 0.3921001017209779 0.5992853574547438 Pd
+  atom_frac 0.5358260007426162 0.4716360534023760 0.5420834461482140 Pd
+  atom_frac 0.6153619524240143 0.6307079567651724 0.5420834461482140 Pd
+  atom_frac 0.6153619524240143 0.6307079567651724 0.5992853574547438 Pd
+  atom_frac 0.6948979041054125 0.5511720050837743 0.5992853574547438 Pd
+  
+  -----------------------------------------------------------------------
+  Completed first pass over input file geometry.in .
+  -----------------------------------------------------------------------
+  
+
+  Basic array size parameters:
+  | Number of species                 :        3
+  | Number of atoms                   :      246
+  | Number of lattice vectors         :        3
+  | Max. basis fn. angular momentum   :        3
+  | Max. atomic/ionic basis occupied n:        5
+  | Max. number of basis fn. types    :        3
+  | Max. radial fns per species/type  :       10
+  | Max. logarithmic grid size        :     1444
+  | Max. radial integration grid size :       62
+  | Max. angular integration grid size:      302
+  | Max. angular grid division number :        8
+  | Radial grid for Hartree potential :     1444
+  | Number of spin channels           :        1
+
+------------------------------------------------------------
+          Reading file control.in.
+------------------------------------------------------------
+  Pre-SCF XC: Using PBE gradient-corrected functionals.
+  Spin treatment: No spin polarisation.
+  Scalar relativistic treatment of kinetic energy: on-site free-atom approximation to ZORA.
+  Convergence accuracy of total energy:  0.1000E-02
+  Convergence accuracy of sum of eigenvalues:  0.1000E-02
+  Convergence accuracy of self-consistent charge density:  0.1000E-05
+  Convergence accuracy of forces:  0.1000E-03
+  XC: Using LibXC. Please refer to LibXC output for further details.
+  Using libxc - Initializing
+  Libxc version: 6.1.0
+
+
+  ** PLEASE ** be careful using LibXC. Whilst most of the LDA, GGA and MGGA functionals,
+  and hybrid variations therein, should be stable (though we always recommend testing!),
+  there are several fancy functionals with e.g. range-separation, like HSE03/HSE06/LC-PBEh,
+  and also MGGA functionals that depend on the laplacian of the density, like BR89,
+  that are not fully implemented due to the infrastrucutre for these functionals being incomplete or non-generic.
+  If you want to use these functionals please contact the development team and we will work on them with you!
+
+  You have selected libxc functional MGGA_X_MBEEF (249)
+    - Description: mBEEF exchange
+    - Type: MGGA(Exchange)
+    - Reference to Literature:
+      [1] J. Wellendorff, K. T. Lundgaard, K. W. Jacobsen, and T. Bligaard.,  J. Chem. Phys. 140, 144107 (2014)
+
+  You have selected libxc functional GGA_C_PBE_SOL (133)
+    - Description: Perdew, Burke & Ernzerhof SOL
+    - Type: GGA(Correlation)
+    - Reference to Literature:
+      [1] J. P. Perdew, A. Ruzsinszky, G. I. Csonka, O. A. Vydrov, G. E. Scuseria, L. A. Constantin, X. Zhou, and K. Burke.,  Phys. Rev. Lett. 100, 136406 (2008)
+
+  Switching on meta-ggas
+  Using dipole correction.
+  Found k-point grid:         3         3         1
+  Using external wrapper (i-PI) for performing (path integral) molecular dynamics
+  **Attention: initial geometry.in file will be ignored!
+ 
+  Reading configuration options for species O                   .
+  | Found nuclear charge :   8.0000
+  | Found atomic mass :    15.9994000000000      amu
+  | Found l_max for Hartree potential  :   4
+  | Found cutoff potl. onset [A], width [A], scale factor :    3.50000    1.50000    1.00000
+  | Threshold for basis-dependent cutoff potential is   0.100000E-03
+  | Found data for basic radial integration grid :    36 points, outermost radius =    5.000 A
+  | Found multiplier for basic radial grid :   1
+  | Found angular grid specification: user-specified.
+  | Specified grid contains     5 separate shells.
+  | Check grid settings after all constraints further below.
+  | Found free-atom valence shell :  2 s   2.000
+  | Found free-atom valence shell :  2 p   4.000
+  | Found free-ion valence shell :  2 s   1.000
+  | Found free-ion valence shell :  2 p   3.000
+  | Found hydrogenic basis function :  2 p   1.800
+  | Found hydrogenic basis function :  3 d   7.600
+  | Found hydrogenic basis function :  3 s   6.400
+  Species O                   : Missing cutoff potential type.
+  Defaulting to exp(1/x)/(1-x)^2 type cutoff potential.
+  Species O : No 'logarithmic' tag. Using default grid for free atom:
+  | Default logarithmic grid data [bohr] : 0.1000E-03 0.1000E+03 0.1012E+01
+  Species O : On-site basis accuracy parameter (for Gram-Schmidt orthonormalisation) not specified.
+  Using default value basis_acc =  0.1000000E-03.
+  Species O                   : Using default innermost maximum threshold i_radial=  2 for radial functions.
+  Species O                   : Default cutoff onset for free atom density etc. : 0.35000000E+01 AA.
+  Species O                   : Basic radial grid will be enhanced according to radial_multiplier =   1, to contain    36 grid points.
+ 
+  Reading configuration options for species Zn                  .
+  | Found nuclear charge :  30.0000
+  | Found atomic mass :    65.4090000000000      amu
+  | Found l_max for Hartree potential  :   4
+  | Found cutoff potl. onset [A], width [A], scale factor :    3.50000    1.50000    1.00000
+  | Threshold for basis-dependent cutoff potential is   0.100000E-03
+  | Found data for basic radial integration grid :    53 points, outermost radius =    5.000 A
+  | Found multiplier for basic radial grid :   1
+  | Found angular grid specification: user-specified.
+  | Specified grid contains     5 separate shells.
+  | Check grid settings after all constraints further below.
+  | Found free-atom valence shell :  4 s   2.000
+  | Found free-atom valence shell :  3 p   6.000
+  | Found free-atom valence shell :  3 d  10.000
+  | Found free-ion valence shell :  4 s   1.000
+  | Found free-ion valence shell :  3 p   6.000
+  | Found free-ion valence shell :  3 d   9.000
+  | Found hydrogenic basis function :  2 p   1.700
+  | Found hydrogenic basis function :  3 s   2.900
+  | Found hydrogenic basis function :  4 p   5.400
+  | Found hydrogenic basis function :  4 f   7.800
+  | Found hydrogenic basis function :  3 d   4.500
+  Species Zn                  : Missing cutoff potential type.
+  Defaulting to exp(1/x)/(1-x)^2 type cutoff potential.
+  Species Zn: No 'logarithmic' tag. Using default grid for free atom:
+  | Default logarithmic grid data [bohr] : 0.1000E-03 0.1000E+03 0.1012E+01
+  Species Zn: On-site basis accuracy parameter (for Gram-Schmidt orthonormalisation) not specified.
+  Using default value basis_acc =  0.1000000E-03.
+  Species Zn                  : Using default innermost maximum threshold i_radial=  2 for radial functions.
+  Species Zn                  : Default cutoff onset for free atom density etc. : 0.35000000E+01 AA.
+  Species Zn                  : Basic radial grid will be enhanced according to radial_multiplier =   1, to contain    53 grid points.
+ 
+  Reading configuration options for species Pd                  .
+  | Found nuclear charge :  46.0000
+  | Found atomic mass :    106.420000000000      amu
+  | Found l_max for Hartree potential  :   4
+  | Found cutoff potl. onset [A], width [A], scale factor :    3.50000    1.50000    1.00000
+  | Threshold for basis-dependent cutoff potential is   0.100000E-03
+  | Found data for basic radial integration grid :    62 points, outermost radius =    5.000 A
+  | Found multiplier for basic radial grid :   1
+  | Found angular grid specification: user-specified.
+  | Specified grid contains     5 separate shells.
+  | Check grid settings after all constraints further below.
+  | Found free-atom valence shell :  5 s   1.000
+  | Found free-atom valence shell :  4 p   6.000
+  | Found free-atom valence shell :  4 d   9.000
+  | Found free-ion valence shell :  5 s   0.000
+  | Found free-ion valence shell :  4 p   6.000
+  | Found free-ion valence shell :  4 d   8.000
+  | Found ionic basis function :  5 p , default cutoff radius.
+  | Found hydrogenic basis function :  4 f   8.000
+  | Found hydrogenic basis function :  3 s   2.600
+  | Found hydrogenic basis function :  3 d   2.500
+  Species Pd                  : Missing cutoff potential type.
+  Defaulting to exp(1/x)/(1-x)^2 type cutoff potential.
+  Species Pd: No 'logarithmic' tag. Using default grid for free atom:
+  | Default logarithmic grid data [bohr] : 0.1000E-03 0.1000E+03 0.1012E+01
+  | Will include ionic basis functions of  2.0-fold positive Pd                   ion.
+  Species Pd: On-site basis accuracy parameter (for Gram-Schmidt orthonormalisation) not specified.
+  Using default value basis_acc =  0.1000000E-03.
+  Species Pd                  : Using default innermost maximum threshold i_radial=  2 for radial functions.
+  Species Pd                  : Default cutoff onset for free atom density etc. : 0.35000000E+01 AA.
+  Species Pd                  : Basic radial grid will be enhanced according to radial_multiplier =   1, to contain    62 grid points.
+ 
+  Finished reading input file 'control.in'.
+ 
+------------------------------------------------------------
+
+
+------------------------------------------------------------
+          Reading geometry description geometry.in.
+------------------------------------------------------------
+  | The smallest distance between any two atoms is         1.50000000 AA.
+  | The first atom of this pair is atom number                    241 .
+  | The second atom of this pair is atom number                   242 .
+  | Wigner-Seitz cell of the first atom image           0     0     0 .
+  | (The Wigner-Seitz cell of the second atom is 0 0 0  by definition.)
+
+  Symmetry information by spglib:
+  | Precision set to  0.1E-04
+  | Number of Operations  : 1
+  | Space group           : 1
+  | International         : P1 7
+  | Schoenflies           : C1^1
+  Input structure read successfully.
+  The structure contains      246 atoms,  and a total of       4944.000 electrons.
+
+  Input geometry:
+  | Unit cell:
+  |       16.30290000        0.00000000        0.00000000
+  |       -8.15145000       14.11872556        0.00000000
+  |        0.00000000        0.00000000       26.22290000
+  | Atomic structure:
+  |       Atom                x [A]            y [A]            z [A]
+  |    1: Species O            -6.52107849       13.17743012        0.99673243
+  |    2: Species O             1.63037151        4.70619479        0.99673243
+  |    3: Species O             0.00008151        7.52993990        0.99673243
+  |    4: Species O            -3.26049849       13.17743012        0.99673243
+  |    5: Species O             6.52124151        1.88244968        0.99673243
+  |    6: Species O             4.89095151        4.70619479        0.99673243
+  |    7: Species O             3.26066151        7.52993990        0.99673243
+  |    8: Species O             1.63037151       10.35368501        0.99673243
+  |    9: Species O             0.00008151       13.17743012        0.99673243
+  |   10: Species O             9.78182151        1.88244968        0.99673243
+  |   11: Species O             6.52124151        7.52993990        0.99673243
+  |   12: Species O             4.89095151       10.35368501        0.99673243
+  |   13: Species O             3.26066151       13.17743012        0.99673243
+  |   14: Species O            13.04240151        1.88244968        0.99673243
+  |   15: Species O            11.41211151        4.70619479        0.99673243
+  |   16: Species O             9.78182151        7.52993990        0.99673243
+  |   17: Species O             8.15153151       10.35368501        0.99673243
+  |   18: Species O             6.52124151       13.17743012        0.99673243
+  |   19: Species Zn            4.89078849        6.58878565        1.62555757
+  |   20: Species Zn            3.26049849        3.76504054        1.62555757
+  |   21: Species Zn            3.26049849        9.41253077        1.62555757
+  |   22: Species Zn           -3.26066151        9.41253077        1.62555757
+  |   23: Species Zn            1.63020849       12.23627588        1.62555757
+  |   24: Species Zn            1.63020849        6.58878565        1.62555757
+  |   25: Species Zn           11.41194849        0.94129543        1.62555757
+  |   26: Species Zn            1.63020849        0.94129543        1.62555757
+  |   27: Species Zn            9.78165849        3.76504054        1.62555757
+  |   28: Species Zn           -0.00008151        9.41253077        1.62555757
+  |   29: Species Zn            8.15136849        6.58878565        1.62555757
+  |   30: Species Zn           -4.89095151       12.23627588        1.62555757
+  |   31: Species Zn            6.52107849        9.41253077        1.62555757
+  |   32: Species Zn           -1.63037151       12.23627588        1.62555757
+  |   33: Species Zn            4.89078849       12.23627588        1.62555757
+  |   34: Species Zn           -1.63037151        6.58878565        1.62555757
+  |   35: Species Zn           14.67252849        0.94129543        1.62555757
+  |   36: Species Zn            8.15136849        0.94129543        1.62555757
+  |   37: Species Zn           13.04223849        3.76504054        1.62555757
+  |   38: Species Zn            4.89078849        0.94129543        1.62555757
+  |   39: Species Zn           11.41194849        6.58878565        1.62555757
+  |   40: Species Zn            6.52107849        3.76504054        1.62555757
+  |   41: Species Zn            9.78165849        9.41253077        1.62555757
+  |   42: Species Zn           -0.00008151        3.76504054        1.62555757
+  |   43: Species Zn            8.15136849       12.23627588        1.62555757
+  |   44: Species O             9.78165849        3.76504054        3.61902243
+  |   45: Species O             1.63020849        6.58878565        3.61902243
+  |   46: Species O             6.52107849        3.76504054        3.61902243
+  |   47: Species O             8.15136849        6.58878565        3.61902243
+  |   48: Species O            -3.26066151        9.41253077        3.61902243
+  |   49: Species O             4.89078849        0.94129543        3.61902243
+  |   50: Species O             6.52107849        9.41253077        3.61902243
+  |   51: Species O             4.89078849        6.58878565        3.61902243
+  |   52: Species O            -0.00008151        9.41253077        3.61902243
+  |   53: Species O             4.89078849       12.23627588        3.61902243
+  |   54: Species O            -1.63037151        6.58878565        3.61902243
+  |   55: Species O             3.26049849        9.41253077        3.61902243
+  |   56: Species O            14.67252849        0.94129543        3.61902243
+  |   57: Species O             1.63020849        0.94129543        3.61902243
+  |   58: Species O            -1.63037151       12.23627588        3.61902243
+  |   59: Species O            13.04223849        3.76504054        3.61902243
+  |   60: Species O             1.63020849       12.23627588        3.61902243
+  |   61: Species O             3.26049849        3.76504054        3.61902243
+  |   62: Species O            11.41194849        6.58878565        3.61902243
+  |   63: Species O            -4.89095151       12.23627588        3.61902243
+  |   64: Species O            11.41194849        0.94129543        3.61902243
+  |   65: Species O             9.78165849        9.41253077        3.61902243
+  |   66: Species O             8.15136849        0.94129543        3.61902243
+  |   67: Species O            -0.00008151        3.76504054        3.61902243
+  |   68: Species O             8.15136849       12.23627588        3.61902243
+  |   69: Species Zn            4.89095151       10.35368501        4.24784757
+  |   70: Species Zn            6.52124151        1.88244968        4.24784757
+  |   71: Species Zn           -6.52107849       13.17743012        4.24784757
+  |   72: Species Zn            0.00008151       13.17743012        4.24784757
+  |   73: Species Zn            3.26066151       13.17743012        4.24784757
+  |   74: Species Zn           -4.89078849       10.35368501        4.24784757
+  |   75: Species Zn           -1.63020849       10.35368501        4.24784757
+  |   76: Species Zn            4.89095151        4.70619479        4.24784757
+  |   77: Species Zn           13.04240151        1.88244968        4.24784757
+  |   78: Species Zn            9.78182151        1.88244968        4.24784757
+  |   79: Species Zn            1.63037151        4.70619479        4.24784757
+  |   80: Species Zn           -1.63020849        4.70619479        4.24784757
+  |   81: Species Zn           11.41211151        4.70619479        4.24784757
+  |   82: Species Zn            0.00008151        1.88244968        4.24784757
+  |   83: Species Zn            8.15153151        4.70619479        4.24784757
+  |   84: Species Zn            3.26066151        7.52993990        4.24784757
+  |   85: Species Zn            9.78182151        7.52993990        4.24784757
+  |   86: Species Zn           -3.26049849       13.17743012        4.24784757
+  |   87: Species Zn            3.26066151        1.88244968        4.24784757
+  |   88: Species Zn            6.52124151        7.52993990        4.24784757
+  |   89: Species Zn            8.15153151       10.35368501        4.24784757
+  |   90: Species Zn            0.00008151        7.52993990        4.24784757
+  |   91: Species Zn            1.63037151       10.35368501        4.24784757
+  |   92: Species Zn           -3.26049849        7.52993990        4.24784757
+  |   93: Species Zn            6.52124151       13.17743012        4.24784757
+  |   94: Species O             3.26066151        7.52993990        6.24131243
+  |   95: Species O             1.63037151        4.70619479        6.24131243
+  |   96: Species O            -4.89078849       10.35368501        6.24131243
+  |   97: Species O             6.52124151        1.88244968        6.24131243
+  |   98: Species O            13.04240151        1.88244968        6.24131243
+  |   99: Species O             8.15153151        4.70619479        6.24131243
+  |  100: Species O            -1.63020849       10.35368501        6.24131243
+  |  101: Species O             1.63037151       10.35368501        6.24131243
+  |  102: Species O             3.26066151        1.88244968        6.24131243
+  |  103: Species O            11.41211151        4.70619479        6.24131243
+  |  104: Species O            -6.52107849       13.17743012        6.24131243
+  |  105: Species O             6.52124151        7.52993990        6.24131243
+  |  106: Species O            -1.63020849        4.70619479        6.24131243
+  |  107: Species O             4.89095151        4.70619479        6.24131243
+  |  108: Species O             9.78182151        7.52993990        6.24131243
+  |  109: Species O             0.00008151       13.17743012        6.24131243
+  |  110: Species O             0.00008151        7.52993990        6.24131243
+  |  111: Species O             4.89095151       10.35368501        6.24131243
+  |  112: Species O            -3.26049849       13.17743012        6.24131243
+  |  113: Species O             8.15153151       10.35368501        6.24131243
+  |  114: Species O            -3.26049849        7.52993990        6.24131243
+  |  115: Species O             0.00008151        1.88244968        6.24131243
+  |  116: Species O             9.78182151        1.88244968        6.24131243
+  |  117: Species O             3.26066151       13.17743012        6.24131243
+  |  118: Species O             6.52124151       13.17743012        6.24131243
+  |  119: Species Zn           14.67252849        0.94129543        6.87013757
+  |  120: Species Zn            1.63020849        0.94129543        6.87013757
+  |  121: Species Zn            1.63020849       12.23627588        6.87013757
+  |  122: Species Zn            8.15136849        6.58878565        6.87013757
+  |  123: Species Zn           -0.00008151        9.41253077        6.87013757
+  |  124: Species Zn           -3.26066151        9.41253077        6.87013757
+  |  125: Species Zn           13.04223849        3.76504054        6.87013757
+  |  126: Species Zn            4.89078849        6.58878565        6.87013757
+  |  127: Species Zn            8.15136849        0.94129543        6.87013757
+  |  128: Species Zn           -1.63037151        6.58878565        6.87013757
+  |  129: Species Zn            6.52107849        9.41253077        6.87013757
+  |  130: Species Zn           11.41194849        0.94129543        6.87013757
+  |  131: Species Zn           11.41194849        6.58878565        6.87013757
+  |  132: Species Zn            1.63020849        6.58878565        6.87013757
+  |  133: Species Zn           -4.89095151       12.23627588        6.87013757
+  |  134: Species Zn            3.26049849        3.76504054        6.87013757
+  |  135: Species Zn            3.26049849        9.41253077        6.87013757
+  |  136: Species Zn            4.89078849       12.23627588        6.87013757
+  |  137: Species Zn            9.78165849        9.41253077        6.87013757
+  |  138: Species Zn           -1.63037151       12.23627588        6.87013757
+  |  139: Species Zn            9.78165849        3.76504054        6.87013757
+  |  140: Species Zn            6.52107849        3.76504054        6.87013757
+  |  141: Species Zn            4.89078849        0.94129543        6.87013757
+  |  142: Species Zn           -0.00008151        3.76504054        6.87013757
+  |  143: Species Zn            8.15136849       12.23627588        6.87013757
+  |  144: Species O            11.41194849        0.94129543        8.86360243
+  |  145: Species O             6.52107849        3.76504054        8.86360243
+  |  146: Species O             3.26049849        9.41253077        8.86360243
+  |  147: Species O            13.04223849        3.76504054        8.86360243
+  |  148: Species O             6.52107849        9.41253077        8.86360243
+  |  149: Species O            -0.00008151        9.41253077        8.86360243
+  |  150: Species O             4.89078849        0.94129543        8.86360243
+  |  151: Species O             1.63020849        6.58878565        8.86360243
+  |  152: Species O             3.26049849        3.76504054        8.86360243
+  |  153: Species O             9.78165849        3.76504054        8.86360243
+  |  154: Species O            11.41194849        6.58878565        8.86360243
+  |  155: Species O             8.15136849        0.94129543        8.86360243
+  |  156: Species O             4.89078849       12.23627588        8.86360243
+  |  157: Species O            -3.26066151        9.41253077        8.86360243
+  |  158: Species O             1.63020849       12.23627588        8.86360243
+  |  159: Species O             4.89078849        6.58878565        8.86360243
+  |  160: Species O             1.63020849        0.94129543        8.86360243
+  |  161: Species O             9.78165849        9.41253077        8.86360243
+  |  162: Species O            -0.00008151        3.76504054        8.86360243
+  |  163: Species O             8.15136849        6.58878565        8.86360243
+  |  164: Species O            14.67252849        0.94129543        8.86360243
+  |  165: Species O            -1.63037151       12.23627588        8.86360243
+  |  166: Species O            -4.89095151       12.23627588        8.86360243
+  |  167: Species O            -1.63037151        6.58878565        8.86360243
+  |  168: Species O             8.15136849       12.23627588        8.86360243
+  |  169: Species Zn           11.41211151        4.70619479        9.49242757
+  |  170: Species Zn            8.15153151        4.70619479        9.49242757
+  |  171: Species Zn            0.00008151       13.17743012        9.49242757
+  |  172: Species Zn           -1.63020849       10.35368501        9.49242757
+  |  173: Species Zn            0.00008151        7.52993990        9.49242757
+  |  174: Species Zn           -1.63020849        4.70619479        9.49242757
+  |  175: Species Zn            3.26066151       13.17743012        9.49242757
+  |  176: Species Zn            4.89095151        4.70619479        9.49242757
+  |  177: Species Zn            9.78182151        7.52993990        9.49242757
+  |  178: Species Zn           -6.52107849       13.17743012        9.49242757
+  |  179: Species Zn           -4.89078849       10.35368501        9.49242757
+  |  180: Species Zn            6.52124151        7.52993990        9.49242757
+  |  181: Species Zn            1.63037151       10.35368501        9.49242757
+  |  182: Species Zn            9.78182151        1.88244968        9.49242757
+  |  183: Species Zn            0.00008151        1.88244968        9.49242757
+  |  184: Species Zn           13.04240151        1.88244968        9.49242757
+  |  185: Species Zn            8.15153151       10.35368501        9.49242757
+  |  186: Species Zn            6.52124151        1.88244968        9.49242757
+  |  187: Species Zn            3.26066151        1.88244968        9.49242757
+  |  188: Species Zn           -3.26049849        7.52993990        9.49242757
+  |  189: Species Zn           -3.26049849       13.17743012        9.49242757
+  |  190: Species Zn            4.89095151       10.35368501        9.49242757
+  |  191: Species Zn            3.26066151        7.52993990        9.49242757
+  |  192: Species Zn            1.63037151        4.70619479        9.49242757
+  |  193: Species Zn            6.52124151       13.17743012        9.49242757
+  |  194: Species O            -1.63020849       10.35368501       11.48589243
+  |  195: Species O             3.26066151       13.17743012       11.48589243
+  |  196: Species O             9.78182151        1.88244968       11.48589243
+  |  197: Species O             6.52124151        7.52993990       11.48589243
+  |  198: Species O             0.00008151        1.88244968       11.48589243
+  |  199: Species O            -1.63020849        4.70619479       11.48589243
+  |  200: Species O             9.78182151        7.52993990       11.48589243
+  |  201: Species O             3.26066151        7.52993990       11.48589243
+  |  202: Species O             3.26066151        1.88244968       11.48589243
+  |  203: Species O            -4.89078849       10.35368501       11.48589243
+  |  204: Species O            -6.52107849       13.17743012       11.48589243
+  |  205: Species O            13.04240151        1.88244968       11.48589243
+  |  206: Species O             0.00008151       13.17743012       11.48589243
+  |  207: Species O             4.89095151        4.70619479       11.48589243
+  |  208: Species O             4.89095151       10.35368501       11.48589243
+  |  209: Species O             8.15153151       10.35368501       11.48589243
+  |  210: Species O             8.15153151        4.70619479       11.48589243
+  |  211: Species O             1.63037151        4.70619479       11.48589243
+  |  212: Species O            -3.26049849        7.52993990       11.48589243
+  |  213: Species O             6.52124151        1.88244968       11.48589243
+  |  214: Species O             0.00008151        7.52993990       11.48589243
+  |  215: Species O            11.41211151        4.70619479       11.48589243
+  |  216: Species O             1.63037151       10.35368501       11.48589243
+  |  217: Species O            -3.26049849       13.17743012       11.48589243
+  |  218: Species O             6.52124151       13.17743012       11.48589243
+  |  219: Species Zn           11.41194849        6.58878565       12.11471757
+  |  220: Species Zn           -1.63037151        6.58878565       12.11471757
+  |  221: Species Zn           14.67252849        0.94129543       12.11471757
+  |  222: Species Zn            3.26049849        9.41253077       12.11471757
+  |  223: Species Zn            3.26049849        3.76504054       12.11471757
+  |  224: Species Zn           -3.26066151        9.41253077       12.11471757
+  |  225: Species Zn           -0.00008151        3.76504054       12.11471757
+  |  226: Species Zn            4.89078849        6.58878565       12.11471757
+  |  227: Species Zn            9.78165849        9.41253077       12.11471757
+  |  228: Species Zn           11.41194849        0.94129543       12.11471757
+  |  229: Species Zn            4.89078849        0.94129543       12.11471757
+  |  230: Species Zn           13.04223849        3.76504054       12.11471757
+  |  231: Species Zn            8.15136849        6.58878565       12.11471757
+  |  232: Species Zn            4.89078849       12.23627588       12.11471757
+  |  233: Species Zn            6.52107849        3.76504054       12.11471757
+  |  234: Species Zn           -0.00008151        9.41253077       12.11471757
+  |  235: Species Zn            8.15136849        0.94129543       12.11471757
+  |  236: Species Zn            8.15136849       12.23627588       12.11471757
+  |  237: Species Pd            2.94600000        5.53595373       14.21500000
+  |  238: Species Pd            2.94600000        5.53595373       15.71500000
+  |  239: Species Pd            4.89100000        4.41300745       15.71500000
+  |  240: Species Pd            2.94600000        7.78184627       15.71500000
+  |  241: Species Pd            6.83600000        5.53595373       14.21500000
+  |  242: Species Pd            6.83600000        5.53595373       15.71500000
+  |  243: Species Pd            4.89100000        6.65890000       14.21500000
+  |  244: Species Pd            4.89100000        8.90479255       14.21500000
+  |  245: Species Pd            4.89100000        8.90479255       15.71500000
+  |  246: Species Pd            6.83600000        7.78184627       15.71500000
+
+  Lattice parameters for 3D lattice (in Angstroms) :    16.302900   16.302900   26.222900
+  Angle(s) between unit vectors (in degrees)       :    90.000000   90.000000  120.000000
+
+
+  Quantities derived from the lattice vectors (in Angstrom^-1):
+  | Reciprocal lattice vector 1:  0.385403  0.222512  0.000000
+  | Reciprocal lattice vector 2: -0.000000  0.445025  0.000000
+  | Reciprocal lattice vector 3:  0.000000  0.000000  0.239607
+  | Unit cell volume                               :   0.603589E+04  Angstrom^3
+
+  Fractional coordinates:
+                         L1                L2                L3
+       atom_frac         0.06667000        0.93333000        0.03801000  O
+       atom_frac         0.26667000        0.33333000        0.03801000  O
+       atom_frac         0.26667000        0.53333000        0.03801000  O
+       atom_frac         0.26667000        0.93333000        0.03801000  O
+       atom_frac         0.46667000        0.13333000        0.03801000  O
+       atom_frac         0.46667000        0.33333000        0.03801000  O
+       atom_frac         0.46667000        0.53333000        0.03801000  O
+       atom_frac         0.46667000        0.73333000        0.03801000  O
+       atom_frac         0.46667000        0.93333000        0.03801000  O
+       atom_frac         0.66667000        0.13333000        0.03801000  O
+       atom_frac         0.66667000        0.53333000        0.03801000  O
+       atom_frac         0.66667000        0.73333000        0.03801000  O
+       atom_frac         0.66667000        0.93333000        0.03801000  O
+       atom_frac         0.86667000        0.13333000        0.03801000  O
+       atom_frac         0.86667000        0.33333000        0.03801000  O
+       atom_frac         0.86667000        0.53333000        0.03801000  O
+       atom_frac         0.86667000        0.73333000        0.03801000  O
+       atom_frac         0.86667000        0.93333000        0.03801000  O
+       atom_frac         0.53333000        0.46667000        0.06199000  Zn
+       atom_frac         0.33333000        0.26667000        0.06199000  Zn
+       atom_frac         0.53333000        0.66667000        0.06199000  Zn
+       atom_frac         0.13333000        0.66667000        0.06199000  Zn
+       atom_frac         0.53333000        0.86667000        0.06199000  Zn
+       atom_frac         0.33333000        0.46667000        0.06199000  Zn
+       atom_frac         0.73333000        0.06667000        0.06199000  Zn
+       atom_frac         0.13333000        0.06667000        0.06199000  Zn
+       atom_frac         0.73333000        0.26667000        0.06199000  Zn
+       atom_frac         0.33333000        0.66667000        0.06199000  Zn
+       atom_frac         0.73333000        0.46667000        0.06199000  Zn
+       atom_frac         0.13333000        0.86667000        0.06199000  Zn
+       atom_frac         0.73333000        0.66667000        0.06199000  Zn
+       atom_frac         0.33333000        0.86667000        0.06199000  Zn
+       atom_frac         0.73333000        0.86667000        0.06199000  Zn
+       atom_frac         0.13333000        0.46667000        0.06199000  Zn
+       atom_frac         0.93333000        0.06667000        0.06199000  Zn
+       atom_frac         0.53333000        0.06667000        0.06199000  Zn
+       atom_frac         0.93333000        0.26667000        0.06199000  Zn
+       atom_frac         0.33333000        0.06667000        0.06199000  Zn
+       atom_frac         0.93333000        0.46667000        0.06199000  Zn
+       atom_frac         0.53333000        0.26667000        0.06199000  Zn
+       atom_frac         0.93333000        0.66667000        0.06199000  Zn
+       atom_frac         0.13333000        0.26667000        0.06199000  Zn
+       atom_frac         0.93333000        0.86667000        0.06199000  Zn
+       atom_frac         0.73333000        0.26667000        0.13801000  O
+       atom_frac         0.33333000        0.46667000        0.13801000  O
+       atom_frac         0.53333000        0.26667000        0.13801000  O
+       atom_frac         0.73333000        0.46667000        0.13801000  O
+       atom_frac         0.13333000        0.66667000        0.13801000  O
+       atom_frac         0.33333000        0.06667000        0.13801000  O
+       atom_frac         0.73333000        0.66667000        0.13801000  O
+       atom_frac         0.53333000        0.46667000        0.13801000  O
+       atom_frac         0.33333000        0.66667000        0.13801000  O
+       atom_frac         0.73333000        0.86667000        0.13801000  O
+       atom_frac         0.13333000        0.46667000        0.13801000  O
+       atom_frac         0.53333000        0.66667000        0.13801000  O
+       atom_frac         0.93333000        0.06667000        0.13801000  O
+       atom_frac         0.13333000        0.06667000        0.13801000  O
+       atom_frac         0.33333000        0.86667000        0.13801000  O
+       atom_frac         0.93333000        0.26667000        0.13801000  O
+       atom_frac         0.53333000        0.86667000        0.13801000  O
+       atom_frac         0.33333000        0.26667000        0.13801000  O
+       atom_frac         0.93333000        0.46667000        0.13801000  O
+       atom_frac         0.13333000        0.86667000        0.13801000  O
+       atom_frac         0.73333000        0.06667000        0.13801000  O
+       atom_frac         0.93333000        0.66667000        0.13801000  O
+       atom_frac         0.53333000        0.06667000        0.13801000  O
+       atom_frac         0.13333000        0.26667000        0.13801000  O
+       atom_frac         0.93333000        0.86667000        0.13801000  O
+       atom_frac         0.66667000        0.73333000        0.16199000  Zn
+       atom_frac         0.46667000        0.13333000        0.16199000  Zn
+       atom_frac         0.06667000        0.93333000        0.16199000  Zn
+       atom_frac         0.46667000        0.93333000        0.16199000  Zn
+       atom_frac         0.66667000        0.93333000        0.16199000  Zn
+       atom_frac         0.06667000        0.73333000        0.16199000  Zn
+       atom_frac         0.26667000        0.73333000        0.16199000  Zn
+       atom_frac         0.46667000        0.33333000        0.16199000  Zn
+       atom_frac         0.86667000        0.13333000        0.16199000  Zn
+       atom_frac         0.66667000        0.13333000        0.16199000  Zn
+       atom_frac         0.26667000        0.33333000        0.16199000  Zn
+       atom_frac         0.06667000        0.33333000        0.16199000  Zn
+       atom_frac         0.86667000        0.33333000        0.16199000  Zn
+       atom_frac         0.06667000        0.13333000        0.16199000  Zn
+       atom_frac         0.66667000        0.33333000        0.16199000  Zn
+       atom_frac         0.46667000        0.53333000        0.16199000  Zn
+       atom_frac         0.86667000        0.53333000        0.16199000  Zn
+       atom_frac         0.26667000        0.93333000        0.16199000  Zn
+       atom_frac         0.26667000        0.13333000        0.16199000  Zn
+       atom_frac         0.66667000        0.53333000        0.16199000  Zn
+       atom_frac         0.86667000        0.73333000        0.16199000  Zn
+       atom_frac         0.26667000        0.53333000        0.16199000  Zn
+       atom_frac         0.46667000        0.73333000        0.16199000  Zn
+       atom_frac         0.06667000        0.53333000        0.16199000  Zn
+       atom_frac         0.86667000        0.93333000        0.16199000  Zn
+       atom_frac         0.46667000        0.53333000        0.23801000  O
+       atom_frac         0.26667000        0.33333000        0.23801000  O
+       atom_frac         0.06667000        0.73333000        0.23801000  O
+       atom_frac         0.46667000        0.13333000        0.23801000  O
+       atom_frac         0.86667000        0.13333000        0.23801000  O
+       atom_frac         0.66667000        0.33333000        0.23801000  O
+       atom_frac         0.26667000        0.73333000        0.23801000  O
+       atom_frac         0.46667000        0.73333000        0.23801000  O
+       atom_frac         0.26667000        0.13333000        0.23801000  O
+       atom_frac         0.86667000        0.33333000        0.23801000  O
+       atom_frac         0.06667000        0.93333000        0.23801000  O
+       atom_frac         0.66667000        0.53333000        0.23801000  O
+       atom_frac         0.06667000        0.33333000        0.23801000  O
+       atom_frac         0.46667000        0.33333000        0.23801000  O
+       atom_frac         0.86667000        0.53333000        0.23801000  O
+       atom_frac         0.46667000        0.93333000        0.23801000  O
+       atom_frac         0.26667000        0.53333000        0.23801000  O
+       atom_frac         0.66667000        0.73333000        0.23801000  O
+       atom_frac         0.26667000        0.93333000        0.23801000  O
+       atom_frac         0.86667000        0.73333000        0.23801000  O
+       atom_frac         0.06667000        0.53333000        0.23801000  O
+       atom_frac         0.06667000        0.13333000        0.23801000  O
+       atom_frac         0.66667000        0.13333000        0.23801000  O
+       atom_frac         0.66667000        0.93333000        0.23801000  O
+       atom_frac         0.86667000        0.93333000        0.23801000  O
+       atom_frac         0.93333000        0.06667000        0.26199000  Zn
+       atom_frac         0.13333000        0.06667000        0.26199000  Zn
+       atom_frac         0.53333000        0.86667000        0.26199000  Zn
+       atom_frac         0.73333000        0.46667000        0.26199000  Zn
+       atom_frac         0.33333000        0.66667000        0.26199000  Zn
+       atom_frac         0.13333000        0.66667000        0.26199000  Zn
+       atom_frac         0.93333000        0.26667000        0.26199000  Zn
+       atom_frac         0.53333000        0.46667000        0.26199000  Zn
+       atom_frac         0.53333000        0.06667000        0.26199000  Zn
+       atom_frac         0.13333000        0.46667000        0.26199000  Zn
+       atom_frac         0.73333000        0.66667000        0.26199000  Zn
+       atom_frac         0.73333000        0.06667000        0.26199000  Zn
+       atom_frac         0.93333000        0.46667000        0.26199000  Zn
+       atom_frac         0.33333000        0.46667000        0.26199000  Zn
+       atom_frac         0.13333000        0.86667000        0.26199000  Zn
+       atom_frac         0.33333000        0.26667000        0.26199000  Zn
+       atom_frac         0.53333000        0.66667000        0.26199000  Zn
+       atom_frac         0.73333000        0.86667000        0.26199000  Zn
+       atom_frac         0.93333000        0.66667000        0.26199000  Zn
+       atom_frac         0.33333000        0.86667000        0.26199000  Zn
+       atom_frac         0.73333000        0.26667000        0.26199000  Zn
+       atom_frac         0.53333000        0.26667000        0.26199000  Zn
+       atom_frac         0.33333000        0.06667000        0.26199000  Zn
+       atom_frac         0.13333000        0.26667000        0.26199000  Zn
+       atom_frac         0.93333000        0.86667000        0.26199000  Zn
+       atom_frac         0.73333000        0.06667000        0.33801000  O
+       atom_frac         0.53333000        0.26667000        0.33801000  O
+       atom_frac         0.53333000        0.66667000        0.33801000  O
+       atom_frac         0.93333000        0.26667000        0.33801000  O
+       atom_frac         0.73333000        0.66667000        0.33801000  O
+       atom_frac         0.33333000        0.66667000        0.33801000  O
+       atom_frac         0.33333000        0.06667000        0.33801000  O
+       atom_frac         0.33333000        0.46667000        0.33801000  O
+       atom_frac         0.33333000        0.26667000        0.33801000  O
+       atom_frac         0.73333000        0.26667000        0.33801000  O
+       atom_frac         0.93333000        0.46667000        0.33801000  O
+       atom_frac         0.53333000        0.06667000        0.33801000  O
+       atom_frac         0.73333000        0.86667000        0.33801000  O
+       atom_frac         0.13333000        0.66667000        0.33801000  O
+       atom_frac         0.53333000        0.86667000        0.33801000  O
+       atom_frac         0.53333000        0.46667000        0.33801000  O
+       atom_frac         0.13333000        0.06667000        0.33801000  O
+       atom_frac         0.93333000        0.66667000        0.33801000  O
+       atom_frac         0.13333000        0.26667000        0.33801000  O
+       atom_frac         0.73333000        0.46667000        0.33801000  O
+       atom_frac         0.93333000        0.06667000        0.33801000  O
+       atom_frac         0.33333000        0.86667000        0.33801000  O
+       atom_frac         0.13333000        0.86667000        0.33801000  O
+       atom_frac         0.13333000        0.46667000        0.33801000  O
+       atom_frac         0.93333000        0.86667000        0.33801000  O
+       atom_frac         0.86667000        0.33333000        0.36199000  Zn
+       atom_frac         0.66667000        0.33333000        0.36199000  Zn
+       atom_frac         0.46667000        0.93333000        0.36199000  Zn
+       atom_frac         0.26667000        0.73333000        0.36199000  Zn
+       atom_frac         0.26667000        0.53333000        0.36199000  Zn
+       atom_frac         0.06667000        0.33333000        0.36199000  Zn
+       atom_frac         0.66667000        0.93333000        0.36199000  Zn
+       atom_frac         0.46667000        0.33333000        0.36199000  Zn
+       atom_frac         0.86667000        0.53333000        0.36199000  Zn
+       atom_frac         0.06667000        0.93333000        0.36199000  Zn
+       atom_frac         0.06667000        0.73333000        0.36199000  Zn
+       atom_frac         0.66667000        0.53333000        0.36199000  Zn
+       atom_frac         0.46667000        0.73333000        0.36199000  Zn
+       atom_frac         0.66667000        0.13333000        0.36199000  Zn
+       atom_frac         0.06667000        0.13333000        0.36199000  Zn
+       atom_frac         0.86667000        0.13333000        0.36199000  Zn
+       atom_frac         0.86667000        0.73333000        0.36199000  Zn
+       atom_frac         0.46667000        0.13333000        0.36199000  Zn
+       atom_frac         0.26667000        0.13333000        0.36199000  Zn
+       atom_frac         0.06667000        0.53333000        0.36199000  Zn
+       atom_frac         0.26667000        0.93333000        0.36199000  Zn
+       atom_frac         0.66667000        0.73333000        0.36199000  Zn
+       atom_frac         0.46667000        0.53333000        0.36199000  Zn
+       atom_frac         0.26667000        0.33333000        0.36199000  Zn
+       atom_frac         0.86667000        0.93333000        0.36199000  Zn
+       atom_frac         0.26667000        0.73333000        0.43801000  O
+       atom_frac         0.66667000        0.93333000        0.43801000  O
+       atom_frac         0.66667000        0.13333000        0.43801000  O
+       atom_frac         0.66667000        0.53333000        0.43801000  O
+       atom_frac         0.06667000        0.13333000        0.43801000  O
+       atom_frac         0.06667000        0.33333000        0.43801000  O
+       atom_frac         0.86667000        0.53333000        0.43801000  O
+       atom_frac         0.46667000        0.53333000        0.43801000  O
+       atom_frac         0.26667000        0.13333000        0.43801000  O
+       atom_frac         0.06667000        0.73333000        0.43801000  O
+       atom_frac         0.06667000        0.93333000        0.43801000  O
+       atom_frac         0.86667000        0.13333000        0.43801000  O
+       atom_frac         0.46667000        0.93333000        0.43801000  O
+       atom_frac         0.46667000        0.33333000        0.43801000  O
+       atom_frac         0.66667000        0.73333000        0.43801000  O
+       atom_frac         0.86667000        0.73333000        0.43801000  O
+       atom_frac         0.66667000        0.33333000        0.43801000  O
+       atom_frac         0.26667000        0.33333000        0.43801000  O
+       atom_frac         0.06667000        0.53333000        0.43801000  O
+       atom_frac         0.46667000        0.13333000        0.43801000  O
+       atom_frac         0.26667000        0.53333000        0.43801000  O
+       atom_frac         0.86667000        0.33333000        0.43801000  O
+       atom_frac         0.46667000        0.73333000        0.43801000  O
+       atom_frac         0.26667000        0.93333000        0.43801000  O
+       atom_frac         0.86667000        0.93333000        0.43801000  O
+       atom_frac         0.93333000        0.46667000        0.46199000  Zn
+       atom_frac         0.13333000        0.46667000        0.46199000  Zn
+       atom_frac         0.93333000        0.06667000        0.46199000  Zn
+       atom_frac         0.53333000        0.66667000        0.46199000  Zn
+       atom_frac         0.33333000        0.26667000        0.46199000  Zn
+       atom_frac         0.13333000        0.66667000        0.46199000  Zn
+       atom_frac         0.13333000        0.26667000        0.46199000  Zn
+       atom_frac         0.53333000        0.46667000        0.46199000  Zn
+       atom_frac         0.93333000        0.66667000        0.46199000  Zn
+       atom_frac         0.73333000        0.06667000        0.46199000  Zn
+       atom_frac         0.33333000        0.06667000        0.46199000  Zn
+       atom_frac         0.93333000        0.26667000        0.46199000  Zn
+       atom_frac         0.73333000        0.46667000        0.46199000  Zn
+       atom_frac         0.73333000        0.86667000        0.46199000  Zn
+       atom_frac         0.53333000        0.26667000        0.46199000  Zn
+       atom_frac         0.33333000        0.66667000        0.46199000  Zn
+       atom_frac         0.53333000        0.06667000        0.46199000  Zn
+       atom_frac         0.93333000        0.86667000        0.46199000  Zn
+       atom_frac         0.37675410        0.39210010        0.54208345  Pd
+       atom_frac         0.37675410        0.39210010        0.59928536  Pd
+       atom_frac         0.45629005        0.31256415        0.59928536  Pd
+       atom_frac         0.45629005        0.55117201        0.59928536  Pd
+       atom_frac         0.61536195        0.39210010        0.54208345  Pd
+       atom_frac         0.61536195        0.39210010        0.59928536  Pd
+       atom_frac         0.53582600        0.47163605        0.54208345  Pd
+       atom_frac         0.61536195        0.63070796        0.54208345  Pd
+       atom_frac         0.61536195        0.63070796        0.59928536  Pd
+       atom_frac         0.69489790        0.55117201        0.59928536  Pd
+
+ 
+  Finished reading input file 'geometry.in'.
+ 
+
+ 
+  Consistency checks for stacksize environment parameter are next.
+ 
+  | Maximum stacksize for task 0: unlimited
+  | Maximum stacksize for task 1: unlimited
+  | Maximum stacksize for task 2: unlimited
+  | Maximum stacksize for task 3: unlimited
+  | Maximum stacksize for task 4: unlimited
+  | Maximum stacksize for task 5: unlimited
+  | Maximum stacksize for task 6: unlimited
+  | Maximum stacksize for task 7: unlimited
+  | Maximum stacksize for task 8: unlimited
+  | Maximum stacksize for task 9: unlimited
+  | Maximum stacksize for task 10: unlimited
+  | Maximum stacksize for task 11: unlimited
+  | Maximum stacksize for task 12: unlimited
+  | Maximum stacksize for task 13: unlimited
+  | Maximum stacksize for task 14: unlimited
+  | Maximum stacksize for task 15: unlimited
+  | Maximum stacksize for task 16: unlimited
+  | Maximum stacksize for task 17: unlimited
+  | Maximum stacksize for task 18: unlimited
+  | Maximum stacksize for task 19: unlimited
+  | Maximum stacksize for task 20: unlimited
+  | Maximum stacksize for task 21: unlimited
+  | Maximum stacksize for task 22: unlimited
+  | Maximum stacksize for task 23: unlimited
+  | Maximum stacksize for task 24: unlimited
+  | Maximum stacksize for task 25: unlimited
+  | Maximum stacksize for task 26: unlimited
+  | Maximum stacksize for task 27: unlimited
+  | Maximum stacksize for task 28: unlimited
+  | Maximum stacksize for task 29: unlimited
+  | Maximum stacksize for task 30: unlimited
+  | Maximum stacksize for task 31: unlimited
+  | Maximum stacksize for task 32: unlimited
+  | Maximum stacksize for task 33: unlimited
+  | Maximum stacksize for task 34: unlimited
+  | Maximum stacksize for task 35: unlimited
+  | Maximum stacksize for task 36: unlimited
+  | Maximum stacksize for task 37: unlimited
+  | Maximum stacksize for task 38: unlimited
+  | Maximum stacksize for task 39: unlimited
+  | Current stacksize for task 0: unlimited
+  | Current stacksize for task 1: unlimited
+  | Current stacksize for task 2: unlimited
+  | Current stacksize for task 3: unlimited
+  | Current stacksize for task 4: unlimited
+  | Current stacksize for task 5: unlimited
+  | Current stacksize for task 6: unlimited
+  | Current stacksize for task 7: unlimited
+  | Current stacksize for task 8: unlimited
+  | Current stacksize for task 9: unlimited
+  | Current stacksize for task 10: unlimited
+  | Current stacksize for task 11: unlimited
+  | Current stacksize for task 12: unlimited
+  | Current stacksize for task 13: unlimited
+  | Current stacksize for task 14: unlimited
+  | Current stacksize for task 15: unlimited
+  | Current stacksize for task 16: unlimited
+  | Current stacksize for task 17: unlimited
+  | Current stacksize for task 18: unlimited
+  | Current stacksize for task 19: unlimited
+  | Current stacksize for task 20: unlimited
+  | Current stacksize for task 21: unlimited
+  | Current stacksize for task 22: unlimited
+  | Current stacksize for task 23: unlimited
+  | Current stacksize for task 24: unlimited
+  | Current stacksize for task 25: unlimited
+  | Current stacksize for task 26: unlimited
+  | Current stacksize for task 27: unlimited
+  | Current stacksize for task 28: unlimited
+  | Current stacksize for task 29: unlimited
+  | Current stacksize for task 30: unlimited
+  | Current stacksize for task 31: unlimited
+  | Current stacksize for task 32: unlimited
+  | Current stacksize for task 33: unlimited
+  | Current stacksize for task 34: unlimited
+  | Current stacksize for task 35: unlimited
+  | Current stacksize for task 36: unlimited
+  | Current stacksize for task 37: unlimited
+  | Current stacksize for task 38: unlimited
+  | Current stacksize for task 39: unlimited
+ 
+  Consistency checks for the contents of control.in are next.
+ 
+  MPI_IN_PLACE appears to work with this MPI implementation.
+  | Keeping use_mpi_in_place .true. (see manual).
+  Target number of points in a grid batch is not set. Defaulting to  100
+  Method for grid partitioning is not set. Defaulting to parallel hash+maxmin partitioning.
+  Batch size limit is not set. Defaulting to    200
+  By default, will store active basis functions for each batch.
+  If in need of memory, prune_basis_once .false. can be used to disable this option.
+  communication_type for Hartree potential was not specified.
+  Defaulting to calc_hartree .
+  Defaulting to Pulay charge density mixer.
+  Pulay mixer: Number of relevant iterations not set.
+  Defaulting to    8 iterations.
+  Pulay mixer: Number of initial linear mixing iterations not set.
+  Defaulting to    0 iterations.
+  Work space size for distributed Hartree potential not set.
+  Defaulting to   0.200000E+03 MB.
+  Mixing parameter for charge density mixing has not been set.
+  Using default: charge_mix_param =     0.0500.
+  The mixing parameter will be adjusted in iteration number     2 of the first full s.c.f. cycle only.
+  Algorithm-dependent basis array size parameters:
+  | n_max_pulay                         :        8
+  Maximum number of self-consistency iterations not provided.
+  Presetting  1000 iterations.
+  Presetting      1001 iterations before the initial mixing cycle
+  is restarted anyway using the sc_init_iter criterion / keyword.
+  Presetting a factor      1.000 between actual scf density residual
+  and density convergence criterion sc_accuracy_rho below which sc_init_iter
+  takes no effect.
+  Geometry relaxation not requested: no relaxation will be performed.
+  Forces evaluation will include force correction term due to incomplete self-consistency (default).
+  Handling of forces: Unphysical translation and rotation will be removed from forces.
+  No accuracy limit for integral partition fn. given. Defaulting to  0.1000E-14.
+  No threshold value for u(r) in integrations given. Defaulting to  0.1000E-05.
+  No occupation type (smearing scheme) given. Defaulting to Gaussian broadening, width =  0.1000E-01 eV.
+  The width will be adjusted in iteration number     2 of the first full s.c.f. cycle only.
+  S.C.F. convergence parameters will be adjusted in iteration number     2 of the first full s.c.f. cycle only.
+  No accuracy for occupation numbers given. Defaulting to  0.1000E-12.
+  No threshold value for occupation numbers given. Defaulting to  0.0000E+00.
+  No accuracy for fermi level given. Defaulting to  0.1000E-19.
+  Maximum # of iterations to find E_F not set. Defaulting to  200.
+  Preferred method for the eigenvalue solver ('KS_method') not specified in 'control.in'.
+  Calling BLACS routine to test compilation state
+  Since ScaLAPACK support is enabled, defaulting to ELPA (via ELSI).
+  Will not use alltoall communication since running on < 1024 CPUs.
+  Threshold for basis singularities not set.
+  Default threshold for basis singularities:  0.1000E-04
+  partition_type (choice of integration weights) for integrals was not specified.
+  | Using a version of the partition function of Stratmann and coworkers ('stratmann_sparse').
+  | At each grid point, the set of atoms used to build the partition table is smoothly restricted to
+  | only those atoms whose free-atom density would be non-zero at that grid point.
+  Partitioning for Hartree potential was not defined. Using partition_type for integrals.
+  | Adjusted default value of keyword multip_moments_threshold to:       0.10000000E-11
+  | This value may affect high angular momentum components of the Hartree potential in periodic systems.
+  Angular momentum expansion for Kerker preconditioner not set explicitly.
+  | Using default value of   0
+  No explicit requirement for turning off preconditioner.
+  | By default, it will be turned off when the charge convergence reaches
+  | sc_accuracy_rho  =   0.100000E-05
+  | sc_accuracy_eev  =   0.100000E-02
+  | sc_accuracy_etot =   0.100000E-02
+  No special mixing parameter while Kerker preconditioner is on.
+  Using default: charge_mix_param =     0.0500.
+  No q(lm)/r^(l+1) cutoff set for long-range Hartree potential.
+  | Using default value of  0.100000E-09 .
+  | Verify using the multipole_threshold keyword.
+  Defaulting to new monopole extrapolation.
+  Density update method: automatic selection selected.
+  Using density matrix based charge density update.
+  Using density matrix based charge density update.
+  Using packed matrix style: index .
+  Defaulting to use time-reversal symmetry for k-point grid.
+  Charge integration errors on the 3D integration grid will be compensated
+  by explicit normalization and distribution of residual charges.
+  Use the "compensate_multipole_errors" flag to change this behaviour.
+ 
+  Consistency checks for the contents of geometry.in are next.
+ 
+
+  Range separation radius for Ewald summation (hartree_convergence_parameter):      4.18748200 bohr.
+  Number of empty states per atom not set in control.in - providing a guess from actual geometry.
+  | Total number of empty states used during s.c.f. cycle:     1058
+  If you use a very high smearing, use empty_states (per atom!) in control.in to increase this value.
+
+  Structure-dependent array size parameters: 
+  | Maximum number of distinct radial functions  :       32
+  | Maximum number of basis functions            :     6064
+  | Number of Kohn-Sham states (occupied + empty):     3530
+------------------------------------------------------------
+ Error: The dipole correction needs vacuum z-level to be defined
+ Vacuum level will be determined automatically.
+ Determine position of vacuum level automatically
+ **WARNING** : This feature is experimental and still requires some testing
+ **PLEASE ** : If you see it fail, please report.
+ Vacuum level determined:
+ set_vacuum_level    21.4673162145000
+
+************************** W A R N I N G *******************************
+* You are using the PIMD wrapper. Specifications and positions         *
+* in geometry.in will be IGNORED - all is received from the wrapper.   *
+* Please make sure species are declared in the same order in           *
+* geometry.in and wrapper input.                                       *
+************************************************************************
+
+  After read_input_data [GB]:    156.32
+
+  Performing system and environment tests:
+  | Environment variable OMP_NUM_THREADS correctly set to 1.
+  | Checking for ScaLAPACK...
+  | Testing pdtran()...
+  | All pdtran() tests passed.
+  After prepare_system [GB]:    156.18
+
+------------------------------------------------------------
+          Preparing all fixed parts of the calculation.
+------------------------------------------------------------
+  Determining machine precision:
+    2.225073858507201E-308
+  Setting up grids for atomic and cluster calculations.
+
+  Creating wave function, potential, and density for free atoms.
+  Runtime choices for atomic solver:
+  | atomic solver xc        : PW-LDA
+  | compute density gradient: 1
+  | compute kinetic density : T
+
+  Species: O
+
+  List of occupied orbitals and eigenvalues:
+    n    l              occ      energy [Ha]    energy [eV]
+    1    0           2.0000       -18.786109      -511.1960
+    2    0           2.0000        -0.872635       -23.7456
+    2    1           4.0000        -0.337687        -9.1889
+
+
+  Species: Zn
+
+  List of occupied orbitals and eigenvalues:
+    n    l              occ      energy [Ha]    energy [eV]
+    1    0           2.0000      -353.324562     -9614.4505
+    2    0           2.0000       -42.556936     -1158.0331
+    3    0           2.0000        -4.722571      -128.5077
+    4    0           2.0000        -0.224408        -6.1065
+    2    1           6.0000       -36.929190     -1004.8944
+    3    1           6.0000        -3.054801       -83.1254
+    3    2          10.0000        -0.378780       -10.3071
+
+
+  Species: Pd
+
+  List of occupied orbitals and eigenvalues:
+    n    l              occ      energy [Ha]    energy [eV]
+    1    0           2.0000      -912.065213    -24818.5572
+    2    0           2.0000      -130.295657     -3545.5252
+    3    0           2.0000       -23.475087      -638.7896
+    4    0           2.0000        -3.254340       -88.5551
+    5    0           1.0000        -0.163409        -4.4466
+    2    1           6.0000      -116.869579     -3180.1830
+    3    1           6.0000       -19.088207      -519.4165
+    4    1           6.0000        -1.997883       -54.3652
+    3    2          10.0000       -12.108786      -329.4968
+    4    2           9.0000        -0.247297        -6.7293
+
+
+  Adding cutoff potential to free-atom effective potential.
+  Creating fixed part of basis set: Ionic, confined, hydrogenic.
+ 
+  O                    hydrogenic:
+ 
+  List of hydrogenic basis orbitals: 
+    n    l      effective z      eigenvalue [eV]  inner max. [A]     outer max. [A]     outer radius [A]   
+    2    1         1.800000       -10.9749           1.164242           1.164242           4.578029
+    3    2         7.600000       -87.3180           0.624125           0.624125           3.251020
+    3    0         6.400000       -61.9207           0.061167           1.081902           4.001998
+ 
+ 
+  Zn                   hydrogenic:
+ 
+  List of hydrogenic basis orbitals: 
+    n    l      effective z      eigenvalue [eV]  inner max. [A]     outer max. [A]     outer radius [A]   
+    2    1         1.700000        -9.7616           1.235824           1.235824           4.571361
+    3    0         2.900000       -12.1225           0.135202           2.305302           4.627589
+    4    1         5.400000       -24.5018           0.278118           2.277292           4.627589
+    4    3         7.800000       -51.7350           1.080326           1.080326           4.353199
+    3    2         4.500000       -30.6110           1.054232           1.054232           4.515816
+ 
+ 
+  Pd                   ion:
+
+  List of free ionic orbitals and eigenvalues:
+    n    l      energy [Ha]    energy [eV]
+    1    0      -912.902047    -24841.3286
+    2    0      -131.115306     -3567.8290
+    3    0       -24.291507      -661.0055
+    4    0        -4.061747      -110.5258
+    2    1      -117.688869     -3202.4771
+    3    1       -19.904513      -541.6294
+    4    1        -2.800312       -76.2004
+    3    2       -12.925057      -351.7087
+    4    2        -1.013534       -27.5797
+
+
+  List of ionic basis orbitals and eigenvalues:
+    n    l      energy [Ha]    energy [eV]    outer radius [A]
+    5    1        -0.520958       -14.1760       4.573329
+
+ 
+  Pd                   hydrogenic:
+ 
+  List of hydrogenic basis orbitals: 
+    n    l      effective z      eigenvalue [eV]  inner max. [A]     outer max. [A]     outer radius [A]   
+    4    3         8.000000       -54.4223           1.054686           1.054686           4.302157
+    3    0         2.600000        -9.1732           0.150992           2.481820           4.629581
+    3    2         2.500000        -9.0892           1.828265           1.828265           4.629581
+ 
+  Creating atomic-like basis functions for current effective potential.
+
+  Species O                   :
+
+  List of atomic basis orbitals and eigenvalues:
+    n    l      energy [Ha]    energy [eV]    outer radius [A]
+    1    0       -18.786109      -511.1960       1.433179
+    2    0        -0.872635       -23.7456       4.413171
+    2    1        -0.337687        -9.1889       4.522403
+
+
+  Species Zn                  :
+
+  List of atomic basis orbitals and eigenvalues:
+    n    l      energy [Ha]    energy [eV]    outer radius [A]
+    1    0      -353.324562     -9614.4505       0.355152
+    2    0       -42.556936     -1158.0331       1.028769
+    3    0        -4.722571      -128.5077       2.943830
+    4    0        -0.224408        -6.1065       4.571361
+    2    1       -36.929190     -1004.8944       1.067199
+    3    1        -3.054801       -83.1254       3.493350
+    3    2        -0.378780       -10.3071       4.460946
+
+
+  Species Pd                  :
+
+  List of atomic basis orbitals and eigenvalues:
+    n    l      energy [Ha]    energy [eV]    outer radius [A]
+    1    0      -912.065213    -24818.5572       0.223280
+    2    0      -130.295657     -3545.5252       0.615909
+    3    0       -23.475087      -638.7896       1.431708
+    4    0        -3.254340       -88.5551       3.581357
+    5    0        -0.163409        -4.4466       4.573329
+    2    1      -116.869579     -3180.1830       0.631154
+    3    1       -19.088207      -519.4165       1.540671
+    4    1        -1.997883       -54.3652       4.096842
+    3    2       -12.108786      -329.4968       1.806051
+    4    2        -0.247297        -6.7293       4.517760
+
+  Assembling full basis from fixed parts.
+  | Species O :   atomic orbital   1 s accepted.
+  | Species O :    hydro orbital   3 s accepted.
+  | Species O :   atomic orbital   2 s accepted.
+  | Species O :   atomic orbital   2 p accepted.
+  | Species O :    hydro orbital   2 p accepted.
+  | Species O :    hydro orbital   3 d accepted.
+  | Species Zn :   atomic orbital   1 s accepted.
+  | Species Zn :   atomic orbital   2 s accepted.
+  | Species Zn :   atomic orbital   3 s accepted.
+  | Species Zn :   atomic orbital   4 s accepted.
+  | Species Zn :    hydro orbital   3 s accepted.
+  | Species Zn :   atomic orbital   2 p accepted.
+  | Species Zn :   atomic orbital   3 p accepted.
+  | Species Zn :    hydro orbital   2 p accepted.
+  | Species Zn :    hydro orbital   4 p accepted.
+  | Species Zn :   atomic orbital   3 d accepted.
+  | Species Zn :    hydro orbital   3 d accepted.
+  | Species Zn :    hydro orbital   4 f accepted.
+  | Species Pd :   atomic orbital   1 s accepted.
+  | Species Pd :   atomic orbital   2 s accepted.
+  | Species Pd :   atomic orbital   3 s accepted.
+  | Species Pd :   atomic orbital   4 s accepted.
+  | Species Pd :   atomic orbital   5 s accepted.
+  | Species Pd :    hydro orbital   3 s accepted.
+  | Species Pd :   atomic orbital   2 p accepted.
+  | Species Pd :   atomic orbital   3 p accepted.
+  | Species Pd :   atomic orbital   4 p accepted.
+  | Species Pd :    ionic orbital   5 p accepted.
+  | Species Pd :   atomic orbital   3 d accepted.
+  | Species Pd :   atomic orbital   4 d accepted.
+  | Species Pd :    hydro orbital   3 d accepted.
+  | Species Pd :    hydro orbital   4 f accepted.
+ 
+  Basis size parameters after reduction:
+  | Total number of radial functions:       32
+  | Total number of basis functions :     6064
+ 
+  Per-task memory consumption for arrays in subroutine allocate_ext:
+  |          11.985984MB.
+  Testing on-site integration grid accuracy.
+  |  Species  Function  <phi|h_atom|phi> (log., in eV)  <phi|h_atom|phi> (rad., in eV)
+           1        1               -511.1960429777               -511.1959399133
+           1        2                 14.8973166466                 14.8974402823
+           1        3                -21.2682165807                -21.2682317485
+           1        4                 -9.1890598667                 -9.1892026751
+           1        5                  8.1915160719                  8.1720639763
+           1        6                 45.8005976646                 45.8005620229
+           2        7              -9614.4504969312              -9614.4406592951
+           2        8              -1158.0331440974              -1158.0330284923
+           2        9               -128.5077075532               -128.5077049955
+           2       10                 -6.1117580937                 -6.1184332272
+           2       11                  5.3990707580                  5.2702908582 ***
+           2       12              -1004.8943946368              -1004.8943932926
+           2       13                -83.1253641047                -83.1253636780
+           2       14                 -0.4063240450                 -0.4244695149
+           2       15                 11.1469594659                 11.0777655660 ***
+           2       16                -10.3071562939                -10.3071795629
+           2       17                 16.1411628299                 16.1403150913
+           2       18                 31.3870428065                 31.3871391246
+           3       19             -24818.5572124296             -24818.5158634190 ***
+           3       20              -3545.5252289438              -3545.5246042863
+           3       21               -638.7896232438               -638.7896000564
+           3       22                -88.5551026145                -88.5551013405
+           3       23                 -4.4609385025                 -4.4727014792
+           3       24                  6.6635244762                  6.5320610392 ***
+           3       25              -3180.1830386065              -3180.1830356664
+           3       26               -519.4165494313               -519.4165475587
+           3       27                -54.3651702780                -54.3651697604
+           3       28                  0.9012046669                  0.8949438736
+           3       29               -329.4968230893               -329.4968224127
+           3       30                 -6.7295974347                 -6.7298430348
+           3       31                  6.3731872818                  6.3152168085 ***
+           3       32                 24.8390343783                 24.8391783489
+ * Note: Onsite integrals marked "***" above are less accurate than
+ * onsite_accuracy_threshold =    0.03000 eV. Usually, this is harmless.
+ * However, one integral did have a negative value. This integral could be important.
+ * When in doubt, tighten the "radial" and/or "radial_multiplier" flags to check.
+
+  Preparing densities etc. for the partition functions (integrals / Hartree potential).
+
+  Preparations completed.
+  max(cpu_time)          :      0.646 s.
+  Wall clock time (cpu1) :      0.644 s.
+------------------------------------------------------------
+  After prepare_scf [GB]:    154.81
+
+  Initializing index lists of integration centers etc. from given atomic structure:
+  Mapping all atomic coordinates to central unit cell.
+ * ERROR: atom        1 is closer than 6 Angstroms to the requested vacuum level
+ * for the surface dipole correction or work function calculation
+ * or for a calculation with homogeneous electric field.
+ * A surface dipole determined close to the atoms of a slab will not be accurate.
+ * As a result, any numerical values that are affected by the dipole (including
+ * total energies) may be subject to noticeable inaccuracies.
+ * FHI-aims allows one to use rather large vacuum regions at very low cost -
+ * easily 40 AA or 80 AA if keyword "hartree_convergence_parameter" is set correctly.
+ * To ensure that your calculated surface dipole is accurate,
+ * please use a larger vacuum spacing in your slab calculation.
+ * Stopping the calculation as a safety precaution.

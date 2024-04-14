@@ -1,0 +1,8 @@
+Currently Loaded Modulefiles:
+  1) null                       5) ase/3.20.1
+  2) system/auto                6) mpi/intel/2018/2
+  3) compiler/gnu/7/3.0         7) python/3.7.7-intel2020u1
+  4) anaconda/2019.07
+slurmstepd: error: *** JOB 65183192 ON ccs0135 CANCELLED AT 2023-11-27T10:33:26 DUE TO TIME LIMIT ***
+slurmstepd: error: container_p_join: open failed for /localscratch/65183192/.ns: No such file or directory
+slurmstepd: error: container_g_join(65183192): No such file or directory

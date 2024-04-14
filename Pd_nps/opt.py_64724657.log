@@ -1,0 +1,30 @@
+Running on machine: hawk
+Running on host ccs3003
+Time is Mon Nov 20 16:42:56 GMT 2023
+Launch directory is /home/c.c1809139/DJW_EBMC/Pd_nps
+Working directory is /scratch/c.c1809139/64724657
+Directory is /home/c.c1809139/DJW_EBMC/Pd_nps
+Job ID is 64724657
+Using ase script opt.py
+Structure file is geometry.in
+FHI-aims species path set to /home/scw1057/software/fhi-aims/species_defaults/defaults_2020/tight
+FHI-aims Start Time is Mon Nov 20 16:42:56 GMT 2023 running NCPUs=40 PPN=40
+This jobs runs on the following machine: ccs3003
+Number of Processing Elements is 40
+Number of mpiprocs per node is 40
+
+Start Time is Mon Nov 20 16:42:56 GMT 2023
+
+job = optimisation
+sub_dir = optrun.64724657
+Will be working in directory /scratch/c.c1809139/64724657/optimisation/optrun.64724657
+results to go to directory /home/c.c1809139/DJW_EBMC/Pd_nps/optimisation/optrun.64724657
+Creating working directory /scratch/c.c1809139/64724657/optimisation/optrun.64724657
+Creating results directory /home/c.c1809139/DJW_EBMC/Pd_nps/optimisation/optrun.64724657
+Copying structure file /home/c.c1809139/DJW_EBMC/Pd_nps/optimisation/geometry.in to /scratch/c.c1809139/64724657/optimisation/optrun.64724657
+Copying hessian.aims file /home/c.c1809139/DJW_EBMC/Pd_nps/optimisation/qn.pckl to /scratch/c.c1809139/64724657/optimisation/optrun.64724657
+/scratch/c.c1809139/64724657/optimisation/optrun.64724657 Running python script opt.py
+
+With command:
+python3 opt.py /scratch/c.c1809139/64724657/optimisation/optrun.64724657 64724657 /home/c.c1809139/DJW_EBMC/Pd_nps optimisation optrun.64724657 hawk NoFix
+fhi_aims run using ase script opt.py for job optimisation running.

@@ -1,0 +1,31 @@
+Running on machine: hawk
+Running on host ccs0135
+Time is Fri Nov 24 23:00:42 GMT 2023
+Launch directory is /home/c.c1809139/DJW_EBMC/Pd_nps
+Working directory is /scratch/c.c1809139/64930911
+Directory is /home/c.c1809139/DJW_EBMC/Pd_nps
+Job ID is 64930911
+Using ase script opt_noPBC.py
+Structure file is geometry.in
+FHI-aims species path set to /home/scw1057/software/fhi-aims/species_defaults/defaults_2020/tight
+FHI-aims Start Time is Fri Nov 24 23:00:42 GMT 2023 running NCPUs=40 PPN=40
+This jobs runs on the following machine: ccs0135
+Number of Processing Elements is 40
+Number of mpiprocs per node is 40
+
+Start Time is Fri Nov 24 23:00:42 GMT 2023
+
+job = Pd_np
+sub_dir = optrun.64930911
+Will be working in directory /scratch/c.c1809139/64930911/Pd_np/optrun.64930911
+results to go to directory /home/c.c1809139/DJW_EBMC/Pd_nps/Pd_np/optrun.64930911
+Creating working directory /scratch/c.c1809139/64930911/Pd_np/optrun.64930911
+Creating results directory /home/c.c1809139/DJW_EBMC/Pd_nps/Pd_np/optrun.64930911
+Copying structure file /home/c.c1809139/DJW_EBMC/Pd_nps/Pd_np/geometry.in to /scratch/c.c1809139/64930911/Pd_np/optrun.64930911
+/scratch/c.c1809139/64930911/Pd_np/optrun.64930911 Running python script opt_noPBC.py
+
+With command:
+python3 opt_noPBC.py /scratch/c.c1809139/64930911/Pd_np/optrun.64930911 64930911 /home/c.c1809139/DJW_EBMC/Pd_nps Pd_np optrun.64930911 hawk NoFix
+fhi_aims run using ase script opt_noPBC.py for job Pd_np running.
+copying back for :  /scratch/c.c1809139/64930911/Pd_np/optrun.64930911
+to home sub dir  :  /home/c.c1809139/DJW_EBMC/Pd_nps/Pd_np/optrun.64930911

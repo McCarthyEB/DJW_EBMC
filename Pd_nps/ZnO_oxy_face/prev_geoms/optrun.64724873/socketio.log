@@ -1,0 +1,16 @@
+Accepting clients on INET port 30124
+Launch subprocess: time mpirun -np 40 /apps/local/projects/scw1057/software/fhi-aims/bin/aims.230612.scalapack.mpi.x > aims.out
+Awaiting client
+Accepted connection from ('10.212.3.59', 58170)
+Driver: calculate
+Driver:  status
+Driver:   sendmsg 'STATUS'
+Driver:   recvmsg 'READY'
+Driver:  sendposdata
+Driver:   sendmsg 'POSDATA'
+Driver:   send 72 bytes of <class 'numpy.float64'>
+Driver:   send 72 bytes of <class 'numpy.float64'>
+Driver:   send 4 bytes of <class 'numpy.int32'>
+Driver:   send 5904 bytes of <class 'numpy.float64'>
+Driver:  status
+Driver:   sendmsg 'STATUS'

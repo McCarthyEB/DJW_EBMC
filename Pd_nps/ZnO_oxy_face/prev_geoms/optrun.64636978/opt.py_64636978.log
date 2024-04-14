@@ -1,0 +1,31 @@
+Running on machine: hawk
+Running on host ccs1013
+Time is Sat Nov 18 20:01:34 GMT 2023
+Launch directory is /home/c.c1809139/DJW_EBMC/Pd_nps
+Working directory is /scratch/c.c1809139/64636978
+Directory is /home/c.c1809139/DJW_EBMC/Pd_nps
+Job ID is 64636978
+Using ase script opt.py
+Structure file is geometry.in
+FHI-aims species path set to /home/scw1057/software/fhi-aims/species_defaults/defaults_2020/tight
+FHI-aims Start Time is Sat Nov 18 20:01:34 GMT 2023 running NCPUs=40 PPN=40
+This jobs runs on the following machine: ccs1013
+Number of Processing Elements is 40
+Number of mpiprocs per node is 40
+
+Start Time is Sat Nov 18 20:01:34 GMT 2023
+
+job = ZnO_oxy_face
+sub_dir = optrun.64636978
+Will be working in directory /scratch/c.c1809139/64636978/ZnO_oxy_face/optrun.64636978
+results to go to directory /home/c.c1809139/DJW_EBMC/Pd_nps/ZnO_oxy_face/optrun.64636978
+Creating working directory /scratch/c.c1809139/64636978/ZnO_oxy_face/optrun.64636978
+Creating results directory /home/c.c1809139/DJW_EBMC/Pd_nps/ZnO_oxy_face/optrun.64636978
+Copying structure file /home/c.c1809139/DJW_EBMC/Pd_nps/ZnO_oxy_face/geometry.in to /scratch/c.c1809139/64636978/ZnO_oxy_face/optrun.64636978
+/scratch/c.c1809139/64636978/ZnO_oxy_face/optrun.64636978 Running python script opt.py
+
+With command:
+python3 opt.py /scratch/c.c1809139/64636978/ZnO_oxy_face/optrun.64636978 64636978 /home/c.c1809139/DJW_EBMC/Pd_nps ZnO_oxy_face optrun.64636978 hawk NoFix
+fhi_aims run using ase script opt.py for job ZnO_oxy_face running.
+copying back for :  /scratch/c.c1809139/64636978/ZnO_oxy_face/optrun.64636978
+to home sub dir  :  /home/c.c1809139/DJW_EBMC/Pd_nps/ZnO_oxy_face/optrun.64636978

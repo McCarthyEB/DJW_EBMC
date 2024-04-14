@@ -1,0 +1,20 @@
+data_image0
+loop_
+  _atom_site_label
+  _atom_site_occupancy
+  _atom_site_Cartn_x
+  _atom_site_Cartn_y
+  _atom_site_Cartn_z
+  _atom_site_thermal_displace_type
+  _atom_site_B_iso_or_equiv
+  _atom_site_type_symbol
+  Pd1      1.0000 0.00000  1.12295  3.00000  Biso   1.000  Pd
+  Pd2      1.0000 0.00000  1.12295  4.50000  Biso   1.000  Pd
+  Pd3      1.0000 1.94500  0.00000  4.50000  Biso   1.000  Pd
+  Pd4      1.0000 0.00000  3.36884  4.50000  Biso   1.000  Pd
+  Pd5      1.0000 3.89000  1.12295  3.00000  Biso   1.000  Pd
+  Pd6      1.0000 3.89000  1.12295  4.50000  Biso   1.000  Pd
+  Pd7      1.0000 1.94500  2.24589  3.00000  Biso   1.000  Pd
+  Pd8      1.0000 1.94500  4.49179  3.00000  Biso   1.000  Pd
+  Pd9      1.0000 1.94500  4.49179  4.50000  Biso   1.000  Pd
+  Pd10     1.0000 3.89000  3.36884  4.50000  Biso   1.000  Pd

@@ -1,0 +1,223 @@
+ *** parse_control: Syntax error in a keyword in control.in. See FHI-aims output for details.
+ 
+
+real	0m2.374s
+user	0m0.102s
+sys	0m0.056s
+Arguements passed 10
+Argument       0: opt_noPBC.py
+Argument       1: /scratch/c.c1809139/64930911/Pd_np/optrun.64930911
+Argument       2: 40
+Argument       3: 64930911
+Argument       4: /home/c.c1809139/DJW_EBMC/Pd_nps
+Argument       5: Pd_np
+Argument       6: optrun.64930911
+Argument       7: hawk
+Argument       8: NoFix
+Argument       9: /home/c.c1809139/DJW_EBMC/Pd_nps/Pd_np/qn.pckl
+------------------------------------------------------------
+Work directory                 : /scratch/c.c1809139/64930911/Pd_np/optrun.64930911
+stdout file for prog           : /home/c.c1809139/DJW_EBMC/Pd_nps/vasp_Pd_np_64930911.stdout
+results_dir for this script    : /home/c.c1809139/DJW_EBMC/Pd_nps/Pd_np/optrun.64930911
+trajectory file for this run   : /home/c.c1809139/DJW_EBMC/Pd_nps/Pd_np/optrun.64930911/Pd_np_64930911.traj
+Stem for POSCAR files of steps : /home/c.c1809139/DJW_EBMC/Pd_nps/Pd_np/optrun.64930911/Pd_np_64930911.traj
+Machine running job            : hawk
+
+zfix not set so will not freeze any atom co-ordinates unless pre-defined in geometry file.
+------------------------------------------------------------
+Running command set to:
+time mpirun -np 40 /apps/local/projects/scw1057/software/fhi-aims/bin/aims.230612.scalapack.mpi.x
+Cell: Cell([0.0, 0.0, 0.0])
+0 Pd   0.000000   1.122946   3.000000
+1 Pd   0.000000   1.122946   4.500000
+2 Pd   1.945000   0.000000   4.500000
+3 Pd   0.000000   3.368839   4.500000
+4 Pd   3.890000   1.122946   3.000000
+5 Pd   3.890000   1.122946   4.500000
+6 Pd   1.945000   2.245893   3.000000
+7 Pd   1.945000   4.491785   3.000000
+8 Pd   1.945000   4.491785   4.500000
+9 Pd   3.890000   3.368839   4.500000
+You are using i-Pi based socket connectivity between ASE and FHI-aims.
+The communicated energy in Hartree units will be converted to eV in ASE and not FHI-aims.
+The eV/Hartree unit in FHI-aims is given by CODATA 2002 (Web Version 4.0 2003-12-09), Peter J. Mohr, Barry N. Taylor
+ASE uses CODATA 2014, thus the energy in eV from ASE and the FHI-aims outputs will differ.
+Please be consistent in the unit conversion for data analysis!
+You can turn off this message by setting 'codata_warning' keyword to False.
+Traceback (most recent call last):
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/socketio.py", line 291, in _accept
+    self.clientsocket, self.address = self.serversocket.accept()
+  File "/apps/languages/python/intel/2020u1/intelpython3/lib/python3.7/socket.py", line 212, in accept
+    fd, addr = self._accept()
+socket.timeout: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "opt_noPBC.py", line 217, in <module>
+    energy=atoms.get_potential_energy()
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/atoms.py", line 733, in get_potential_energy
+    energy = self._calc.get_potential_energy(self)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/calculator.py", line 682, in get_potential_energy
+    energy = self.get_property('energy', atoms)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/calculator.py", line 738, in get_property
+    self.calculate(atoms, [name], system_changes)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/socketio.py", line 637, in calculate
+    results = self.server.calculate(atoms)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/socketio.py", line 352, in calculate
+    self._accept()
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/socketio.py", line 297, in _accept
+    ' with status {}'.format(status))
+OSError: Subprocess terminated unexpectedly with status 0
+Command failed, retrying in  seconds (attempt 1/3)
+sleep: invalid time interval ‘’
+Try 'sleep --help' for more information.
+ *** parse_control: Syntax error in a keyword in control.in. See FHI-aims output for details.
+ 
+
+real	0m2.273s
+user	0m0.089s
+sys	0m0.053s
+Arguements passed 10
+Argument       0: opt_noPBC.py
+Argument       1: /scratch/c.c1809139/64930911/Pd_np/optrun.64930911
+Argument       2: 40
+Argument       3: 64930911
+Argument       4: /home/c.c1809139/DJW_EBMC/Pd_nps
+Argument       5: Pd_np
+Argument       6: optrun.64930911
+Argument       7: hawk
+Argument       8: NoFix
+Argument       9: /home/c.c1809139/DJW_EBMC/Pd_nps/Pd_np/qn.pckl
+------------------------------------------------------------
+Work directory                 : /scratch/c.c1809139/64930911/Pd_np/optrun.64930911
+stdout file for prog           : /home/c.c1809139/DJW_EBMC/Pd_nps/vasp_Pd_np_64930911.stdout
+results_dir for this script    : /home/c.c1809139/DJW_EBMC/Pd_nps/Pd_np/optrun.64930911
+trajectory file for this run   : /home/c.c1809139/DJW_EBMC/Pd_nps/Pd_np/optrun.64930911/Pd_np_64930911.traj
+Stem for POSCAR files of steps : /home/c.c1809139/DJW_EBMC/Pd_nps/Pd_np/optrun.64930911/Pd_np_64930911.traj
+Machine running job            : hawk
+
+zfix not set so will not freeze any atom co-ordinates unless pre-defined in geometry file.
+------------------------------------------------------------
+Running command set to:
+time mpirun -np 40 /apps/local/projects/scw1057/software/fhi-aims/bin/aims.230612.scalapack.mpi.x
+Cell: Cell([0.0, 0.0, 0.0])
+0 Pd   0.000000   1.122946   3.000000
+1 Pd   0.000000   1.122946   4.500000
+2 Pd   1.945000   0.000000   4.500000
+3 Pd   0.000000   3.368839   4.500000
+4 Pd   3.890000   1.122946   3.000000
+5 Pd   3.890000   1.122946   4.500000
+6 Pd   1.945000   2.245893   3.000000
+7 Pd   1.945000   4.491785   3.000000
+8 Pd   1.945000   4.491785   4.500000
+9 Pd   3.890000   3.368839   4.500000
+You are using i-Pi based socket connectivity between ASE and FHI-aims.
+The communicated energy in Hartree units will be converted to eV in ASE and not FHI-aims.
+The eV/Hartree unit in FHI-aims is given by CODATA 2002 (Web Version 4.0 2003-12-09), Peter J. Mohr, Barry N. Taylor
+ASE uses CODATA 2014, thus the energy in eV from ASE and the FHI-aims outputs will differ.
+Please be consistent in the unit conversion for data analysis!
+You can turn off this message by setting 'codata_warning' keyword to False.
+Traceback (most recent call last):
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/socketio.py", line 291, in _accept
+    self.clientsocket, self.address = self.serversocket.accept()
+  File "/apps/languages/python/intel/2020u1/intelpython3/lib/python3.7/socket.py", line 212, in accept
+    fd, addr = self._accept()
+socket.timeout: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "opt_noPBC.py", line 217, in <module>
+    energy=atoms.get_potential_energy()
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/atoms.py", line 733, in get_potential_energy
+    energy = self._calc.get_potential_energy(self)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/calculator.py", line 682, in get_potential_energy
+    energy = self.get_property('energy', atoms)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/calculator.py", line 738, in get_property
+    self.calculate(atoms, [name], system_changes)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/socketio.py", line 637, in calculate
+    results = self.server.calculate(atoms)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/socketio.py", line 352, in calculate
+    self._accept()
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/socketio.py", line 297, in _accept
+    ' with status {}'.format(status))
+OSError: Subprocess terminated unexpectedly with status 0
+Command failed, retrying in  seconds (attempt 2/3)
+sleep: invalid time interval ‘’
+Try 'sleep --help' for more information.
+ *** parse_control: Syntax error in a keyword in control.in. See FHI-aims output for details.
+ 
+
+real	0m2.352s
+user	0m0.079s
+sys	0m0.048s
+Arguements passed 10
+Argument       0: opt_noPBC.py
+Argument       1: /scratch/c.c1809139/64930911/Pd_np/optrun.64930911
+Argument       2: 40
+Argument       3: 64930911
+Argument       4: /home/c.c1809139/DJW_EBMC/Pd_nps
+Argument       5: Pd_np
+Argument       6: optrun.64930911
+Argument       7: hawk
+Argument       8: NoFix
+Argument       9: /home/c.c1809139/DJW_EBMC/Pd_nps/Pd_np/qn.pckl
+------------------------------------------------------------
+Work directory                 : /scratch/c.c1809139/64930911/Pd_np/optrun.64930911
+stdout file for prog           : /home/c.c1809139/DJW_EBMC/Pd_nps/vasp_Pd_np_64930911.stdout
+results_dir for this script    : /home/c.c1809139/DJW_EBMC/Pd_nps/Pd_np/optrun.64930911
+trajectory file for this run   : /home/c.c1809139/DJW_EBMC/Pd_nps/Pd_np/optrun.64930911/Pd_np_64930911.traj
+Stem for POSCAR files of steps : /home/c.c1809139/DJW_EBMC/Pd_nps/Pd_np/optrun.64930911/Pd_np_64930911.traj
+Machine running job            : hawk
+
+zfix not set so will not freeze any atom co-ordinates unless pre-defined in geometry file.
+------------------------------------------------------------
+Running command set to:
+time mpirun -np 40 /apps/local/projects/scw1057/software/fhi-aims/bin/aims.230612.scalapack.mpi.x
+Cell: Cell([0.0, 0.0, 0.0])
+0 Pd   0.000000   1.122946   3.000000
+1 Pd   0.000000   1.122946   4.500000
+2 Pd   1.945000   0.000000   4.500000
+3 Pd   0.000000   3.368839   4.500000
+4 Pd   3.890000   1.122946   3.000000
+5 Pd   3.890000   1.122946   4.500000
+6 Pd   1.945000   2.245893   3.000000
+7 Pd   1.945000   4.491785   3.000000
+8 Pd   1.945000   4.491785   4.500000
+9 Pd   3.890000   3.368839   4.500000
+You are using i-Pi based socket connectivity between ASE and FHI-aims.
+The communicated energy in Hartree units will be converted to eV in ASE and not FHI-aims.
+The eV/Hartree unit in FHI-aims is given by CODATA 2002 (Web Version 4.0 2003-12-09), Peter J. Mohr, Barry N. Taylor
+ASE uses CODATA 2014, thus the energy in eV from ASE and the FHI-aims outputs will differ.
+Please be consistent in the unit conversion for data analysis!
+You can turn off this message by setting 'codata_warning' keyword to False.
+Traceback (most recent call last):
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/socketio.py", line 291, in _accept
+    self.clientsocket, self.address = self.serversocket.accept()
+  File "/apps/languages/python/intel/2020u1/intelpython3/lib/python3.7/socket.py", line 212, in accept
+    fd, addr = self._accept()
+socket.timeout: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "opt_noPBC.py", line 217, in <module>
+    energy=atoms.get_potential_energy()
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/atoms.py", line 733, in get_potential_energy
+    energy = self._calc.get_potential_energy(self)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/calculator.py", line 682, in get_potential_energy
+    energy = self.get_property('energy', atoms)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/calculator.py", line 738, in get_property
+    self.calculate(atoms, [name], system_changes)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/socketio.py", line 637, in calculate
+    results = self.server.calculate(atoms)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/socketio.py", line 352, in calculate
+    self._accept()
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/socketio.py", line 297, in _accept
+    ' with status {}'.format(status))
+OSError: Subprocess terminated unexpectedly with status 0
+Command failed, retrying in  seconds (attempt 3/3)
+sleep: invalid time interval ‘’
+Try 'sleep --help' for more information.
+Command failed after 3 attempts: python3 opt_noPBC.py /scratch/c.c1809139/64930911/Pd_np/optrun.64930911 40 64930911 /home/c.c1809139/DJW_EBMC/Pd_nps Pd_np optrun.64930911 hawk NoFix /home/c.c1809139/DJW_EBMC/Pd_nps/Pd_np/qn.pckl

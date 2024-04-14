@@ -1,0 +1,12 @@
+dict(k_grid=(3, 3, 1),
+     override_warning_libxc='true',
+     relativistic=('atomic_zora', 'scalar'),
+     sc_accuracy_eev=0.001,
+     sc_accuracy_etot=0.001,
+     sc_accuracy_forces=0.0001,
+     sc_accuracy_rho=1e-06,
+     spin='none',
+     use_dipole_correction='true',
+     use_pimd_wrapper=['ccs0136', 22264],
+     xc='libxc MGGA_X_MBEEF+GGA_C_PBE_SOL',
+     xc_pre=['pbe', '15'])
