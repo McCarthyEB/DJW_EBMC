@@ -1,0 +1,14 @@
+Current system path:
+['/nfshome/store02/users/c.sacdjw/python/DJW_EBMC/molecules/C5H4O2', '/home/c.sacdjw/python/carmm', '/apps/chemistry/pymatgen/2018.11.30/el7/AVX512/gnu-7.3', '/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3', '/apps/languages/python/intel/2020u1/intelpython3/lib/python37.zip', '/apps/languages/python/intel/2020u1/intelpython3/lib/python3.7', '/apps/languages/python/intel/2020u1/intelpython3/lib/python3.7/lib-dynload', '/home/c.sacdjw/.local/lib/python3.7/site-packages', '/apps/languages/python/intel/2020u1/intelpython3/lib/python3.7/site-packages', '/home/c.sacdjw/python/modules/data_io', '/home/c.sacdjw/python/modules/slab', '/home/c.sacdjw/python/modules/atom_settings', '/home/c.sacdjw/python/modules/num_digi', '/home/c.sacdjw/python/modules/vectors', '/home/c.sacdjw/python/modules/atom_vectors']
+ASE script starting....
+Arguements passed 3
+Argument       0: dihedral_scan_example.py
+Argument       1: C5H4O2.in
+Argument       2: 40
+Running command set to:
+time mpirun -np 40 /apps/local/projects/scw1057/software/fhi-aims/bin/aims.230612.scalapack.mpi.x
+------------------------------------------------------------
+Traceback (most recent call last):
+  File "dihedral_scan_example.py", line 70, in <module>
+    print(f"Work directory                 : %s" % workdir )
+NameError: name 'workdir' is not defined

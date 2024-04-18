@@ -1,0 +1,10 @@
+INFO: Pymatgen now available.  Call 'python3' to access in line with instructions, see http://pymatgen.org/ 
+
+Currently Loaded Modulefiles:
+  1) system/auto                5) python/3.7.0
+  2) compiler/gnu/7/3.0         6) pymatgen/2018.11.30
+  3) anaconda/2019.07           7) mpi/intel/2018/2
+  4) ase/3.20.1                 8) python/3.7.7-intel2020u1
+/var/spool/slurmd/job56478293/slurm_script: line 54: export: `-np': not a valid identifier
+/var/spool/slurmd/job56478293/slurm_script: line 54: export: `40': not a valid identifier
+/var/spool/slurmd/job56478293/slurm_script: line 54: export: `/home/scw1057/software/fhi-aims/bin/aims.231208.scalapack.mpi.x': not a valid identifier

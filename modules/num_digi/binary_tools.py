@@ -1,10 +1,6 @@
-import numpy as np
 import sys
 import csv
 import os
-#
-# Function to obtain HOME
-from os.path import expanduser
 #
 import numpy as np
 

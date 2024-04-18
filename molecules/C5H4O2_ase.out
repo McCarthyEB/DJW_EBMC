@@ -1,0 +1,81 @@
+Current system path:
+['/scratch/c.sacdjw/56358234/C5H4O2', '/home/c.sacdjw/python/carmm', '/apps/chemistry/pymatgen/2018.11.30/el7/AVX512/gnu-7.3', '/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3', '/apps/languages/python/intel/2020u1/intelpython3/lib/python37.zip', '/apps/languages/python/intel/2020u1/intelpython3/lib/python3.7', '/apps/languages/python/intel/2020u1/intelpython3/lib/python3.7/lib-dynload', '/home/c.sacdjw/.local/lib/python3.7/site-packages', '/apps/languages/python/intel/2020u1/intelpython3/lib/python3.7/site-packages', '/home/c.sacdjw/python/modules/data_io', '/home/c.sacdjw/python/modules/slab', '/home/c.sacdjw/python/modules/atom_settings', '/home/c.sacdjw/python/modules/num_digi', '/home/c.sacdjw/python/modules/vectors', '/home/c.sacdjw/python/modules/atom_vectors']
+ASE script starting....
+Arguements passed 3
+Argument       0: dihedral_scan_example.py
+Argument       1: C5H4O2.in
+Argument       2: 40
+Running command set to:
+time mpirun -np 40 /apps/local/projects/scw1057/software/fhi-aims/bin/aims.230612.scalapack.mpi.x
+------------------------------------------------------------
+structure file                 : C5H4O2.in
+cores per task                 : 40
+------------------------------------------------------------
+You are using i-Pi based socket connectivity between ASE and FHI-aims.
+The communicated energy in Hartree units will be converted to eV in ASE and not FHI-aims.
+The eV/Hartree unit in FHI-aims is given by CODATA 2002 (Web Version 4.0 2003-12-09), Peter J. Mohr, Barry N. Taylor
+ASE uses CODATA 2014, thus the energy in eV from ASE and the FHI-aims outputs will differ.
+Please be consistent in the unit conversion for data analysis!
+You can turn off this message by setting 'codata_warning' keyword to False.
+(11, 11)
+There are 1 molecules in the cell
+4
+All dihedral atoms are in molecule 0...
+Fragment 1:  [1, 0, 3, 2, 4, 7, 6, 8]
+Fragment 2:  [5, 9, 10]
+Dihedral defining atoms 0--1--5--9
+Rotation mask:  [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1] 
+
+Atoms in molecule 0
+0 O   0.000000   0.000000   1.385801 Neighs: 1,2,
+1 C   0.000000   1.094700   0.570501 Neighs: 0,3,5,
+2 C   0.000000  -1.094700   0.570501 Neighs: 0,4,6,
+3 C   0.000000   0.713200  -0.739699 Neighs: 1,4,7,
+4 C   0.000000  -0.713200  -0.739699 Neighs: 2,3,8,
+5 C   0.000000   2.049359   1.073575 Neighs: 1,9,10,
+6 H   0.000000  -2.049359   1.073575 Neighs: 2,
+7 H   0.000000   1.370828  -1.597276 Neighs: 3,
+8 H   0.000000  -1.370828  -1.597276 Neighs: 4,
+9 O  -0.164995   2.491040   2.309323 Neighs: 5,
+10 H   0.022358   2.759651   0.426245 Neighs: 5,
+
+Initial dihedral angle: -10.533576 degrees.
+
+Dihedral step: 0,   0.000000 degrees, actual angle: -10.533576
+
+Starting optimisation.........
+
+real	0m2.443s
+user	0m0.114s
+sys	0m0.055s
+Traceback (most recent call last):
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/socketio.py", line 291, in _accept
+    self.clientsocket, self.address = self.serversocket.accept()
+  File "/apps/languages/python/intel/2020u1/intelpython3/lib/python3.7/socket.py", line 212, in accept
+    fd, addr = self._accept()
+socket.timeout: timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "dihedral_scan_example.py", line 197, in <module>
+    dyn.run(fmax=0.01)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/optimize/optimize.py", line 275, in run
+    return Dynamics.run(self)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/optimize/optimize.py", line 162, in run
+    for converged in Dynamics.irun(self):
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/optimize/optimize.py", line 128, in irun
+    self.atoms.get_forces()
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/atoms.py", line 794, in get_forces
+    forces = self._calc.get_forces(self)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/calculator.py", line 699, in get_forces
+    return self.get_property('forces', atoms)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/calculator.py", line 738, in get_property
+    self.calculate(atoms, [name], system_changes)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/socketio.py", line 637, in calculate
+    results = self.server.calculate(atoms)
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/socketio.py", line 352, in calculate
+    self._accept()
+  File "/apps/chemistry/ase/3.20.1/el7/AVX512/gnu-7.3/ase/calculators/socketio.py", line 297, in _accept
+    ' with status {}'.format(status))
+OSError: Subprocess terminated unexpectedly with status 0

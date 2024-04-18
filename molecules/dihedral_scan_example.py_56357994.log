@@ -1,0 +1,26 @@
+Running on machine: hawk
+Running on host ccs0135
+Time is Sat Apr 13 14:47:56 BST 2024
+Launch directory is /home/c.sacdjw/python/DJW_EBMC/molecules
+Working directory is /scratch/c.sacdjw/56357994
+Directory is /home/c.sacdjw/python/DJW_EBMC/molecules
+Job ID is 56357994
+Using ase script dihedral_scan_example.py
+This jobs runs on the following machine: ccs0135
+Number of Processing Elements is 40
+Number of mpiprocs per node is 40
+
+FHI-aims species path set to /home/scw1057/software/fhi-aims/species_defaults/defaults_2020/light
+Start Time is Sat Apr 13 14:47:56 BST 2024 running NCPUs=40 PPN=40
+Cores per task set to 40
+/scratch/c.sacdjw/56357994
+Processing C5H4O2
+copying C5H4O2.in to C5H4O2
+Current directory: /scratch/c.sacdjw/56357994/C5H4O2
+C5H4O2.in
+dihedral_scan_example.py
+Running python script dihedral_scan_example.py
+
+With command:
+python3 dihedral_scan_example.py C5H4O2.in 40 > C5H4O2_ase.out
+fhi_aims set running using ase script dihedral_scan_example.py for structure C5H4O2.in.

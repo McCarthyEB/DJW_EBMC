@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
+Physical constant values to be used in calculations.
 
-This is a temporary script file.
 """
 h_planck = 6.62607015E-34
 e_charge = 1.60217662E-19

@@ -1,5 +1,24 @@
 #
 # Routines for vector manipulation or comparison
+# Also incorporates some linear algebra
+# Last updated 21st March 2024, Dave
+#
+# Functions defined:
+#
+#  match_vectors(v1,v2,tol) : Compare vectorsi v1 and v2 looking for matchesi within tol
+#                             components are compared but can be in any order so
+#                             [3,2,1] matches [1,3,2]
+#  match_coords(v1,v2,tol)  : Match vectors requiring components to be in same order
+#  vector_dist(v1,v2)       : Return the scalar distance between v1 and v2.
+#  best_plane(coords)       : Return the normal vector corresponding to the best plane for
+#                             points in the coords list.
+#  crossing(l1x1, l1y1,     : Return the crossing pointi (x,y) of lines l1 and l2 
+#           l1x2, l1y2,     : defined from points.
+#           l2x1, l2y1,     : This is for interpolation on a 2D grid.
+#           l2x2, l2y2 )    :
+#  voigt_mat(eee)           : define a strain matrix using Voigt convention.
+#                             eee is a six component vector. The function returns the 
+#                             corresponding 3x3 matrix
 #
 import numpy as np
 from numpy import linalg as LA
@@ -146,6 +165,33 @@ def best_plane(coords):
   print(residual)
 #
   return normal
+#
+# find crossing point of lines l1 and l2 defined from points
+#
+def crossing(l1x1, l1y1, l1x2, l1y2, l2x1, l2y1, l2x2, l2y2 ):
+#
+# define lines in y=mx + c form from points
+    m1= (l1y2 - l1y1)/(l1x2 - l1x1)
+    c1= -m1*l1x1 + l1y1
+#
+    m2= (l2y2 - l2y1)/(l2x2 - l2x1)
+    c2= -m2*l2x1 + l2y1
+#
+    x=(c2-c1)/(m1-m2)
+    y=m1*x+c1
+#
+    return(x,y)
+#
+# Define a matrix following Voigt convention
+#
+def voigt_mat(eee):
+    vmat=[[eee[0], eee[5]/2.0,  eee[4]/2.0 ], [eee[5]/2.0, eee[1],  eee[3]/2.0 ], [eee[4]/2.0, eee[3]/2.0,  eee[2] ] ]
+
+    return vmat
+
+#
+#
+#
  
 
 
