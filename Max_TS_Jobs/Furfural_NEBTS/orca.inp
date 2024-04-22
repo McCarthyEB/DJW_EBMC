@@ -1,0 +1,7 @@
+!wB97X-V def2-TZVP NEB-TS
+%NEB NEB_END_XYZFILE "prod.xyz" END
+%pal
+nprocs 40
+end
+* xyzfile 0 1 react.xyz
+
