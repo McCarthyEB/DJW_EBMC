@@ -1,9 +1,29 @@
+#
+# Routines to carry out vector operations for analysis of atoms lists
+#
+# atom_dist : returns the distances from an atom to a list of other atoms.
+#             if a list of indices are supplied only those members of the atom list 
+#             are included. If the word "all" is sent in the place of the list all
+#             atoms in the list are included.
+# add_dist_to_list : "dist_lists" are lists of interatomic distances. This function 
+#                    adds to the list.
+# find_mols : Looks for chemically bonded atoms in an atom list and groups closed sets 
+#             into molecules. Each atom in the list is given a molecule index, the atom
+#             order in the list is not affected.
+# gen_neigh_list : generates a list of lists for a set of atoms so that each member of the
+#                  list gives the indices of the atoms bonded to the corresponding atom.
+# mol_frag: returns the list of indices for the fragment of molecule imol that has 
+#           iatm1 in it but not iatm2 neigh_lists needs to be a list of lists for 
+#           the atom neighbours
+# 
+#
 import numpy as np
 from scipy import sparse
 #
 from ase import Atom
 from ase import Atoms
 from ase import neighborlist
+from ase.constraints import FixAtoms
 #
 # Return the distance between an atom and a reference atom list
 # if ilist is the word "all" consider all atoms in the reference list.
@@ -121,7 +141,7 @@ def gen_neigh_list(atoms, neigh_matrix):
 #
     return neigh_lists
 #
-# mol_frag: returns the list of indices for the fragment of molecule molecule imol that has iatm1 in it but not iatm2
+# mol_frag: returns the list of indices for the fragment of molecule imol that has iatm1 in it but not iatm2
 #           neigh_lists needs to be a list of lists for the atom neighbours
 #
 def mol_frag(atoms, imol, iatm1, iatm2, molinds, neigh_lists):
@@ -172,6 +192,323 @@ def mol_frag(atoms, imol, iatm1, iatm2, molinds, neigh_lists):
 #    print("\nFound fragment as: ", found_list)
 #
     return found_list
+#
+# map atoms to sites
+# routine takes a set of atoms and a set of sites ( also atom types ) and
+# returns a list of the indices for the nearest lattice site for each atom
+# sites should be a list of lists for allowing site types to be defined. 
+#
+def map_atoms_to_sites(atoms, sites):
+#
+   natoms=len(atoms)
+   nsite_types=len(sites)
+#
+   print("natoms = %d" % natoms)
+   print("nsite_types = %d" % nsite_types)
+#
+   nsites=0
+   for isite in range(0,nsite_types):
+      for jsite in range(0,len(sites[isite])):
+        nsites= nsites + 1
+#
+   if len(atoms) > nsites:
+      print("ERROR: In map_atoms_to_sites....")
+      print("ERROR: Sent more atoms than sites to match")
+      print("ERROR: natoms=%d while nsites=%d." % ( natoms, nsites))
+      exit(0)
+#
+   type_list = []
+   match_list = []
+   min_dist = []
+#
+   for iatom in range(0,natoms):
+      dist_list = []
+      min_dist_list = []
+      temp_list = []
+#
+      for isite in range(0,nsite_types):
+#
+# work out the best match for this site type and record
+#
+         dist_list.append(atom_dist(sites[isite], atoms[iatom], "all"))
+         temp_list.append(np.argmin(dist_list[isite]))
+         min_dist_list.append(dist_list[isite][temp_list[isite]])
+#
+#      print("dist_list    : ", dist_list)
+#      print("temp_list    : ", temp_list)
+#      print("min_dist_list: ", min_dist_list)
+#      exit(0)
+#
+# Now work out best match over all
+#
+      type_list.append(np.argmin(min_dist_list))
+      match_list.append(temp_list[type_list[-1]])
+      min_dist.append(dist_list[type_list[-1]][match_list[-1]])
+#
+   return type_list, match_list, min_dist
+#
+# find the closest centre of mass for "atoms" to the underlying "top_atoms", i.e. the
+# cofm that is closest to any of the atoms. There are multiple centres of mass as in a
+# periodic system there are many ways to take the set of minimum image vectors.
+#
+# Move the H_bri list to minimum image positions with respect to each H atom in turn
+# Choose cofm closest to any of the top layer atoms for consistency between structures
+#
+def min_cofm(atoms, top_atoms, verbose):
+#
+     natoms=len(atoms)
+     ntop_atoms=len(top_atoms)
+     top_list=[ i for i in range(0,ntop_atoms)]
+     if verbose:
+        print("min_cofm for : ", natoms," atoms")
+        print("top atoms num: ", ntop_atoms)
+     cofm_vecs=[]
+     dist2_cofm=[]
+#
+# Use the iorig atom as the one to bring others to on minimum image
+#
+     for iorig in range(0,natoms):
+#
+        temp_atoms=atoms.copy()
+#
+        for iatom in range(0,natoms):
+           vec=[0.0,0.0,0.0]
+           if iatom != iorig:
+               vec=temp_atoms.get_distances(iorig,iatom,mic=True,vector=True)[0]
+#
+           temp_atoms.positions[iatom]=temp_atoms.positions[iorig]+vec
+#
+        cofm_vecs.append(temp_atoms.get_center_of_mass())
+#
+# Find cofm closest to any top_atoms and return that
+#
+     dist_list=[]
+     for ic in range(0,len(cofm_vecs)):
+        new_atom=Atom("Cl",cofm_vecs[ic])
+        top_atoms.append(new_atom)
 
+        ddd=top_atoms.get_distances(ntop_atoms,top_list, mic=True)
+        dist_list.append(np.min(ddd))
+#
+        del top_atoms[ntop_atoms]
+#
+     imin=np.argmin(dist_list)
+#
+     if verbose:
+        print(len(cofm_vecs)," cofm vectors found:")
+        for iii in range(0,len(dist_list)):
+           print(iii," : ",cofm_vecs[iii], " dist2: ", dist_list[iii])
+        print("Selected case ",imin)
+#
+     return dist_list[imin]
+#
+# Bubble sort atom list along a supplied direction.
+# Bubble sort for atom list, this will sort atoms according to their
+# co-ordinates in x,y,z according to the dir vector, 
+# e.g. dir= (0,0,1) for sorting along the z-direction.
+#
+def bubble_atoms(atoms, dir):
+#
+   natoms=len(atoms)
+   if natoms < 0:
+      print("ERROR: Cannot bubble sort an empty atom list")
+      exit(0)
+#
+#   print("In bubble_atoms with ", natoms, " atoms. Sorting in direction: ", dir)
+#
+# find the dot product of each position vector with the dir
+#
+   dot_list=[]
+   for iatom in range(0,natoms):
+      vec=[atoms.positions[iatom][0],atoms.positions[iatom][1],atoms.positions[iatom][2]]
+      dot_list.append(np.dot(vec,dir))
+##
+   for iii in range(0,natoms):
+      for jjj in range(iii+1,natoms):
+##
+         if dot_list[jjj] < dot_list[iii]:
+            temp         =dot_list[iii].copy()
+            dot_list[iii]=dot_list[jjj].copy()
+            dot_list[jjj]=temp.copy()
+##
+            atoms.positions[[iii,jjj]]=atoms.positions[[jjj,iii]]
+            atoms.symbols[[iii,jjj]]  =atoms.symbols[[jjj,iii]]
+##
+   return
+#
+# z-fix function to fix atoms below a certain z-co-ordinate in slab calculations
+# if a pre-existing list of fixed indices is passed this is appended to.
+#
+def zfix(atoms, zfix_string, zfix_list=[-1]):
+#
+   fix_map=np.zeros(len(atoms))
+#
+   test = zfix_string.replace('.','',1).isdigit()
+   if test:
+      zfix = float(zfix_string)
+      need_zfix = True
+      print("Will fix atoms with z co-ordinate less that %10.6f" % zfix)
+   elif zfix_list[0] < 0:
+      print("zfix and no list passed so so will not freeze any atom co-ordinates")
+      need_zfix = False
+   else:
+      print("zfix not set but specific list of atom indices passed so will proceed")      
+      need_zfix=False
+#
+# preserve any constraints already set
+# Assume these include lower layers if fixed so only implement zfix if POSCAR all free
+   have_cons=False
+   cons_orig = (atoms.constraints).copy()
+#
+# make list according to zfix if set
+# if no pre-existing list set the zfix_list to empty
+   if zfix_list[0] < 0:
+     zfix_list=[]
+#
+   if need_zfix:
+     for iatom in range(0,len(atoms)):
+        if (atoms.positions[iatom][2] < zfix):
+            zfix_list.append(iatom)
+            have_cons=True
+#
+# Remove duplicates ( i.e. atoms that appear in passed list and have z-co-ordinate in range )
+#
+   remove=[]
+   for ifix in range(0,len(zfix_list)):
+     for jfix in range(ifix+1,len(zfix_list)):
+        if zfix_list[ifix] == zfix_list[jfix]:
+            remove.append(zfix_list[jfix])
+#
+   for iii in range(0,len(remove)):
+      zfix_list.remove(remove[iii])
+# 
+   print("zfix_list :"),
+   print(zfix_list)
+#
+   have_cons_orig=False
+#
+   if (cons_orig):
+#
+# Find the indices set in the POSCAR file as fixed
+#
+     have_cons_orig=True
+     sub1=str(cons_orig[0]).split('[')
+     sub2=sub1[1].split(']')
+     sub1=sub2[0].split(',')
+     fixed_list=[ int(sub1[i]) for i in range(0,len(sub1)) ]
+     print("Original fixed_list:" )
+     print(fixed_list)
+#
+# Combine lists if you have both, if only zfix copy that to fixed_list
+#
+     for ilist in range(0, len(zfix_list)):
+       found_fix=False
+       for jlist in range(0,len(fixed_list)):
+          if ( zfix_list[ilist] == fixed_list[jlist] ):
+             found_fix=True
+       if ( not found_fix ):
+          fixed_list.append(zfix_list[ilist])
 
+     fixed_list.sort()
+     print(f"Combined list: ")
+     print(fixed_list)
+#
+   elif ( len(zfix_list) > 0 ):
+     fixed_list=zfix_list.copy()
+#
+   del atoms.constraints
+   cons_orig=FixAtoms(indices=fixed_list)
+   for icon in fixed_list:
+      fix_map[icon]=1
+   cons = FixAtoms(fixed_list)
+   atoms.set_constraint(cons)
 
+   return fix_map
+#
+#
+# find the closest centre of mass for "atoms" to the underlying "top_atoms", i.e. the
+# cofm that is closest to any of the atoms. There are multiple centres of mass as in a
+# periodic system there are many ways to take the set of minimum image vectors.
+#
+# Move the H_bri list to minimum image positions with respect to each H atom in turn
+# Choose cofm closest to any of the top layer atoms for consistency between structures
+#
+def min_cofm2(atoms, top_atoms, supercell, verbose=False):
+#
+     natoms=len(atoms)
+     atom_list=[ i for i in range(0,natoms)]
+     ntop_atoms=len(top_atoms)
+     top_list=[ i for i in range(0,ntop_atoms)]
+#
+     if verbose:
+        print("min_cofm for : ", natoms," atoms")
+        print("top atoms num: ", ntop_atoms)
+        print("super cell   : ", supercell)
+     cofm_vecs=[]
+     dist2_cofm=[]
+#
+# Use supercell setting to work out possible origins
+#
+     cell=top_atoms.get_cell().copy()
+#
+# Note this is set for slabs so expect supercell to be 1 in c direction
+     if supercell[2] != 1:
+        print("ERROR: min_cofm origin settings expecting slab with c perpendicular to surface")
+        exit(0)
+#
+     finc=[1.0/supercell[0], 1.0/supercell[1], 1.0/supercell[2]] 
+     origins=[]
+     for iorig in range(0,supercell[0]):
+        for jorig in range(0,supercell[1]):
+           for korig in range(0,supercell[2]):
+              orig= iorig*finc[0]*cell[0] +  jorig*finc[1]*cell[1] \
+                          +  korig*finc[2]*cell[2] + [0,0,top_atoms.positions[0][2]]
+              origins.append(orig)
+#
+     if verbose:
+        print("\nOrigins: ")
+        for iorig in range(0,len(origins)):
+           print(origins[iorig])
+#
+     size_min=10000.0
+     for iorig in range(0,len(origins)):
+#
+# Add an atom as an origin marker
+# Use the origin atom as the one to bring others to on minimum image
+#
+        temp_atoms=atoms.copy()
+        temp_atoms.append(Atom("C",origins[iorig]))
+#
+        vecs=[]
+        for iatom in range(0,natoms):
+           vecs.append(temp_atoms.get_distances(natoms,atom_list[iatom],mic=True,vector=True)[0])
+#
+# Look for most compact cluster
+#
+        size=np.sum([np.dot(vecs[iii],vecs[iii]) for iii in range(0,len(vecs))])
+        if size < size_min:
+           size_min=size
+#
+           for ivec in range(0,natoms):
+              temp_atoms.positions[ivec]=temp_atoms.positions[natoms]+vecs[ivec]
+#
+# Remove origin marker and work out cofm
+# shift cofm vector back to original origin
+#
+           del temp_atoms[natoms]
+           cofm=temp_atoms.get_center_of_mass()
+#
+# Find closest top_atoms to cofm              
+#
+     new_atom=Atom("Cl",cofm)
+     top_atoms.append(new_atom)
+
+     ddd=top_atoms.get_distances(ntop_atoms,top_list, mic=True)
+     dist_min=np.min(ddd)
+#
+     del top_atoms[ntop_atoms]
+#
+     if verbose:
+         print("cofm vector for most compact cluster: ", cofm, "dist_Pd:", dist_min)
+#
+     return dist_min

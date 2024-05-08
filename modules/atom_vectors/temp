@@ -1,0 +1,60 @@
+#
+# find the closest centre of mass for "atoms" to the underlying "top_atoms", i.e. the
+# cofm that is closest to any of the atoms. There are multiple centres of mass as in a
+# periodic system there are many ways to take the set of minimum image vectors.
+#
+# Move the H_bri list to minimum image positions with respect to each H atom in turn
+# Choose cofm closest to any of the top layer atoms for consistency between structures
+#
+def min_cofm(atoms, top_atoms, verbose):
+#
+     natoms=len(atoms)
+     atom_list=[ i for i in range(0,natoms)]
+     ntop_atoms=len(top_atoms)
+     top_list=[ i for i in range(0,ntop_atoms)]
+     if verbose:
+        print("min_cofm for : ", natoms," atoms")
+        print("top atoms num: ", ntop_atoms)
+     cofm_vecs=[]
+     dist2_cofm=[]
+#
+# Add an atom as an origin marker
+#
+     atoms.append(Atom("C",[0.0,0.0,0.0]))
+#
+# Use the iorig atom as the one to bring others to on minimum image
+#
+#    for iorig in range(0,natoms):
+#
+     temp_atoms=atoms.copy()
+     vec=temp_atoms.get_distances(ntop_atoms,,mic=True,vector=True)[0]
+#
+#     for iatom in range(0,natoms):
+           vec=[0.0,0.0,0.0]
+           if iatom != iorig:
+#
+           temp_atoms.positions[iatom]=temp_atoms.positions[iorig]+vec
+#
+        cofm_vecs.append(temp_atoms.get_center_of_mass())
+#
+# Find cofm closest to any top_atoms and return that
+#
+     dist_list=[]
+     for ic in range(0,len(cofm_vecs)):
+        new_atom=Atom("Cl",cofm_vecs[ic])
+        top_atoms.append(new_atom)
+
+        ddd=top_atoms.get_distances(ntop_atoms,top_list, mic=True)
+        dist_list.append(np.min(ddd))
+#
+        del top_atoms[ntop_atoms]
+#
+     imin=np.argmin(dist_list)
+#
+     if verbose:
+        print(len(cofm_vecs)," cofm vectors found:")
+        for iii in range(0,len(dist_list)):
+           print(iii," : ",cofm_vecs[iii], " dist2: ", dist_list[iii])
+        print("Selected case ",imin)
+#
+     return dist_list[imin]

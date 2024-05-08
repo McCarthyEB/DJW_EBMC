@@ -27,7 +27,7 @@ export PYTHONPATH=~/python/carmm:$PYTHONPATH
 echo modules:
 module list
 #export VERSION=230612
-export VERSION=231208
+export VERSION=210513
 #
 # Define directory job submitted from - change for your system
 # Define MACHINE you are working on   - change for your system
@@ -51,7 +51,7 @@ export work_dir=/scratch/"$USER"/"$JOBID"
 mkdir -p $work_dir
 #
 #export ASE_AIMS_COMMAND="mpirun -np $SLURM_NTASKS /home/scw1057/software/fhi-aims/bin/aims.210513.scalapack.mpi.x"
-export ASE_AIMS_COMMAND=mpirun -np $CORES_PER_TASK /home/scw1057/software/fhi-aims/bin/aims.$VERSION.scalapack.mpi.x
+export ASE_AIMS_COMMAND="mpirun -np $CORES_PER_TASK /home/scw1057/software/fhi-aims/bin/aims.$VERSION.scalapack.mpi.x"
 export AIMS_SPECIES_DIR="/home/scw1057/software/fhi-aims/species_defaults/defaults_2020/light"
 #
 export OMP_NUM_THREADS=1

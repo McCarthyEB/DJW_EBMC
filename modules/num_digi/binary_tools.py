@@ -23,7 +23,7 @@ def flags_to_int(array):
        num=num+array[i]*pow_of_two
        pow_of_two=pow_of_two*2
 
-   return num
+   return int(num)
 #
 def int_to_flags(num, ndigi):
 #
