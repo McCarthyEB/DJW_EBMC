@@ -1,0 +1,42 @@
+Arguements passed 9
+Argument       0: ase_vasp_slab_opt.py
+Argument       1: /scratch/c.sacab7/56368068/CsPbI3/opt
+Argument       2: 40
+Argument       3: 56368068
+Argument       4: /home/c.sacab7/CsPbI3
+Argument       5: CsPbI3
+Argument       6: opt
+Argument       7: hawk
+Argument       8: 40
+------------------------------------------------------------
+Work directory               : /scratch/c.sacab7/56368068/CsPbI3/opt
+stdout file for vasp         : /home/c.sacab7/CsPbI3/vasp_CsPbI3_56368068.stdout
+results_dir for this script  : /home/c.sacab7/CsPbI3/CsPbI3/opt
+trajectory file for this run : /home/c.sacab7/CsPbI3/CsPbI3/opt/CsPbI3_56368068_spin1.traj
+trajectory file for ISPIN 2  : /home/c.sacab7/CsPbI3/CsPbI3/opt/CsPbI3_56368068_spin2.traj
+Machine running job          : hawk
+------------------------------------------------------------
+Will fix atoms with z co-ordinate less that  40.000000
+reading POSCAR file
+zfix_list :
+[0, 1, 2, 3, 4]
+0 Cs   0.000000   0.000000   0.000000 fixed
+1 Pb   3.189272   3.189272   3.189272 fixed
+2 I   3.189272   3.189272   0.000000 fixed
+3 I   0.000000   3.189272   3.189272 fixed
+4 I   3.189272   0.000000   3.189272 fixed
+Initial energy = -18.099910 eV
+Constraints set [FixAtoms(indices=[0, 1, 2, 3, 4])]
+      Step     Time          Energy         fmax
+*Force-consistent energies used in optimization.
+FIRE:    0 20:30:30      -18.099913*       0.0000
+Energy on raising accuracy = -18.045096 eV
+      Step     Time          Energy         fmax
+BFGS:    0 20:30:40      -18.045096        0.0000
+Optimisation reached required accuracy
+---------------------------------------
+Starting optimisation unrestricted.....
+Energy unrestricted ( ISPIN 2 ) = -18.045096 eV
+      Step     Time          Energy         fmax
+BFGS:    0 20:30:55      -18.045096        0.0000
+Optimisation reached required accuracy unrestricted

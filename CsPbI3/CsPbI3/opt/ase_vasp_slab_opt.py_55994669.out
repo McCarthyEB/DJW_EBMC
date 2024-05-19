@@ -1,0 +1,17 @@
+Arguements passed 8
+Argument       0: ase_vasp_slab_opt.py
+Argument       1: /scratch/c.sacab7/55994669/CsPbI3/opt
+Argument       2: 40
+Argument       3: 55994669
+Argument       4: /home/c.sacab7/CsPbI3
+Argument       5: CsPbI3
+Argument       6: opt
+Argument       7: hawk
+------------------------------------------------------------
+Work directory               : /scratch/c.sacab7/55994669/CsPbI3/opt
+stdout file for vasp         : /home/c.sacab7/CsPbI3/vasp_CsPbI3_55994669.stdout
+results_dir for this script  : /home/c.sacab7/CsPbI3/CsPbI3/opt
+trajectory file for this run : /home/c.sacab7/CsPbI3/CsPbI3/opt/CsPbI3_55994669_spin1.traj
+trajectory file for ISPIN 2  : /home/c.sacab7/CsPbI3/CsPbI3/opt/CsPbI3_55994669_spin2.traj
+Machine running job          : hawk
+------------------------------------------------------------

@@ -1,0 +1,28 @@
+Running on machine: hawk
+Running on host ccs0136
+Time is Wed Feb 14 12:30:07 GMT 2024
+Launch directory is /home/c.sacab7/CsPbI3
+Working directory is /scratch/c.sacab7/56013307
+Directory is /home/c.sacab7/CsPbI3
+Job ID is 56013307
+Using ase script ase_vasp_slab_opt.py
+Structure file is POSCAR_CsPbI3
+This jobs runs on the following machine: ccs0136
+Number of Processing Elements is 40
+Number of mpiprocs per node is 40
+
+Start Time is Wed Feb 14 12:30:07 GMT 2024
+
+job = CsPbI3
+sub_dir = opt
+Will be working in directory /scratch/c.sacab7/56013307/CsPbI3/opt
+results to go to directory /home/c.sacab7/CsPbI3/CsPbI3/opt
+Creating working directory /scratch/c.sacab7/56013307/CsPbI3/opt
+Copying structure file /home/c.sacab7/CsPbI3/CsPbI3/POSCAR_CsPbI3 to /scratch/c.sacab7/56013307/CsPbI3/opt
+/scratch/c.sacab7/56013307/CsPbI3/opt Running python script ase_vasp_slab_opt.py
+
+With command:
+python3 ase_vasp_slab_opt.py /scratch/c.sacab7/56013307/CsPbI3/opt 40 56013307 /home/c.sacab7/CsPbI3 CsPbI3 opt hawk 40
+VASP run using ase script ase_vasp_slab_opt.py for job CsPbI3 running.
+copying back for :  /scratch/c.sacab7/56013307/CsPbI3/opt
+to home sub dir  :  /home/c.sacab7/CsPbI3/CsPbI3/opt

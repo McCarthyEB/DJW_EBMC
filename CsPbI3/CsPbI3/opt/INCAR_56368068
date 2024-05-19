@@ -1,0 +1,17 @@
+INCAR created by Atomic Simulation Environment
+ ENCUT = 500.000000
+ SIGMA = 0.200000
+ VDW_S6 = 0.750000
+ EDIFF = 1.00e-08
+ ALGO = Fast
+ GGA = PE
+ PREC = Accurate
+ ISMEAR = 0
+ ISPIN = 2
+ ISTART = 1
+ ISYM = 0
+ NELMDL = -4
+ NUPDOWN = 0
+ IVDW = 11
+ ADDGRID = .TRUE.
+ LREAL = .FALSE.
