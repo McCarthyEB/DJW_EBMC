@@ -81,7 +81,8 @@ def read_config_data(fileobj, nsites_1, nsites_2, label_1, label_2, have_ref, Er
 #
             if keep:
                nconfig+=1
-               sf.append(linesplit[1])
+               if file_col > 0:
+                  sf.append(linesplit[file_col])
 #
 #               print("DEBUG: nconfig: %d filename: %s" % (nconfig, sf[-1]))
 # 
@@ -139,6 +140,11 @@ def read_config_data(fileobj, nsites_1, nsites_2, label_1, label_2, have_ref, Er
                else:
                   nads=np.sum(site1_array)+np.sum(site2_array)
 #
+# if no filename has been supplied make one up from site information
+#
+               if file_col < 0:
+                   sf.append("def_slab_%d_%d_%d.in" % (nads,site1_i[nconfig], site2_i[nconfig]))
+#
                if (nconfig == 0):
                    nads_chk=nads
                else:
@@ -176,6 +182,7 @@ def read_config_data(fileobj, nsites_1, nsites_2, label_1, label_2, have_ref, Er
 #           
         elif nwords>0 and 'index' in linesplit[0]:
             have_index=True
+            file_col=-1
             site1_col=-1
             site2_col=-1
             sub_col=-1
@@ -185,6 +192,8 @@ def read_config_data(fileobj, nsites_1, nsites_2, label_1, label_2, have_ref, Er
             zpe_col=-1
             da_col=-1
             for iword in range(0,nwords):
+               if ( "filename" in linesplit[iword]):
+                   file_col = iword
                if ( label_1 in linesplit[iword]):
                    site1_col = iword
                if ( label_2 in linesplit[iword]):

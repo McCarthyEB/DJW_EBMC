@@ -13,9 +13,15 @@ def best_ncore(cores_per_task):
     if test:
         tot_cores=float(cores_per_task)
         ncore=int(np.sqrt(tot_cores))
+        div = tot_cores/ncore
         print("cores_per_task= ", cores_per_task, " ideal ncore = %d" % ncore)
-        print("cores_per_task/ncore = ", tot_cores/ncore)
-        print("This needs to be integer....")
+        print("cores_per_task/ncore = ", div)
+#
+        if tot_cores%ncore == 0:
+           print("Already integer so can use ncore = %d" % ncore)
+           return ncore
+        else:
+           print("This needs to be integer....")
 #
         for n in range(2,int(np.sqrt(tot_cores))):
             print("n: ", n, " cores_per_task/n = ", tot_cores/n)

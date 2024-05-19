@@ -23,6 +23,18 @@
 import numpy as np
 from numpy import linalg as LA
 #
+def unit_vector(vector):
+# 
+    return vector / np.linalg.norm(vector)
+#
+# angle function that copes with aligned and anti-aligned cases correctly
+
+def vec_angle(v1, v2):
+#
+    v1_u = unit_vector(v1)
+    v2_u = unit_vector(v2)
+    return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
+#
 # Compare vectors looking for matches in any order
 #
 def match_vectors(v1,v2,tol):
@@ -34,8 +46,12 @@ def match_vectors(v1,v2,tol):
   if (length != len(v2)):
 #    print("Warning: Trying to match vectors of unequal length")
     return False, 0.0
-#  else:
-#    print("lengths match")
+#
+# Match vectors if both zero length, not if we are here they are already
+# the same length.
+#
+  if length == 0:
+    return True, 0.0
 #
 # tol is the tolerence with which to compare elements
 #
@@ -159,7 +175,7 @@ def best_plane(coords):
   print("solution:")
   print("%f x + %f y + %f = z" % (fit[0], fit[1], fit[2]))
   print("Normal vector: " , normal)
-  print("errors:")
+  print("deviations from plane:")
   print(errors)
   print("residual:")
   print(residual)

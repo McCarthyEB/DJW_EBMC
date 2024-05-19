@@ -436,6 +436,13 @@ def zfix(atoms, zfix_string, zfix_list=[-1]):
 def min_cofm2(atoms, top_atoms, supercell, verbose=False):
 #
      natoms=len(atoms)
+#
+# return dummy data if there are no atoms in the list
+#
+     if natoms == 0:
+        cofm_info = [-1, -1, -1, -1, -1 ]
+        return cofm_info
+#
      atom_list=[ i for i in range(0,natoms)]
      ntop_atoms=len(top_atoms)
      top_list=[ i for i in range(0,ntop_atoms)]
@@ -465,50 +472,221 @@ def min_cofm2(atoms, top_atoms, supercell, verbose=False):
                           +  korig*finc[2]*cell[2] + [0,0,top_atoms.positions[0][2]]
               origins.append(orig)
 #
-     if verbose:
-        print("\nOrigins: ")
-        for iorig in range(0,len(origins)):
-           print(origins[iorig])
+# Loop over origins, identify most compact structure around cofm
 #
      size_min=10000.0
      for iorig in range(0,len(origins)):
 #
+#       if verbose:
+#          print("Origin: ", origins[iorig])
+#
 # Add an atom as an origin marker
 # Use the origin atom as the one to bring others to on minimum image
 #
-        temp_atoms=atoms.copy()
-        temp_atoms.append(Atom("C",origins[iorig]))
+        orig_atoms=atoms.copy()
+        scal_atoms=atoms.copy()
+        orig_atoms.append(Atom("C",origins[iorig]))
 #
-        vecs=[]
-        for iatom in range(0,natoms):
-           vecs.append(temp_atoms.get_distances(natoms,atom_list[iatom],mic=True,vector=True)[0])
+        vecs=orig_atoms.get_distances(natoms,atom_list,mic=True,vector=True)
+        del orig_atoms[natoms]
 #
-# Look for most compact cluster
+# Move atoms to minimum image with respect to this origin
 #
-        size=np.sum([np.dot(vecs[iii],vecs[iii]) for iii in range(0,len(vecs))])
-        if size < size_min:
-           size_min=size
+        for ivec in range(0,natoms):
+#         print(ivec, " : ", vecs[ivec])
+          scal_atoms.positions[ivec]=vecs[ivec]
+          orig_atoms.positions[ivec]=origins[iorig]+vecs[ivec]
 #
-           for ivec in range(0,natoms):
-              temp_atoms.positions[ivec]=temp_atoms.positions[natoms]+vecs[ivec]
+# On first pass of origin loop identify atoms that have 0.5 fractional co-ordinates
+# as we have to try two positions for each of these to be sure to build the minimum
+# cluster.
 #
-# Remove origin marker and work out cofm
-# shift cofm vector back to original origin
+        scaled=scal_atoms.get_scaled_positions()
+#       print(scaled)
 #
-           del temp_atoms[natoms]
+# The spec_list will contain lists of atom id on special position, which co-ord, and
+# displacement direction to check.
+#
+        nspecial=0
+        spec_list=[]
+        for iscal in range(0, len(scaled)):
+          for icoord in range(0,2):
+             sss = scaled[iscal][icoord] 
+             if abs(sss) < 0.501 and abs(sss) > 0.499:
+#
+# Only bother if atom is aligned with origin
+               if icoord == 0:
+                  algn = abs(orig_atoms.positions[iscal][1] - origins[iorig][1]) < 0.1
+               elif icoord == 1:
+                  algn = abs(orig_atoms.positions[iscal][0] - origins[iorig][0]) < 0.1
+#
+               if algn:
+                   nspecial=nspecial + 1
+                   dv = np.dot(vecs[iscal],vecs[iscal])
+                   vec_test = [vecs[iscal] + idisp*cell[icoord] for idisp in range(-1,2,2)]
+                   trans_ddd = [ np.dot(vec_test[id],vec_test[id]) for id in range(0,2)]
+                   min_ddd = np.min(trans_ddd)
+#
+                   if abs(trans_ddd[0] - dv ) < 0.1:
+                      spec_list.append([iscal,icoord, -1])
+                   elif abs(trans_ddd[1] - dv ) < 0.1:
+                      spec_list.append([iscal,icoord,  1])
+                   else:
+                      print("ERROR: Atom on special point but no equivalent translation found..")
+                      exit(0)
+#
+#                  print("atom %d coord %d is special" % ( iscal, icoord))
+#                  print("trans_ddd: ", trans_ddd)
+                
+#       print("Found %d special point positions" % nspecial)
+#       print(spec_list)
+#
+        spec_combs = [[[-1,-1,-1]]]
+#
+        if nspecial == 1:
+          spec_combs.append([spec_list[0]])
+        elif nspecial == 2:
+          spec_combs.append([spec_list[0], [-1,-1,-1]])
+          spec_combs.append([spec_list[1], [-1,-1,-1]])
+          spec_combs.append([spec_list[0], spec_list[1]])
+      
+        elif nspecial > 2:
+          print("ERROR: Cann't cope with more than 2 atoms on special positions...")
+          exit(0)
+
+#
+#       print("spec_combs:")
+#       for ispec in range(0,len(spec_combs)):
+#          print(spec_combs[ispec])
+#       print("--------------------------------")
+#
+# size around origin, vecs are still valid for orig_size as distance to origin of all
+# images is the same.
+#
+        orig_size=np.sum([np.dot(vecs[iii],vecs[iii]) for iii in range(0,len(vecs))])
+#
+# Deal with special positioned atoms, for no move the first element of spec_combs will be -1
+#
+        for ispec in range(0,len(spec_combs)):
+#
+#          print("Pass ispec = %d......" % ispec)
+           temp_atoms=orig_atoms.copy()
+#
+# Make any moves required, first entry is always no change
+#
+           if ispec > 0:
+              this_spec=spec_combs[ispec]
+              for iii in range(0,nspecial):
+                 indx   = this_spec[iii][0] 
+# see if anything to do for this atom
+                 if indx >= 0:
+                    icoord = this_spec[iii][1] 
+                    sgn    = this_spec[iii][2] 
+#                   print("shifting atom position %d coord %d in direction %d" % ( indx, icoord, sgn))
+                    temp_atoms.positions[indx] = temp_atoms.positions[indx] + sgn * cell[icoord]
+#
+# find cofm for this cluster
+#
            cofm=temp_atoms.get_center_of_mass()
 #
+# Cluster "size" around cofm 
+#
+           temp_atoms.append(Atom("C",cofm))
+#
+           vecs=temp_atoms.get_distances(natoms,atom_list,mic=False,vector=True)
+           del temp_atoms[natoms]
+#
+           cofm_size=np.sum([np.dot(vecs[iii],vecs[iii]) for iii in range(0,len(vecs))])
+#          print("Now got cofm_size %8.4f" % cofm_size)
+#
+# Work out longest inter-atomic distance in this setting of the cluster
+#
+           if natoms == 1:
+             dmax = 0
+             ddd_inter = [dmax]
+           elif natoms == 2:
+             dmax = temp_atoms.get_distances(0,1,mic=False)
+             ddd_inter = [dmax]
+           else:
+             ddd_inter=[]
+             for iatom in range(0,natoms-1):
+                for jatom in range(iatom+1,natoms):
+                  ddd_inter.append(temp_atoms.get_distance(iatom,jatom,mic=False))
+#            print("ddd_inter: ", ddd_inter)
+             dmax = np.max(ddd_inter)   
+#
+# Use all measures together for "size"
+#
+           size = orig_size + cofm_size + dmax
+#          if verbose:
+#             print("orig_size=%8.4f, cofm_size=%8.4f, dmax=%8.4f, tot=%8.4f" % \
+#                             (orig_size , cofm_size , dmax, size))
+#
+           if size < size_min:
+#
+               size_min      = size     
+               orig_size_min = orig_size
+               cofm_size_min = cofm_size
+               dmax_min      = dmax
+#
+               ddd_inter_min = ddd_inter.copy()
+               origin_min = origins[iorig]
+#
+# record cofm for this cluster
+#
+               cofm_min=cofm
+
+               temp_atoms_min=temp_atoms.copy()
 # Find closest top_atoms to cofm              
 #
-     new_atom=Atom("Cl",cofm)
-     top_atoms.append(new_atom)
+     top_atoms.append(Atom("C",cofm_min))
 
      ddd=top_atoms.get_distances(ntop_atoms,top_list, mic=True)
      dist_min=np.min(ddd)
 #
      del top_atoms[ntop_atoms]
 #
-     if verbose:
-         print("cofm vector for most compact cluster: ", cofm, "dist_Pd:", dist_min)
+     cofm_info = [dist_min, orig_size_min, cofm_size_min, dmax_min, size_min]
 #
-     return dist_min
+     if verbose:
+         print("Most compact cluster with F for cofm")
+         for iatom in range(0,natoms):
+            print("atom %10.6f  %10.6f  %10.6f %s" % \
+                    (temp_atoms_min.positions[iatom][0],temp_atoms_min.positions[iatom][1],\
+                     temp_atoms_min.positions[iatom][2],temp_atoms_min.symbols[iatom]))  
+
+         print("atom %10.6f  %10.6f  %10.6f F" % (cofm_min[0],cofm_min[1],cofm_min[2]))  
+         print("atom %10.6f  %10.6f  %10.6f C" % (origin_min[0],origin_min[1],origin_min[2]))  
+#
+         print("cofm_info: dist = %8.4f orig size = %8.4f cofm size = %8.4f dmax = %8.4f tot_measure = %8.4f" % \
+                    ( cofm_info[0], cofm_info[1], cofm_info[2], cofm_info[3], cofm_info[4] ))
+         print("ddd_inter in cofm: ", ddd_inter_min)
+#
+# return the distance to the nearest top atom and the compactness measure
+#
+     return cofm_info
+#
+# use_list makes a test that the smallest member of a list is within a desired range.
+#
+def use_list(dists, low_min, high_min=-1):
+#
+   bother = True
+#
+   if len(dists) > 0:
+     min = np.min(dists)
+#
+# Check if the minimum in the list is below the low value threshold
+#
+     if  min < low_min:
+       bother = False
+#
+# Only test for high_min if a positive value has been set
+#
+     elif high_min > 0:
+       if min > high_min:
+          bother = False
+
+   return bother
+#
+
+
