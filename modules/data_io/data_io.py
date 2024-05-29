@@ -220,4 +220,3 @@ def read_config_data(fileobj, nsites_1, nsites_2, label_1, label_2, have_ref, Er
           sys.exit(0)
 
     return (sf, site1_i, site2_i, sub_i, g_i, da, Ea, Eslab, ZPE, nconfig+1, nads, freq_list)
-#
