@@ -5,7 +5,7 @@
 #SBATCH -p dev                # Queue partition
 #SBATCH --ntasks=40           # number of parallel processes (tasks)
 #SBATCH --ntasks-per-node=40  # tasks to run per node
-#SBATCH --time=00:15:00       # time limit
+#SBATCH --time=00:03:00       # time limit
 #SBATCH --exclusive           # exclusive node access
 #SBATCH -A scw1161            # Project code
 
@@ -17,9 +17,9 @@
 # 
 echo "Starting script...."
 #
-export CODE='AIMS'
+export CODE='ORCA'
 MACHINE='hawk'
-ASE_SCRIPT='dihedral_scan_example.py'
+ASE_SCRIPT='dihedral_nosock.py'
 struct_list='test'
 CORES_PER_TASK=40
 #
@@ -107,9 +107,54 @@ if [[ $CODE == "CASTEP" ]]; then
 
    fi
 #
+#ORCA setup for HAWK
 
 
+elif [[ $CODE == "ORCA" ]]; then
+        echo "This is an ORCA run"
 
+        if [[ $MACHINE == "hawk" ]]; then
+#		set -eu
+                echo "Importing modules and setting ORCA executable for hawk"
+                
+		#module purge
+                source ~/ase_env/bin/activate
+                module load mpi/openmpi/4.1.5
+                module load orca/5.0.0
+                export executable=/apps/chemistry/orca/5.0.0/el7/orca
+
+                #export PATH=~/bin/ase/bin:$PATH
+                #export PYTHONPATH=~/bin/ase/lib/pythonX.X/site-packages:$PYTHONPATH
+
+                #module load compiler/gnu/9/2.0
+                # Move to directory that script was submitted from
+                LAUNCH_DIR=$PWD
+                JOBID=$SLURM_JOBID
+                # Load the FHI_aims module, avoid any unintentional OpenMP threading by
+                # setting OMP_NUM_THREADS, and launch the code.
+                # Setup the batch environment
+                #need version of python at 3.9 or higher to avoid lru_cache error in latest ASE
+		#module load python/3.9.2 
+                #module load python3/recommended
+                #export PYTHONPATH=~/bin/ase:$PYTHONPATH
+                #export PYTHONPATH=~/bin/numpy:$PYTHONPATH
+                #export PYTHONPATH=~/bin/scipy:$PYTHONPATH
+ #               module load ase/3.20.1
+                #need to load the latest version of ase installed in the home directory in the python script instead!
+                echo modules:
+                module list
+                echo "Using ASE version: $(python -c 'import ase; print(ase.__version__)')"
+                # Set stacksize to unlimited for FHI-aims
+                export LOG_FILE="$LAUNCH_DIR"/"$ASE_SCRIPT"_"$JOBID".log
+                JOBID=$SLURM_JOBID
+
+                LAUNCH_DIR=$PWD
+           # Record machine set up info
+                NNODES=$SLURM_NNODES
+                NCPUS=$SLURM_NTASKS
+                PPN=$SLURM_NTASKS_PER_NODE
+
+                fi
 #FHI-aims set up
 
 elif [[ $CODE == "AIMS" ]]; then
@@ -332,6 +377,9 @@ if [[ $CODE == "CASTEP" ]]; then
   echo CASTEP_PP_PATH set to $CASTEP_PP_PATH >> $LOG_FILE 
   echo Castep param file is $PARAM_FILES/$param_name >> $LOG_FILE
 fi
+if [[ $CODE == "ORCA" ]]; then
+  echo ORCA Start Time is `date` running NCPUs=$NCPUS PPN=$PPN >> $LOG_FILE
+fi
 if [[ $CODE == "AIMS" ]]; then
   echo FHI-aims species path set to $AIMS_SPECIES_DIR >> $LOG_FILE
   echo FHI-aims Start Time is `date` running NCPUs=$NCPUS PPN=$PPN >> $LOG_FILE
@@ -452,9 +500,12 @@ for struct_dir in $struct_list; do
 #
 #  run the ase script
 #
-     if [[ $SOCKETS == *"no sockets"* ]]; then
+     if [[ $CODE  == "VASP" ]]; then
           python3 $ASE_SCRIPT $jobwork_dir $CORES_PER_TASK $JOBID $LAUNCH_DIR $struct_dir $sub_dir $MACHINE $zfix $full_hess $struct_name \
-                                    > "$LAUNCH_DIR"/"$struct_dir"/"$sub_dir"/"$ASE_SCRIPT"_"$JOBID".out &
+                                    > "$LAUNCH_DIR"/"$struct_dir"/"$sub_dir"/"$ASE_SCRIPT"_"$JOBID".out
+     #elif [[ $SOCKETS == *"no sockets"* ]]; then
+      #    python3 $ASE_SCRIPT $jobwork_dir $CORES_PER_TASK $JOBID $LAUNCH_DIR $struct_dir $sub_dir $MACHINE $zfix $full_hess $struct_name \
+       #                             > "$LAUNCH_DIR"/"$struct_dir"/"$sub_dir"/"$ASE_SCRIPT"_"$JOBID".out &
      else
           python3 $ASE_SCRIPT $jobwork_dir $CORES_PER_TASK $JOBID $LAUNCH_DIR $struct_dir $sub_dir $MACHINE $zfix $full_hess $struct_name \
                                     > "$LAUNCH_DIR"/"$struct_dir"/"$sub_dir"/"$ASE_SCRIPT"_"$JOBID".out 2>&1 &
@@ -465,6 +516,8 @@ for struct_dir in $struct_list; do
         echo CASTEP run using ase script $ASE_SCRIPT for job $struct_dir running. >> $LOG_FILE
      elif [[ $CODE == "AIMS" ]]; then
         echo fhi_aims run using ase script $ASE_SCRIPT for job $struct_dir running. >> $LOG_FILE
+     elif [[ $CODE == "ORCA" ]]; then
+        echo ORCA run using ase script $ASE_SCRIPT for job $struct_dir running. >> $LOG_FILE
      fi
 
      cd ..

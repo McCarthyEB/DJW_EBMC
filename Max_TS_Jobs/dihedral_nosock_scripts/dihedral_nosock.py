@@ -6,7 +6,7 @@ import os
 # Function to obtain HOME
 from os.path import expanduser
 
-from ase import Atom
+#from ase import Atom
 from ase import Atoms
 from ase.io import read
 from ase import neighborlist
@@ -15,6 +15,16 @@ from ase.io import read, write, Trajectory
 #
 from ase.optimize import BFGS
 from ase.constraints import FixInternals
+from ase.calculators.orca import ORCA
+import re
+
+import ase.io.orca as io
+
+#from ase.calculators.genericfileio import (BaseProfile, CalculatorTemplate,
+ #                                          GenericFileIOCalculator)
+
+
+from ase.calculators.orca import OrcaProfile
 #
 sockets=False
 
@@ -39,6 +49,8 @@ set_module="%s/modules/vectors" % home
 sys.path.append(set_module)
 set_module="%s/modules/atom_vectors" % home
 sys.path.append(set_module)
+#set_module="%s/modules/orca_profile" % home
+#sys.path.append(set_module)
 #
 print("Current system path:")
 print(sys.path)
@@ -46,6 +58,7 @@ print(sys.path)
 # Import our own modules
 #
 from atom_vectors import *
+#from orca_profile import *
 #
 print("ASE script starting....")
 #
@@ -53,7 +66,7 @@ print(f"Arguements passed {len(sys.argv)}")
 for i, arg in enumerate(sys.argv):
         print(f"Argument {i:>7}: {arg}")
 #
-PROG="AIMS"
+PROG="ORCA"
 # 
 if sockets == True:
   if PROG == "AIMS":
@@ -141,7 +154,7 @@ if PROG == "AIMS":
   else:
     calc = Aims(xc_pre=['pbe', '10'], #we do here 10 steps with PBE to stabilize the system
            override_warning_libxc="true", #MBEEF is not impplemented directly with FHI, for that we need to call libxc library
-           force_correction="true",
+#           force_correction="true",
            xc='libxc MGGA_X_MBEEF+GGA_C_PBE_SOL', #MBEEF
            spin='none',
            k_grid=(4,4,1),
@@ -152,9 +165,19 @@ if PROG == "AIMS":
            sc_accuracy_rho=1e-6,
            sc_accuracy_forces=1e-6,
            )
-
+    print("Hartree potential force correction turned off")
     atoms.set_calculator(calc)
+
+if PROG == "ORCA":
+   MyOrcaProfile = OrcaProfile(command="/apps/chemistry/orca/5.0.0/el7/orca")
+   calc = ORCA(profile=MyOrcaProfile, orcasimpleinput='wB97X-V def2-TZVP Opt', orcablocks='%pal nprocs 40 end') 
+   #atoms.set_calculator(calc)
+   atoms.calc = calc
 #
+   test=atoms.get_potential_energy()
+   print("Test of calculator: initial energy is", test)
+   opt = BFGS(atoms, trajectory='rot_check.traj')  #Put optimisation back in
+   opt.run(fmax=0.01)
 # The find_mols routine identifies atoms that are chemically bonded to one another based on atom-atom
 # distances. These sub-groups of atoms are called "molecules". The routine returns the number of molecules
 # found "n_mols" and a two dimensional array, molinds[imol][iatom] gives the index of the iatom atom within
@@ -267,16 +290,18 @@ for dihed in dihedral_steps:
    atoms.set_constraint(cons) 
 #
    print("Starting optimisation.........", flush=True)
-   dyn = BFGS(atoms)  #Put optimisation back in
-   dyn.run(fmax=0.01)
+   opt = BFGS(atoms, trajectory='rot_check.traj')  #Put optimisation back in
+   atoms.get_potential_energy()
+   #opt.run(fmax=0.01)
+   print("Energy obtained!")
    print("Optimisation completed........", flush=True)
 #
-   if istep == 0:
-       traj = Trajectory('rot_check.traj','w',atoms)
-   else:
-       traj.write(atoms)
+  # if istep == 0:
+  #     traj = Trajectory('rot_check.traj','w',atoms)
+  # else:
+  #     traj.write(atoms)
 
-   istep=istep+1
+  # istep=istep+1
 
 traj.close()
 
