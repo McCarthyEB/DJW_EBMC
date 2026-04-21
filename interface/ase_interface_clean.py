@@ -1,8 +1,11 @@
+from typing import List, Tuple
+
 import numpy as np
 from ase.io import read, write
 from ase.visualize import view
 from ase import Atom
 from ase.build import make_supercell
+import copy
 from ase import Atoms
 
 
@@ -61,6 +64,7 @@ def find_parallel_atoms(atoms, seed_indices, direction_vector, isymbol, perpendi
 
 def find_hexagonal_strip(atoms, seed_indices, seed_index, seed_symbol, perpendicular_range, tolerance):
     direction_vector = (atoms.positions[19] - atoms.positions[16])
+    print("Direction vector is:", direction_vector)
     # Tidy this up later and generalize if it works!
     # Need to set it as the vector perpendicular to the desired strip for some reason
     parallel_atoms = find_parallel_atoms(atoms, seed_indices, direction_vector, seed_symbol, perpendicular_range,
@@ -164,7 +168,7 @@ def dist_list(atoms):
 
 
 atoms = read("Pd_O_isolated.cif")
-supercell = read("supercell_1_slabheight_14.cif")
+supercell = read("slab_atoms_7_65839.cif")
 supervac = read("slab_atoms_7_65839.cif")
 # view(atoms)
 view(supercell)
@@ -274,7 +278,8 @@ for idist in range(0, len(pd_dist)):
 #
 print("Good matches: ", good_matches)
 #
-for imatch in range(0, len(good_matches)):
+for imatch in range(0, 1):
+#for imatch in range(0, len(good_matches)):
     #
     pd_index = good_matches[imatch][0]
     o_index = good_matches[imatch][1]
@@ -328,13 +333,19 @@ for imatch in range(0, len(good_matches)):
     print("frac version of vec_in_cell: ", frac)
     #
 
-    num_for_super = [int(abs(1.0 / frac[0])), int(abs(1.0 / frac[1]))]
-    #
+    num_for_super= [round(abs(1.0 / frac[0])), round(abs(1.0 / frac[1]))]
+    num_for_super_test= [(abs(1.0 / frac[0])), (abs(1.0 / frac[1]))]
+    num_for_super=[2,2]
+    print("Num for super: ", num_for_super)
+    print("Num for super without int: ", num_for_super_test)
+    #int is causing problems, making 0.5 round to 1
     # make a supercell big enough for the repeat:
     #
     mat = [[float(num_for_super[1]), 0, 0], [0, float(num_for_super[0]), 0], [0, 0, 1]]
     print("Matrix for supercell:")
+
     print(mat)
+
     #No longer need this: determinant is 0!
     if np.linalg.det(mat) == 0:
         super = supervac
@@ -387,14 +398,37 @@ for imatch in range(0, len(good_matches)):
     print("longest dist in cell = %10.6f can fit %d Pd covering dist: %10.6f stretch factor %10.6f" \
           % (dist_in_cell, num_pd_in_cell, pd_line_dist, stretch_factor))
 
-    for iii in range(0, num_pd_in_cell + 2):  # This works. But why???
-        new_coords = origin + iii * stretch_factor * pd_dist[pd_index] * uni_rep
-        new_atom = Atom("Pd", new_coords)
-        new_system.append(new_atom)
-        new_system.wrap()
 
-    write("new_system_%s.cif" % imatch, new_system)
-    read_system = read("new_system_%s.cif" % imatch)
-    view(read_system)
+for iii in range(0, num_pd_in_cell + 2):
+    new_coords = origin + iii * stretch_factor * pd_dist[pd_index] * uni_rep
+    new_atoms = Atom("Pd", new_coords)
+    new_system.append(new_atoms)
+
+    shift_vector_side = [2.824, 0.0, 0]
+    shift_vector_top = [0, 0, 2.824]
+
+    new_coords_side_left = new_coords - shift_vector_side
+    new_coords_side_right = new_coords + shift_vector_side
+
+    new_atom_side_left = Atom("Pd", new_coords_side_left)
+    new_atom_side_right = Atom("Pd", new_coords_side_right)
+
+    new_atom_top = Atom("Pd", new_coords + shift_vector_top)
+
+    for j in range(0, 3):
+
+        new_system.append(copy.deepcopy(new_atom_side_left))
+        new_system.append(copy.deepcopy(new_atom_side_right))
+        new_atom_side_right.position += shift_vector_top
+        new_atom_side_left.position += shift_vector_top
+
+
+
+    new_atom_top.position += shift_vector_top
+
+    new_system.append(copy.deepcopy(new_atom_top))
+write("new_system_%s.cif" % imatch, new_system)
+read_system = read("new_system_%s.cif" % imatch)
+view(read_system)
 
 ###
