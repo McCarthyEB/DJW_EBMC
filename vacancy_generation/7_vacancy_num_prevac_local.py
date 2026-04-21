@@ -31,15 +31,15 @@ from ase.build import molecule
 from ase.calculators.emt import EMT
 
 home = expanduser("~")
-set_module="%s/python/modules/slab" % home
+set_module="%s/python/DJW_EBMC/modules/slab" % home
 sys.path.append(set_module)
-set_module="%s/python/modules/atom_settings" % home
+set_module="%s/python/DJW_EBMC/modules/atom_settings" % home
 sys.path.append(set_module)
-set_module="%s/python/modules/num_digi" % home
+set_module="%s/python/DJW_EBMC/modules/num_digi" % home
 sys.path.append(set_module)
-set_module="%s/python/modules/vectors" % home
+set_module="%s/python/DJW_EBMC/modules/vectors" % home
 sys.path.append(set_module)
-set_module="%s/python/modules/classify_from_bitmask" % home
+set_module="%s/python/DJW_EBMC/modules/classify_from_bitmask" % home
 sys.path.append(set_module)
 
 #
