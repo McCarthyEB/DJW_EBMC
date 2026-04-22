@@ -31,6 +31,7 @@ from ase.build import molecule
 from ase.calculators.emt import EMT
 
 home = expanduser("~")
+#
 set_module="%s/python/DJW_EBMC/modules/slab" % home
 sys.path.append(set_module)
 set_module="%s/python/DJW_EBMC/modules/atom_settings" % home
